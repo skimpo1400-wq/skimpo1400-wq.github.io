@@ -123,6 +123,11 @@ body[data-layout=tab] .tabs{height:var(--tabh,316px)}
 #hfx{position:absolute;inset:0;pointer-events:none;z-index:8;overflow:visible}
 .puff{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;animation:puff .7s ease-out forwards}
 @keyframes puff{0%{transform:translate(0,0) scale(.4) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(160deg);opacity:0}}
+.ghost{position:absolute;z-index:30;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 4px 3px rgba(90,60,120,.25))}
+.ghost svg{width:100%;height:100%;display:block;overflow:visible}
+.tokstar{position:absolute;z-index:31;pointer-events:none;animation:tok .6s ease-out forwards;will-change:transform,opacity}
+.tokstar b{position:absolute;left:50%;top:22%;transform:translateX(-50%);font-size:max(11px,calc(var(--sz)*.26));color:#ff7fae;font-weight:900;white-space:nowrap;text-shadow:0 1px 0 #fff,1px 0 0 #fff,-1px 0 0 #fff,0 -1px 0 #fff}
+@keyframes tok{0%{transform:scale(.3) rotate(0);opacity:0}25%{transform:scale(1.15) rotate(20deg);opacity:1}100%{transform:scale(.9) rotate(45deg) translateY(-30%);opacity:0}}
 .ring{position:absolute;border-radius:50%;border:4px solid #fff;box-shadow:0 0 12px #ffb6d0;animation:ring .55s ease-out forwards}
 @keyframes ring{from{transform:scale(.2);opacity:1}to{transform:scale(1.25);opacity:0}}
 /* ---------- controls ---------- */
@@ -651,7 +656,7 @@ let AC=null,master=null,soundOn=true;
 try{soundOn=localStorage.getItem('cuteChessSound')!=='off';}catch(e){}
 function ac(){if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;AC=new C();
   master=AC.createGain();master.gain.value=.5;const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=4200;master.connect(lp);lp.connect(AC.destination);}
-  if(AC.state==='suspended')AC.resume();return AC;}
+  if(AC.state==='suspended'||AC.state==='interrupted'){try{const p=AC.resume();if(p&&p.catch)p.catch(()=>{});}catch(e){}}return AC;}
 function tone(f,dur,{type='sine',vol=.14,at=0,to=null}={}){
   const a=ac();if(!a)return;const t=a.currentTime+at;const o=a.createOscillator(),g=a.createGain();
   o.type=type;o.frequency.setValueAtTime(f,t);if(to)o.frequency.exponentialRampToValueAtTime(to,t+dur);
@@ -668,32 +673,69 @@ const SFX={
   lose:()=>{[659,587,523,494].forEach((f,i)=>tone(f,.32,{vol:.1,at:i*.2}));},
   draw:()=>{[523,659,523,659].forEach((f,i)=>tone(f,.2,{type:'triangle',vol:.09,at:i*.14}));},
   tap:()=>tone(660,.05,{vol:.05}),
+  tok:()=>{tone(1250,.07,{type:'sine',vol:.2,to:620});tone(2500,.025,{type:'triangle',vol:.05});tone(420,.09,{type:'sine',vol:.08,at:.01,to:300});},
   no:()=>tone(330,.09,{type:'triangle',vol:.08,to:280})
 };
 function sfx(n){if(soundOn)try{SFX[n]();}catch(e){}}
 function syncSoundBtn(){const any=soundOn||voiceOn||musicOn;const b=$('setBtn');b.textContent=any?'⚙️':'🔇';b.classList.toggle('off',!any);
   $('optSfx').checked=soundOn;$('optVoice').checked=voiceOn;$('optMusic').checked=musicOn;
-  if(!('speechSynthesis' in window)){$('optVoice').disabled=true;$('optVoice').closest('.tgl').style.opacity=.5;}}
+  if(!(window.AudioContext||window.webkitAudioContext)){$('optVoice').disabled=true;$('optVoice').closest('.tgl').style.opacity=.5;}}
 const getPref=(k,d)=>{try{const v=localStorage.getItem(k);return v===null?d:v==='on';}catch(e){return d;}};
 const setPref=(k,v)=>{try{localStorage.setItem(k,v?'on':'off');}catch(e){}};
 
-/* ================= 말랑이 voice (Web Speech API) ================= */
-let voiceOn=getPref('cuteChessVoice',true),unlocked=false,koVoice=null,lastSpoke=0,speaking=false;
-const TTS=('speechSynthesis' in window)?window.speechSynthesis:null;
-function pickVoice(){if(!TTS)return;const vs=TTS.getVoices().filter(v=>/^ko/i.test(v.lang));
-  koVoice=vs.find(v=>/yuna|유나|sora|google/i.test(v.name))||vs.find(v=>v.localService)||vs[0]||null;}
-if(TTS){pickVoice();try{TTS.addEventListener('voiceschanged',pickVoice);}catch(e){TTS.onvoiceschanged=pickVoice;}}
-function cleanForSpeech(t){return String(t).replace(/<[^>]+>/g,'')
-  .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}\u{20E3}\u{E0020}-\u{E007F}]/gu,'')
-  .replace(/[♡♥★☆✨~*#()\[\]{}|·…]/g,' ').replace(/([a-h])([1-8])/g,'$1 $2').replace(/\s+/g,' ').trim();}
-function speak(text,low){
-  if(!TTS||!voiceOn||!unlocked)return;
+/* ================= 말랑이 voice (pre-recorded clips via Web Audio) =================
+   Clips ship as text: voice/clips-core.json holds the line table (key -> text/length/chunk) plus the
+   most common clips; the other chunks listed there hold the rest. Each clip is a base64 MP3 string.
+   Spoken lines are looked up by their exact bubble text (VKEY); unknown text stays silent.
+   A missing or failed clip is skipped silently - there is no synthetic fallback. */
+let voiceOn=getPref('cuteChessVoice',true),unlocked=false,lastSpoke=0,speaking=false;
+const VCORE_URL='voice/clips-core.json',VKEY={},VB64={},VBYTES={},VCH={},VBUF=new Map();
+let VMAN=null,VCHUNKS={},vManP=null,vManFail=0,vGain=null,vSrcs=[],vSeq=0,vLast=null,vRestT=null;
+function vManifest(){                        // fetches the core chunk once (after the first tap)
+  if(VMAN)return Promise.resolve(VMAN);
+  if(vManP)return vManP;
+  if(Date.now()-vManFail<15000)return Promise.resolve(null);
+  vManP=fetch(VCORE_URL).then(r=>r.ok?r.json():null).then(j=>{
+      if(j&&j.lines){VMAN=j.lines;VCHUNKS=j.chunks||{};Object.assign(VB64,j.clips||{});VCH.core=Promise.resolve(true);}
+      else vManFail=Date.now();vManP=null;return VMAN;})
+    .catch(()=>{vManP=null;vManFail=Date.now();return null;});
+  return vManP;}
+function vChunk(c){                          // one fetch per chunk; a failed chunk may be retried after 30 s
+  if(VCH[c])return VCH[c];const url=VCHUNKS[c];if(!url)return Promise.resolve(false);
+  const p=VCH[c]=fetch(url).then(r=>{if(!r.ok)throw 0;return r.json();}).then(j=>{Object.assign(VB64,(j&&j.clips)||{});return true;})
+    .catch(()=>{setTimeout(()=>{if(VCH[c]===p)delete VCH[c];},30000);return false;});
+  return p;}
+function vRest(){                            // after the core: pull the other chunks quietly in the background
+  if(vRestT||!voiceOn)return;vRestT=setTimeout(()=>{let q=Object.keys(VCHUNKS);const next=()=>{if(!q.length||!voiceOn)return;vChunk(q.shift()).then(()=>setTimeout(next,800));};next();},2500);}
+function vB64(s){const bin=atob(s),n=bin.length,u=new Uint8Array(n);for(let i=0;i<n;i++)u[i]=bin.charCodeAt(i);return u.buffer;}
+function vFetch(key){                        // compressed MP3 bytes for a key (or null)
+  if(VBYTES[key])return Promise.resolve(VBYTES[key]);
+  return vManifest().then(m=>{const e=m&&m[key];if(!e)return null;
+    return (VB64[key]?Promise.resolve(true):vChunk(e.chunk)).then(()=>{const s=VB64[key];if(!s)return null;
+      try{VBYTES[key]=vB64(s);delete VB64[key];return VBYTES[key];}catch(err){delete VB64[key];return null;}});});}
+function vDecode(ab){const a=ac();if(!a||!ab)return Promise.resolve(null);
+  return new Promise(res=>{let done=false;const ok=b=>{if(!done){done=true;res(b||null);}},bad=()=>ok(null);
+    try{const p=a.decodeAudioData(ab.slice(0),ok,bad);if(p&&p.then)p.then(ok,bad);}catch(e){bad();}});}   // callback form for older iOS Safari
+function vBuffer(key){                       // decoded buffers kept in a small LRU (memory-friendly on iPhone)
+  if(VBUF.has(key)){const b=VBUF.get(key);VBUF.delete(key);VBUF.set(key,b);return Promise.resolve(b);}
+  return vFetch(key).then(vDecode).then(b=>{if(b){VBUF.set(key,b);while(VBUF.size>20)VBUF.delete(VBUF.keys().next().value);}return b;});}
+function vStop(){vSeq++;vSrcs.forEach(s=>{try{s.onended=null;s.stop();}catch(e){}});vSrcs=[];if(speaking){speaking=false;duck(false);}}
+function playKeys(keys,low,maxWait){
+  if(!voiceOn||!unlocked||!keys||!keys.length)return;
   const now=Date.now();if(low&&now-lastSpoke<4000)return;   // skip chatty lines when we just spoke
-  const t=cleanForSpeech(text);if(!t)return;
-  try{TTS.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ko-KR';if(koVoice)u.voice=koVoice;u.pitch=1.3;u.rate=1.0;u.volume=1;
-    u.onstart=()=>{speaking=true;duck(true);};u.onend=u.onerror=()=>{speaking=false;duck(false);};
-    TTS.speak(u);lastSpoke=now;}catch(e){}
-}
+  vStop();const my=vSeq;lastSpoke=now;vLast={keys:keys.slice(),played:null,t:now};
+  Promise.all(keys.map(vBuffer)).then(bufs=>{
+    if(my!==vSeq||!voiceOn||document.hidden)return;           // a newer line took over
+    if(Date.now()-now>(maxWait||2500))return;                  // loaded too late: the moment has passed
+    const a=ac();if(!a)return;
+    if(!vGain){vGain=a.createGain();vGain.gain.value=.95;vGain.connect(a.destination);}
+    const list=keys.map((k,i)=>[k,bufs[i]]).filter(x=>x[1]);if(!list.length)return;
+    let t=a.currentTime+.03;speaking=true;duck(true);
+    list.forEach(([k,b],i)=>{const s=a.createBufferSource();s.buffer=b;s.connect(vGain);s.start(t);t+=b.duration+.14;vSrcs.push(s);
+      if(i===list.length-1)s.onended=()=>{if(my===vSeq){vSrcs=[];speaking=false;duck(false);}};});
+    vLast.played=list.map(x=>x[0]);});}
+function speak(text,low){const k=VKEY[String(text)];if(k)playKeys([k],low);}
+function vWarm(){if(voiceOn)vManifest().then(m=>{if(m)vRest();});}
 
 /* ================= background music (procedural music box lullaby) ================= */
 let musicOn=getPref('cuteChessMusic',true),musicGain=null,musicTimer=null,nextNoteT=0,step=0;
@@ -727,15 +769,15 @@ function musicStop(fast){if(musicTimer){clearInterval(musicTimer);musicTimer=nul
   if(AC&&musicGain){const t=AC.currentTime;musicGain.gain.cancelScheduledValues(t);musicGain.gain.setValueAtTime(musicGain.gain.value,t);musicGain.gain.linearRampToValueAtTime(0,t+(fast?.15:.6));}}
 function duck(on){if(!AC||!musicGain||!musicTimer)return;const t=AC.currentTime;musicGain.gain.cancelScheduledValues(t);musicGain.gain.setValueAtTime(musicGain.gain.value,t);musicGain.gain.linearRampToValueAtTime(on?.25:.6,t+.25);}
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden){musicStop(true);if(TTS)try{TTS.cancel();}catch(e){}if(AC&&AC.state==='running')AC.suspend().catch(()=>{});}
+  if(document.hidden){musicStop(true);vStop();if(AC&&AC.state==='running')AC.suspend().catch(()=>{});}
   else{if(AC)AC.resume().catch(()=>{});setTimeout(musicStart,250);}});
-addEventListener('pagehide',()=>{musicStop(true);if(TTS)try{TTS.cancel();}catch(e){}});
+addEventListener('pagehide',()=>{musicStop(true);vStop();});
 
-/* first user gesture: unlock Web Audio + speech on iOS */
+/* first user gesture: unlock Web Audio on iOS (voice clips, sfx and music all play through it) */
 function unlock(){if(unlocked)return;unlocked=true;
   const a=ac();if(a){try{const b=a.createBuffer(1,1,22050),s=a.createBufferSource();s.buffer=b;s.connect(a.destination);s.start(0);}catch(e){}}
-  if(TTS&&voiceOn){try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;u.lang='ko-KR';TTS.speak(u);}catch(e){}}
-  if(voiceOn&&TTS)setTimeout(()=>{if(Date.now()-lastSpoke>1500)speak($('bubble').textContent);},120); // let her hear the greeting
+  vWarm();
+  if(voiceOn)setTimeout(()=>{if(Date.now()-lastSpoke>1500)speak($('bubble').textContent);},120); // let her hear the greeting
   setTimeout(musicStart,300);
   ['touchend','click','keydown'].forEach(ev=>removeEventListener(ev,unlock,true));}
 ['touchend','click','keydown'].forEach(ev=>addEventListener(ev,unlock,true));
@@ -746,18 +788,18 @@ $('setClose').onclick=()=>{sfx('tap');$('setModal').classList.remove('show');};
 $('setModal').addEventListener('click',e=>{if(e.target.id==='setModal')$('setModal').classList.remove('show');});
 $('optSfx').onchange=e=>{soundOn=e.target.checked;setPref('cuteChessSound',soundOn);syncSoundBtn();if(soundOn){ac();sfx('select');}};
 $('optVoice').onchange=e=>{voiceOn=e.target.checked;setPref('cuteChessVoice',voiceOn);syncSoundBtn();
-  if(voiceOn){unlocked=true;speak(`안녕, ${PLAYER}! 말랑이 목소리 켰어`);}else if(TTS)try{TTS.cancel();}catch(e){}};
+  if(voiceOn){unlocked=true;ac();vWarm();playKeys(['voiceOn'],false,4000);}else vStop();};
 $('optMusic').onchange=e=>{musicOn=e.target.checked;setPref('cuteChessMusic',musicOn);syncSoundBtn();if(musicOn){unlocked=true;musicStart();}else musicStop();};
 
 /* ================= mascot ================= */
 const SAY={
   hi:[`안녕, ${PLAYER}! 나는 말랑이야. 같이 체스 놀자~ ♡`],
-  start:['새 게임 시작! 크림 팀이 먼저야~ ✨','두근두근! 이번 판도 재밌게 하자 ♡','준비됐지? 첫 수를 둬 볼까?'],
+  start:['새로운 게임 시작! 크림 팀이 먼저야~ ✨','두근두근! 이번 판도 재밌게 하자 ♡','준비됐지? 첫 수를 둬 볼까?'],
   startSecond:[`이번엔 ${PLAYER}가 밤하늘 팀! 컴퓨터가 먼저 할게~ 🌙`,`후공이야! 컴퓨터가 첫 수를 두면 ${PLAYER} 차례야 ✨`],
   startRandomB:[`🎲 랜덤 결과: 후공! ${PLAYER}는 밤하늘 팀이야 🌙`],
   startRandomW:[`🎲 랜덤 결과: 선공! ${PLAYER}가 먼저 해~ 🍰`],
-  cheer:['좋은 수야! 👍','오~ 멋진데? ✨','차근차근 잘하고 있어 ♡','그렇지 그렇지~!','와, 생각 잘했다!'],
-  capture:['우와! 잡았다! 최고야~ 🎉','냠! 하나 잡았어 ✨','멋진 공격이야! 💖'],
+  cheer:['좋은 수야! 👍','오, 멋진데? ✨','차근차근 잘하고 있어 ♡','그렇지 그렇지~!','와, 생각 잘했다!'],
+  capture:['우와! 잡았다! 최고야~ 🎉','냠냠! 하나 잡았어 ✨','멋진 공격이야! 💖'],
   lost:['앗, 잡혔다… 괜찮아, 다시 힘내자! 💪','아이고~ 다음엔 꼭 지켜 주자!'],
   checkGiven:['체크! 상대 왕이 깜짝 놀랐어! 😆','체크~! 멋지다 멋져!'],
   inCheck:['체크야! 조심해~ 왕을 지켜 줘! 🛡️','앗, 체크! 왕이 위험해~'],
@@ -768,8 +810,25 @@ const SAY={
   lose:[`괜찮아, ${PLAYER}! 다음엔 꼭 이길 수 있어 💜`],
   draw:['비겼다! 둘 다 정말 잘했어 🤝'],
   undo:['한 수 무르기~ 다시 생각해 보자!'],
-  friend:t=>[`${TEAM[t]} 차례야! 화이팅~`,`${TEAM[t]}, 천천히 생각해 봐 ♡`]
+  friend:t=>[`${TEAM[t]} 차례야! 화이팅~`,`${TEAM[t]}, 천천히 생각해 봐 ♡`],
+  fwin:t=>`와! ${TEAM[t]} 승리! 축하해~ 🏆`,
+  level:l=>`난이도 '${LV[l]}'으로 시작! 화이팅 ✨`
 };
+// one-off lines (also voiced)
+const LINE={
+  noMove:'그 말은 지금 움직일 수 없어~ 다른 말을 골라 볼까?',
+  noUndo:'아직 무를 수가 없어~ 먼저 첫 수를 두어 볼까?',
+  cleared:'기록을 깨끗하게 지웠어! 새로 시작해 보자 ✨',
+  hintOver:'게임이 끝났어~ 새로운 게임을 시작해 볼까? ✨',
+  hintWait:'지금은 컴퓨터 차례야. 조금만 기다려 줘~',
+  hintSearch:'음… 말랑이가 좋은 수를 찾는 중이야 🔍'
+};
+// bubble text -> clip key (keys match the line table in voice/clips-core.json)
+for(const [n,v] of Object.entries(SAY))if(Array.isArray(v))v.forEach((t,i)=>{if(n!=='think')VKEY[t]=n+'_'+(i+1);});
+['w','b'].forEach(c=>{SAY.friend(c).forEach((t,i)=>VKEY[t]=`friend_${c}_${i+1}`);VKEY[SAY.fwin(c)]='fwin_'+c;});
+Object.keys(LV).forEach(l=>VKEY[SAY.level(l)]='level_'+l);
+Object.entries(LINE).forEach(([k,t])=>VKEY[t]=k);
+VKEY[`안녕, ${PLAYER}! 말랑이 목소리 켰어`]='voiceOn';
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 function say(list,o={}){const b=$('bubble');b.innerHTML='';const sp=document.createElement('span');const text=typeof list==='string'?list:pick(list);sp.textContent=text;b.appendChild(sp);
   if(!o.silent)speak(text,o.low);b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
@@ -823,8 +882,33 @@ function slide(from,to,dur=300){
 function animateMove(m){
   slide(m.from,m.to);
   if(m.castle){const row=m.to>>3;const rf=m.castle==='K'?row*8+7:row*8,rt=m.castle==='K'?row*8+5:row*8+3;slide(rf,rt,360);}
-  if(m.captured){const at=m.ep?m.to+(m.color==='w'?8:-8):m.to;setTimeout(()=>poof(at,m.captured),210);}
+  if(m.captured){const at=m.ep?m.to+(m.color==='w'?8:-8):m.to;knockOff(at,m.captured,opp(m.color),m.color);setTimeout(()=>poof(at,m.captured),210);}
   if(m.promo)setTimeout(()=>poof(m.to,null,true),280);
+}
+/* captured piece gets knocked off: pops up, spins and arcs toward the capturer's tray while shrinking/fading (transform+opacity only) */
+function knockOff(i,t,col,byCol){
+  const fx=$('bfx'),c=sqCenter(i),w=c.w;
+  const g=document.createElement('div');g.className='ghost';
+  g.style.cssText=`left:${c.x-w*.45}px;top:${c.y-w*.45}px;width:${w*.9}px;height:${w*.9}px`;
+  g.innerHTML=pieceSVG(t,col);fx.appendChild(g);
+  // aim at the tray that collects pieces captured by the mover
+  const top=vsAI?me:'w',tray=$(byCol===top?'capW':'capB'),fr=$('frame').getBoundingClientRect();
+  let dx,dy;const tr=tray&&tray.getBoundingClientRect();
+  if(tr&&tr.width){dx=tr.left+Math.min(tr.width,60)/2-fr.left-c.x;dy=tr.top+tr.height/2-fr.top-c.y;}else{dx=(c.x<fr.width/2?-1:1)*w*3;dy=w*4;}
+  const L=Math.hypot(dx,dy),maxL=w*4.2;if(L>maxL){dx*=maxL/L;dy*=maxL/L;}
+  if(Math.abs(dx)<w*.6)dx=(c.x<fr.width/2?-1:1)*w*1.2;   // always a visible sideways arc
+  const spin=dx<0?-1:1,lift=w*.95;
+  const an=g.animate([
+    {transform:'translate(0,0) rotate(0) scale(1)',opacity:1,easing:'cubic-bezier(.2,.9,.35,1)'},
+    {transform:`translate(${dx*.12}px,${-lift}px) rotate(${spin*110}deg) scale(1.12)`,opacity:1,offset:.28,easing:'cubic-bezier(.45,0,.75,.4)'},
+    {transform:`translate(${dx*.55}px,${dy*.35-lift*.55}px) rotate(${spin*380}deg) scale(.78)`,opacity:.95,offset:.62,easing:'cubic-bezier(.4,0,.9,.6)'},
+    {transform:`translate(${dx}px,${dy}px) rotate(${spin*640}deg) scale(.32)`,opacity:0}
+  ],{duration:720,delay:170,fill:'both'});
+  setTimeout(()=>{sfx('tok');const s=document.createElement('div');s.className='tokstar';
+    s.style.cssText=`left:${c.x-w*.35}px;top:${c.y-w*.75}px;width:${w*.7}px;height:${w*.7}px`;
+    s.innerHTML='<svg viewBox="0 0 40 40" width="100%" height="100%"><path d="M20 0 Q23 17 40 20 Q23 23 20 40 Q17 23 0 20 Q17 17 20 0Z" fill="#fff6b0" stroke="#ffc94d" stroke-width="2"/></svg><b style="left:'+(spin>0?'-18%':'118%')+'">톡!</b>';
+    fx.appendChild(s);setTimeout(()=>s.remove(),650);},170);
+  an.onfinish=an.oncancel=()=>g.remove();setTimeout(()=>g.remove(),1200);
 }
 function poof(i,capturedPiece,gold){
   const fx=$('bfx');const c=sqCenter(i);
@@ -866,7 +950,7 @@ function click(i){
     doMove(mv[0]);return;
   }
   const p=S.B[i];
-  if(p&&p.c===S.turn){if(sel===i){sel=-1;moves=[];}else{sel=i;moves=legalFrom(S,i);sfx('select');if(!moves.length)say('그 말은 지금 움직일 수 없어~ 다른 말을 골라 볼까?');}}
+  if(p&&p.c===S.turn){if(sel===i){sel=-1;moves=[];}else{sel=i;moves=legalFrom(S,i);sfx('select');if(!moves.length)say(LINE.noMove);}}
   else{if(sel>=0)sfx('no');sel=-1;moves=[];}
   render();
 }
@@ -926,7 +1010,7 @@ function showEnd(kind,winner){
            fwin:[TROPHY,`${TEAM[winner]} 승리! 🎉`,'체크메이트! 두 사람 모두 멋진 게임이었어 ♡']}[kind];
   $('endArt').innerHTML=T[0];$('endTitle').textContent=T[1];$('endText').textContent=T[2];
   $('endModal').classList.add('show');
-  if(kind==='win'||kind==='fwin'){sfx('win');celebrate();say(kind==='win'?SAY.win:`${TEAM[winner]} 승리! 축하해~ 🏆`);}
+  if(kind==='win'||kind==='fwin'){sfx('win');celebrate();say(kind==='win'?SAY.win:SAY.fwin(winner));}
   else if(kind==='lose'){sfx('lose');say(SAY.lose);}
   else{sfx('draw');say(SAY.draw);}
 }
@@ -945,7 +1029,7 @@ $('newBtn').onclick=()=>{ac();sfx('tap');confirmNew('새 게임을 시작할까?
 $('endNew').onclick=()=>{sfx('tap');newGame();};
 $('endClose').onclick=()=>{sfx('tap');$('endModal').classList.remove('show');};
 $('undoBtn').onclick=()=>{ac();if(!hist.length||pendingPromo){sfx('no');return;}
-  if(vsAI&&me==='b'&&hist.length<=1&&S.turn===me){sfx('no');say('아직 무를 수가 없어~ 첫 수를 둬 볼까?');return;}
+  if(vsAI&&me==='b'&&hist.length<=1&&S.turn===me){sfx('no');say(LINE.noUndo);return;}
   hint=null;gameId++;busy=false;S=hist.pop();
   while(vsAI&&S.turn!==me&&hist.length)S=hist.pop();   // always land on 보애공주's turn
   sel=-1;moves=[];$('endModal').classList.remove('show');sfx('tap');render();
@@ -958,7 +1042,7 @@ $('modeAI').onclick=()=>{ac();sfx('tap');if(vsAI)return;confirmNew('컴퓨터랑
 $('mode2').onclick=()=>{ac();sfx('tap');if(!vsAI)return;confirmNew('친구랑 새로 할까? 👭',()=>setMode(false));};
 function syncLevelUI(){document.querySelectorAll('#diffRow button').forEach(x=>x.classList.toggle('on',x.dataset.d===level));}
 document.querySelectorAll('#diffRow button').forEach(b=>b.onclick=()=>{ac();sfx('tap');if(b.dataset.d===level)return;
-  confirmNew(`'${LV[b.dataset.d]}'(으)로 새로 할까?`,()=>{level=b.dataset.d;try{localStorage.setItem('cuteChessLevel',level);}catch(e){}syncLevelUI();newGame();say(`난이도 '${LV[level]}'(으)로 시작! 화이팅 ✨`);});});
+  confirmNew(`'${LV[b.dataset.d]}'으로 새로 할까?`,()=>{level=b.dataset.d;try{localStorage.setItem('cuteChessLevel',level);}catch(e){}syncLevelUI();newGame();say(SAY.level(level));});});
 function syncSideUI(){document.querySelectorAll('#sideRow button').forEach(x=>x.classList.toggle('on',x.dataset.s===sidePref));
   const t=$('sideNote');if(t)t.textContent=vsAI?(me==='w'?`🍰 ${PLAYER}는 크림 팀 · 먼저 시작해요`:`🌙 ${PLAYER}는 밤하늘 팀 · 컴퓨터가 먼저 해요`):'';}
 document.querySelectorAll('#sideRow button').forEach(b=>b.onclick=()=>{ac();sfx('tap');const s=b.dataset.s;if(s===sidePref&&s!=='random')return;
@@ -1000,7 +1084,7 @@ function renderRec(){
 }
 $('clearRec').onclick=()=>{sfx('tap');askConfirm('기록을 지울까? 🥺','지우면 승·패·무승부 기록과 최근 게임이 모두 사라지고 되돌릴 수 없어.','응, 지울래','아니, 그냥 둘래',clearRecords);};
 $('cfNo').onclick=()=>{sfx('tap');cfCb=null;$('confirmModal').classList.remove('show');};
-function clearRecords(){try{localStorage.removeItem(REC_KEY);}catch(e){}renderRec();say('기록을 깨끗하게 지웠어! 새로 시작해 보자 ✨');}
+function clearRecords(){try{localStorage.removeItem(REC_KEY);}catch(e){}renderRec();say(LINE.cleared);}
 $('cfYes').onclick=()=>{sfx('tap');$('confirmModal').classList.remove('show');const f=cfCb;cfCb=null;if(f)f();};
 
 /* ================= celebration ================= */
@@ -1077,39 +1161,40 @@ function explainMove(S,m){
   const pn=NAME[p.t],cap=m.ep?'p':(S.B[m.to]?S.B[m.to].t:null);
   const toSafe=!attacked(N.B,m.to,them);
   const sqName=i=>files[i&7]+(8-(i>>3));const ro=i=>sqName(i)+([3,6].includes(8-(i>>3))?'으로':'로');
-  const head=`💡 ${JOSA(pn,'을','를')} ${ro(m.to)}!`;
-  if(!allLegal(N).length&&inCheck(N,them))return `${head} <b>체크메이트</b>! 바로 이길 수 있어 🎉`;
-  const R=[];
-  if(m.promo)R.push('끝까지 가서 <b>여왕으로 변신</b>해! 👑');
-  if(cap){const cn=NAME[cap];R.push(toSafe||VAL[cap]>=VAL[p.t]?`상대 ${JOSA(cn,'을','를')} 잡을 수 있어! 🍬`:`상대 ${JOSA(cn,'을','를')} 잡고 바꿀 수 있어!`);}
-  if(inCheck(N,them))R.push('<b>체크</b>! 상대 왕이 깜짝 놀랄 거야 😆');
-  if(!cap&&p.t!=='k'&&attacked(S.B,m.from,them)&&toSafe&&(VAL[p.t]>100||!isDefended(S,m.from,me)))R.push(`공격받는 ${JOSA(pn,'을','를')} 안전하게 피하자 🛡️`);
-  if(m.castle)R.push('<b>캐슬링</b>! 왕을 성 뒤에 숨기자 🏰');
+  const head=`💡 ${JOSA(pn,'을','를')} ${ro(m.to)}!`;hintKeys=['h_piece_'+p.t];   // squares are shown, not spoken
+  if(!allLegal(N).length&&inCheck(N,them)){hintKeys.push('h_mate');return `${head} <b>체크메이트</b>! 바로 이길 수 있어 🎉`;}
+  const R=[],RK=[];const add=(t,k)=>{R.push(t);RK.push(k);};
+  if(m.promo)add('끝까지 가서 <b>여왕으로 변신</b>해! 👑','h_promo');
+  if(cap){const cn=NAME[cap];{const good=toSafe||VAL[cap]>=VAL[p.t];add(good?`상대 ${JOSA(cn,'을','를')} 잡을 수 있어! 🍬`:`상대 ${JOSA(cn,'을','를')} 잡고 바꿀 수 있어!`,(good?'h_cap_':'h_trade_')+cap);};}
+  if(inCheck(N,them))add('<b>체크</b>! 상대 왕이 깜짝 놀랄 거야 😆','h_check');
+  if(!cap&&p.t!=='k'&&attacked(S.B,m.from,them)&&toSafe&&(VAL[p.t]>100||!isDefended(S,m.from,me)))add(`공격받는 ${JOSA(pn,'을','를')} 안전하게 피하자 🛡️`,'h_escape_'+p.t);
+  if(m.castle)add('<b>캐슬링</b>! 왕을 성 뒤에 숨기자 🏰','h_castle');
   const back=S.turn==='w'?7:0;
-  if(!cap&&(p.t==='n'||p.t==='b')&&(m.from>>3)===back)R.push('말을 꺼내서 싸울 준비를 하자 ✨');
-  if(!cap&&([27,28,35,36].includes(m.to)||(p.t==='p'&&[19,20,43,44].includes(m.to))))R.push('<b>가운데</b>를 차지하면 힘이 세져 💪');
+  if(!cap&&(p.t==='n'||p.t==='b')&&(m.from>>3)===back)add('말을 꺼내서 싸울 준비를 하자 ✨','h_develop');
+  if(!cap&&([27,28,35,36].includes(m.to)||(p.t==='p'&&[19,20,43,44].includes(m.to))))add('<b>가운데</b>를 차지하면 힘이 세져 💪','h_center');
   if(!R.length){const N2=Object.assign({},N,{turn:me,ep:-1});delete N2._key;
-    if(!inCheck(N2,them)&&allLegal(N2).some(x=>{const M=apply(N2,x);return inCheck(M,them)&&!allLegal(M).length;}))R.push('다음에 <b>체크메이트</b>를 노릴 수 있어 👀');}
+    if(!inCheck(N2,them)&&allLegal(N2).some(x=>{const M=apply(N2,x);return inCheck(M,them)&&!allLegal(M).length;}))add('다음에 <b>체크메이트</b>를 노릴 수 있어 👀','h_mateNext');}
   if(!R.length&&toSafe){let tgt=null;for(const x of pseudo(Object.assign({},N,{turn:me}),m.to)){const t=N.B[x.to];if(t&&t.c===them&&t.t!=='k'&&(VAL[t.t]>VAL[p.t]||!isDefended(N,x.to,them))&&(!tgt||VAL[t.t]>VAL[tgt]))tgt=t.t;}
-    if(tgt)R.push(`상대 ${JOSA(NAME[tgt],'을','를')} 노릴 수 있어 👀`);}
-  if(!R.length)R.push('말들이 서로 지켜 주는 좋은 자리야 ♡');
-  let txt=R.slice(0,2).join(' ');
-  if(R.length<2){if(toSafe)txt+=' <b>안전한 칸</b>이야!';else if(!cap)txt+=' 상대가 노리니 조심!';}
+    if(tgt)add(`상대 ${JOSA(NAME[tgt],'을','를')} 노릴 수 있어 👀`,'h_target_'+tgt);}
+  if(!R.length)add('말들이 서로 지켜 주는 좋은 자리야 ♡','h_good');
+  let txt=R.slice(0,2).join(' ');hintKeys.push(...RK.slice(0,2));
+  if(R.length<2){if(toSafe){txt+=' <b>안전한 칸</b>이야!';hintKeys.push('h_end_safe');}else if(!cap){txt+=' 상대가 노리니 조심해!';hintKeys.push('h_end_careful');}}
   return `${head} ${txt}`;
 }
 function isDefended(S,sq,c){const B=S.B.slice();const p=B[sq];B[sq]={t:'p',c:opp(c)};return attacked(B,sq,c);}
-function setBubbleHTML(h){const b=$('bubble');b.innerHTML='<span>'+h+'</span>';speak(h);b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');const mm=$('mascot');mm.classList.remove('hop');void mm.getBoundingClientRect();mm.classList.add('hop');}
+let hintKeys=[];
+function setBubbleHTML(h,keys){const b=$('bubble');b.innerHTML='<span>'+h+'</span>';if(keys)playKeys(keys,false,4000);b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');const mm=$('mascot');mm.classList.remove('hop');void mm.getBoundingClientRect();mm.classList.add('hop');}
 $('hintBtn').onclick=()=>{ac();
-  if(over){sfx('no');say('게임이 끝났어~ 새 게임을 시작해 볼까? ✨');return;}
-  if(busy||pendingPromo||aiTurn()){sfx('no');say('지금은 컴퓨터 차례야. 조금만 기다려 줘~');return;}
-  sfx('select');say('음… 말랑이가 좋은 수를 찾는 중이야 🔍');
+  if(over){sfx('no');say(LINE.hintOver);return;}
+  if(busy||pendingPromo||aiTurn()){sfx('no');say(LINE.hintWait);return;}
+  sfx('select');say(LINE.hintSearch);
   const btn=$('hintBtn');btn.disabled=true;const gid=gameId,key=posKey(S);
   setTimeout(()=>{
     const m=bestMoveFor(S,1000);btn.disabled=false;
     if(gid!==gameId||posKey(S)!==key||!m)return;
     hintsUsed++;updHintCount();
     hint={from:m.from,to:m.to};sel=-1;moves=[];render();
-    setBubbleHTML(explainMove(S,m));sfx('promote');
+    setBubbleHTML(explainMove(S,m),hintKeys.slice());sfx('promote');
   },60);
 };
 updHintCount();
