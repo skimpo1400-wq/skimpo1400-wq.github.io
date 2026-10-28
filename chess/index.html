@@ -1620,6 +1620,7 @@ function updateStatus(){
 }
 function click(i){
   if(over||pendingPromo||busy)return;
+  if(vsOnline&&!onlineGameId){sfx('no');onlineToast('먼저 대결 신청하거나 상대 신청을 기다려 줘!');return;}
   if(vsOnline&&S.turn!==me){sfx('no');onlineToast('상대 차례야! 조금만 기다려 줘');return;}
   ac();
   const mv=moves.filter(m=>m.to===i);
