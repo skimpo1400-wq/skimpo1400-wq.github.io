@@ -88,18 +88,26 @@ body[data-layout=tab] .tabs{height:var(--tabh,316px)}
 /* ---------- board ---------- */
 .frame{position:relative;padding:var(--fp);border-radius:calc(var(--fp) + 14px);
   background:
+    linear-gradient(165deg,rgba(255,255,255,.55),rgba(255,255,255,0) 42%),
     radial-gradient(circle,rgba(255,255,255,.95) 0 3px,transparent 3.6px) 0 0/22px 22px,
     linear-gradient(135deg,#ffc4dc 0%,#ffd9b8 35%,#fff0a8 60%,#d9ccff 100%);
-  box-shadow:inset 0 0 0 4px rgba(255,255,255,.9),inset 0 -6px 0 rgba(230,120,170,.25),0 8px 0 #f3a7c8,0 18px 30px rgba(130,90,170,.25)}
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 0 0 4px rgba(255,255,255,.88),inset 0 -8px 14px rgba(230,120,170,.18),0 8px 0 #f3a7c8,0 18px 34px rgba(130,90,170,.28),0 28px 48px rgba(180,120,200,.12);
+  -webkit-backdrop-filter:saturate(1.08);backdrop-filter:saturate(1.08)}
 .frame .deco{position:absolute;width:34px;height:34px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.08))}
 .deco.tl{top:-12px;left:-10px}.deco.tr{top:-12px;right:-10px}.deco.bl{bottom:-12px;left:-10px}.deco.br{bottom:-12px;right:-10px}
 .frame .spk{position:absolute;width:16px;animation:tw 2.6s ease-in-out infinite}
 .board{position:relative;display:grid;grid-template-columns:repeat(8,var(--sz));grid-template-rows:repeat(8,var(--sz));
-  border-radius:14px;border:5px solid #fff;box-shadow:0 0 0 3px #ef9cc0;background:#fff;touch-action:manipulation}
-.sq{position:relative;border:0;padding:0;margin:0;cursor:pointer;display:flex;align-items:center;justify-content:center;outline:none;overflow:visible}
-.sq.l{background:var(--sq-l)}
-.sq.d{background:var(--sq-d)}
+  border-radius:14px;border:5px solid #fff;box-shadow:0 0 0 3px #ef9cc0,inset 0 2px 6px rgba(120,70,140,.12),inset 0 -2px 4px rgba(255,255,255,.55);background:#fff;touch-action:manipulation;
+  transform:perspective(1400px) rotateX(3.2deg);transform-origin:50% 60%;will-change:transform}
+.sq{position:relative;border:0;padding:0;margin:0;cursor:pointer;display:flex;align-items:center;justify-content:center;outline:none;overflow:visible;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(90,60,120,.05)}
+.sq.l{background:linear-gradient(160deg,#fffaf1 0%,var(--sq-l) 55%,#ffe9d4 100%)}
+.sq.d{background:linear-gradient(160deg,#d8f3e4 0%,var(--sq-d) 55%,#a9d9c0 100%)}
 .sq.d:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 22% 22%,rgba(255,255,255,.55) 0 1.5px,transparent 2.2px),radial-gradient(circle at 75% 70%,rgba(255,255,255,.35) 0 1.2px,transparent 2px);pointer-events:none}
+.sq.thump:before{content:"";position:absolute;inset:8%;border-radius:14px;pointer-events:none;z-index:2;
+  background:radial-gradient(circle,rgba(255,255,255,.75),rgba(255,182,208,.35) 45%,transparent 70%);
+  animation:thump .48s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes thump{0%{transform:scale(.55);opacity:.95}100%{transform:scale(1.35);opacity:0}}
 .sq:nth-child(1){border-top-left-radius:9px}.sq:nth-child(8){border-top-right-radius:9px}.sq:nth-child(57){border-bottom-left-radius:9px}.sq:nth-child(64){border-bottom-right-radius:9px}
 .sq .mark{position:absolute;inset:0;pointer-events:none;border-radius:inherit}
 .sq.last .mark{background:rgba(255,215,110,.42)}
@@ -111,25 +119,38 @@ body[data-layout=tab] .tabs{height:var(--tabh,316px)}
 @keyframes hpop{from{transform:scale(0)}to{transform:scale(1)}}
 .sq .coord{position:absolute;font-size:max(9px,calc(var(--sz)*.16));font-weight:700;opacity:.5;pointer-events:none;z-index:2}
 .sq .coord.f{right:3px;bottom:1px}.sq .coord.r{left:3px;top:1px}
-.pc{position:relative;z-index:4;width:90%;height:90%;pointer-events:none;will-change:transform}
+.pc{position:relative;z-index:4;width:90%;height:90%;pointer-events:none;will-change:transform;
+  filter:drop-shadow(0 3px 1.5px rgba(90,50,120,.22)) drop-shadow(0 8px 6px rgba(90,50,120,.14));
+  transform-origin:50% 85%;animation:pfloat 3.6s ease-in-out infinite}
 .pc svg{width:100%;height:100%;display:block;overflow:visible}
-.sq.sel .pc{animation:sel 1s ease-in-out infinite}
-@keyframes sel{0%,100%{transform:translateY(0) scale(1)}45%{transform:translateY(-9%) scale(1.04,.98)}60%{transform:translateY(-6%) scale(1.02)}}
+@keyframes pfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.2%)}}
+.sq.sel .pc{animation:sel 1s ease-in-out infinite;
+  filter:drop-shadow(0 6px 2px rgba(90,50,120,.28)) drop-shadow(0 14px 10px rgba(255,140,180,.28))}
+@keyframes sel{0%,100%{transform:translateY(-10%) scale(1.05)}45%{transform:translateY(-18%) scale(1.08,.96)}60%{transform:translateY(-14%) scale(1.06)}}
 .sq.moving{z-index:10}
-@media (hover:hover){.sq:hover .pc{transform:translateY(-3%) scale(1.04);transition:transform .15s}}
-.pc.land{animation:land .28s ease-out}
-@keyframes land{0%{transform:scale(1.08,.9)}60%{transform:scale(.97,1.04)}100%{transform:none}}
+.sq.moving .pc{animation:none;filter:drop-shadow(0 10px 4px rgba(90,50,120,.3)) drop-shadow(0 18px 12px rgba(90,50,120,.2))}
+@media (hover:hover){.sq:not(.sel):not(.moving):hover .pc{transform:translateY(-5%) scale(1.05);transition:transform .18s cubic-bezier(.3,1.2,.5,1);
+  filter:drop-shadow(0 5px 2px rgba(90,50,120,.26)) drop-shadow(0 12px 8px rgba(90,50,120,.16))}}
+@media (prefers-reduced-motion:reduce){.board{transform:none}.pc{animation:none!important}.sq.sel .pc{animation:sel 1.6s ease-in-out infinite}}
+.pc.land{animation:land .34s cubic-bezier(.3,1.5,.5,1)}
+@keyframes land{0%{transform:scale(1.12,.86)}40%{transform:scale(.94,1.08)}70%{transform:scale(1.03,.97)}100%{transform:none}}
+.trail{position:absolute;z-index:9;pointer-events:none;opacity:.38;filter:blur(.4px);will-change:transform,opacity}
 #bfx{position:absolute;inset:0;pointer-events:none;z-index:20;overflow:visible}
 #hfx{position:absolute;inset:0;pointer-events:none;z-index:8;overflow:visible}
 .puff{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;animation:puff .7s ease-out forwards}
 @keyframes puff{0%{transform:translate(0,0) scale(.4) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(160deg);opacity:0}}
-.ghost{position:absolute;z-index:30;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 4px 3px rgba(90,60,120,.25))}
+.ghost{position:absolute;z-index:30;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 8px 6px rgba(90,60,120,.35)) drop-shadow(0 2px 0 rgba(255,255,255,.4))}
 .ghost svg{width:100%;height:100%;display:block;overflow:visible}
-.tokstar{position:absolute;z-index:31;pointer-events:none;animation:tok .6s ease-out forwards;will-change:transform,opacity}
-.tokstar b{position:absolute;left:50%;top:22%;transform:translateX(-50%);font-size:max(11px,calc(var(--sz)*.26));color:#ff7fae;font-weight:900;white-space:nowrap;text-shadow:0 1px 0 #fff,1px 0 0 #fff,-1px 0 0 #fff,0 -1px 0 #fff}
-@keyframes tok{0%{transform:scale(.3) rotate(0);opacity:0}25%{transform:scale(1.15) rotate(20deg);opacity:1}100%{transform:scale(.9) rotate(45deg) translateY(-30%);opacity:0}}
-.ring{position:absolute;border-radius:50%;border:4px solid #fff;box-shadow:0 0 12px #ffb6d0;animation:ring .55s ease-out forwards}
-@keyframes ring{from{transform:scale(.2);opacity:1}to{transform:scale(1.25);opacity:0}}
+.tokstar{position:absolute;z-index:31;pointer-events:none;animation:tok .65s cubic-bezier(.2,1.2,.4,1) forwards;will-change:transform,opacity}
+.tokstar b{position:absolute;left:50%;top:22%;transform:translateX(-50%);font-size:max(12px,calc(var(--sz)*.28));color:#ff7fae;font-weight:900;white-space:nowrap;text-shadow:0 1px 0 #fff,1px 0 0 #fff,-1px 0 0 #fff,0 -1px 0 #fff,0 3px 6px rgba(255,120,170,.35)}
+@keyframes tok{0%{transform:scale(.2) rotate(-10deg);opacity:0}22%{transform:scale(1.25) rotate(18deg);opacity:1}100%{transform:scale(.85) rotate(50deg) translateY(-40%);opacity:0}}
+.ring{position:absolute;border-radius:50%;border:4px solid #fff;box-shadow:0 0 14px #ffb6d0,0 0 28px rgba(255,210,120,.45);animation:ring .6s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes ring{from{transform:scale(.15);opacity:1}to{transform:scale(1.45);opacity:0}}
+.impact{position:absolute;border-radius:50%;pointer-events:none;z-index:29;background:radial-gradient(circle,rgba(255,255,255,.95) 0 18%,rgba(255,214,120,.7) 35%,rgba(255,140,190,.35) 55%,transparent 72%);
+  animation:impact .42s cubic-bezier(.2,.9,.3,1) forwards;will-change:transform,opacity}
+@keyframes impact{0%{transform:scale(.2);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.flash{position:absolute;pointer-events:none;z-index:28;border-radius:12px;background:rgba(255,255,255,.7);animation:flash .28s ease-out forwards}
+@keyframes flash{0%{opacity:.85}100%{opacity:0}}
 /* ---------- controls ---------- */
 .controls{display:flex;flex-direction:column;gap:8px}
 .seg{display:flex;gap:6px;background:#f6f0ff;border-radius:16px;padding:4px}
@@ -274,20 +295,23 @@ body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size
 <!-- shared gradients for all piece SVGs -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
  <defs>
-  <radialGradient id="wBody" cx=".36" cy=".28" r=".85"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#fff4e8"/><stop offset="1" stop-color="#ffd2c2"/></radialGradient>
-  <radialGradient id="bBody" cx=".36" cy=".28" r=".85"><stop offset="0" stop-color="#c3c4ff"/><stop offset=".5" stop-color="#8a86e8"/><stop offset="1" stop-color="#5a4fb4"/></radialGradient>
-  <linearGradient id="wAcc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9e8"/><stop offset="1" stop-color="#ff92bd"/></linearGradient>
-  <linearGradient id="bAcc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#efe4ff"/><stop offset="1" stop-color="#b79cf7"/></linearGradient>
-  <linearGradient id="wBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc6dc"/><stop offset="1" stop-color="#f28bb4"/></linearGradient>
-  <linearGradient id="bBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8e86e6"/><stop offset="1" stop-color="#4c4299"/></linearGradient>
-  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff7c4"/><stop offset=".45" stop-color="#ffd761"/><stop offset="1" stop-color="#f2a53a"/></linearGradient>
+  <radialGradient id="wBody" cx=".32" cy=".24" r=".9"><stop offset="0" stop-color="#ffffff"/><stop offset=".28" stop-color="#fff8f0"/><stop offset=".62" stop-color="#ffe0c8"/><stop offset="1" stop-color="#f0b8a8"/></radialGradient>
+  <radialGradient id="bBody" cx=".32" cy=".24" r=".9"><stop offset="0" stop-color="#e0e2ff"/><stop offset=".28" stop-color="#b0b0ff"/><stop offset=".62" stop-color="#7a74e0"/><stop offset="1" stop-color="#4a4298"/></radialGradient>
+  <linearGradient id="wAcc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe8f2"/><stop offset=".45" stop-color="#ffb0d0"/><stop offset="1" stop-color="#ff7aa8"/></linearGradient>
+  <linearGradient id="bAcc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6eeff"/><stop offset=".45" stop-color="#c8b0ff"/><stop offset="1" stop-color="#9a78e8"/></linearGradient>
+  <linearGradient id="wBase" x1="0" y1="0" x2=".15" y2="1"><stop offset="0" stop-color="#ffd4e8"/><stop offset=".4" stop-color="#ff9cc0"/><stop offset="1" stop-color="#e870a0"/></linearGradient>
+  <linearGradient id="bBase" x1="0" y1="0" x2=".15" y2="1"><stop offset="0" stop-color="#a8a0f0"/><stop offset=".4" stop-color="#7068c8"/><stop offset="1" stop-color="#3c3480"/></linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2=".2" y2="1"><stop offset="0" stop-color="#fffce8"/><stop offset=".35" stop-color="#ffe07a"/><stop offset=".7" stop-color="#f0b040"/><stop offset="1" stop-color="#d88820"/></linearGradient>
+  <linearGradient id="rimW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#ff9ab8" stop-opacity=".35"/></linearGradient>
+  <linearGradient id="rimB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".5"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#6a60c0" stop-opacity=".4"/></linearGradient>
   <radialGradient id="blush"><stop offset="0" stop-color="#ff7ea8" stop-opacity=".75"/><stop offset="1" stop-color="#ff7ea8" stop-opacity="0"/></radialGradient>
   <radialGradient id="gemP" cx=".35" cy=".3"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ff9cc3"/><stop offset="1" stop-color="#e2407f"/></radialGradient>
   <radialGradient id="gemB" cx=".35" cy=".3"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#8fdcff"/><stop offset="1" stop-color="#3b8fd6"/></radialGradient>
   <radialGradient id="gemM" cx=".35" cy=".3"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#9ff0cf"/><stop offset="1" stop-color="#2fb184"/></radialGradient>
   <radialGradient id="pearl" cx=".35" cy=".3"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#f4dbe8"/></radialGradient>
-  <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-  <radialGradient id="shadow"><stop offset="0" stop-color="#5a3d78" stop-opacity=".28"/><stop offset="1" stop-color="#5a3d78" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".45" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <radialGradient id="spec" cx=".35" cy=".3" r=".55"><stop offset="0" stop-color="#fff" stop-opacity=".85"/><stop offset=".5" stop-color="#fff" stop-opacity=".2"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="shadow"><stop offset="0" stop-color="#5a3d78" stop-opacity=".38"/><stop offset=".55" stop-color="#5a3d78" stop-opacity=".12"/><stop offset="1" stop-color="#5a3d78" stop-opacity="0"/></radialGradient>
  </defs>
 </svg>
 
@@ -419,8 +443,8 @@ body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size
 <script>
 /* ================= cute SVG piece characters ================= */
 const SIDE={
-  w:{body:'url(#wBody)',acc:'url(#wAcc)',base:'url(#wBase)',line:'#c0729a',eye:'#432a4f',rim:null,mouth:'#9b4f78',soft:'#ffe8f0'},
-  b:{body:'url(#bBody)',acc:'url(#bAcc)',base:'url(#bBase)',line:'#2f2a72',eye:'#1c1745',rim:'#f4efff',mouth:'#fff0f7',soft:'#b9b4ff'}
+  w:{body:'url(#wBody)',acc:'url(#wAcc)',base:'url(#wBase)',line:'#c0729a',eye:'#432a4f',rim:null,mouth:'#9b4f78',soft:'#ffe8f0',rimG:'url(#rimW)'},
+  b:{body:'url(#bBody)',acc:'url(#bAcc)',base:'url(#bBase)',line:'#2f2a72',eye:'#1c1745',rim:'#f4efff',mouth:'#fff0f7',soft:'#b9b4ff',rimG:'url(#rimB)'}
 };
 const LW='stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"';
 function eye(x,y,s,rx=4,ry=5){
@@ -438,10 +462,12 @@ function face(cx,cy,s,o={}){
   return `${eye(cx-d,cy-1,s,rx,ry)}${eye(cx+d,cy-1,s,rx,ry)}${lash}
   <ellipse cx="${cx-d-5.5}" cy="${cy+5}" rx="5.4" ry="3.4" fill="url(#blush)"/><ellipse cx="${cx+d+5.5}" cy="${cy+5}" rx="5.4" ry="3.4" fill="url(#blush)"/>${mouth}`;
 }
-const shadow=`<ellipse cx="50" cy="94" rx="30" ry="4.5" fill="url(#shadow)"/>`;
+const shadow=`<ellipse cx="50" cy="95" rx="32" ry="5.2" fill="url(#shadow)"/><ellipse cx="50" cy="94.5" rx="18" ry="2.6" fill="#5a3d78" opacity=".12"/>`;
 function base(s,w=27){return `<path d="M${50-w} 92 Q${50-w} 82 ${50-w+9} 81 H${50+w-9} Q${50+w} 82 ${50+w} 92 Q50 95.5 ${50-w} 92Z" fill="${s.base}" stroke="${s.line}" ${LW}/>
-  <path d="M${50-w+8} 84.5 H${50+w-8}" stroke="#fff" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>`;}
+  <path d="M${50-w+8} 84.5 H${50+w-8}" stroke="#fff" stroke-opacity=".65" stroke-width="2.2" stroke-linecap="round"/>
+  <path d="M${50-w+6} 88.5 H${50+w-6}" stroke="${s.line}" stroke-opacity=".18" stroke-width="1.4" stroke-linecap="round"/>`;}
 const gl=(x,y,rx,ry,r=-30,o=.75)=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="url(#gloss)" opacity="${o}" transform="rotate(${r} ${x} ${y})"/>`;
+const sp=(x,y,r=7)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="url(#spec)"/>`;
 const DRAW={
  p:s=>`${shadow}${base(s,24)}
   <path d="M35 81 Q33 66 42 60 H58 Q67 66 65 81Z" fill="${s.body}" stroke="${s.line}" ${LW}/>
@@ -449,7 +475,7 @@ const DRAW={
   <path d="M47 21.5 C46 15 52 12 56 15 C52 15.5 50.5 18 51 21.6" fill="${s.acc}" stroke="${s.line}" stroke-width="2" stroke-linejoin="round"/>
   <path d="M38 61.5 Q50 67 62 61.5" stroke="${s.acc}" stroke-width="5" fill="none" stroke-linecap="round"/>
   <circle cx="50" cy="66" r="3.2" fill="url(#gold)" stroke="${s.line}" stroke-width="1.4"/>
-  ${gl(41,31,8,4.5)}${face(50,44,s,{d:8,rx:3.8,ry:4.6})}`,
+  ${gl(41,31,8,4.5)}${sp(42,33,6.5)}${face(50,44,s,{d:8,rx:3.8,ry:4.6})}`,
  r:s=>`${shadow}${base(s,28)}
   <path d="M29 33 H71 L73 77 Q73 82 68 82 H32 Q27 82 27 77Z" fill="${s.body}" stroke="${s.line}" ${LW}/>
   <path d="M24 34 V15 Q24 11.5 27.5 11.5 H33.5 Q37 11.5 37 15 V19.5 H43.5 V15 Q43.5 11.5 47 11.5 H53 Q56.5 11.5 56.5 15 V19.5 H63 V15 Q63 11.5 66.5 11.5 H72.5 Q76 11.5 76 15 V34 Q76 36 74 36 H26 Q24 36 24 34Z" fill="${s.body}" stroke="${s.line}" ${LW}/>
@@ -491,7 +517,7 @@ const DRAW={
   <g stroke="#d58d2c" stroke-width="1.2"><circle cx="32.5" cy="23.5" r="3.2" fill="url(#pearl)"/><circle cx="67.5" cy="23.5" r="3.2" fill="url(#pearl)"/></g>
   <path d="M50 12.5 C47.5 9 43 11.5 45.6 15.5 L50 19.5 L54.4 15.5 C57 11.5 52.5 9 50 12.5Z" fill="url(#gemP)" stroke="#d58d2c" stroke-width="1.5"/>
   <circle cx="50" cy="33" r="3" fill="url(#gemB)" stroke="#d58d2c" stroke-width="1.2"/><circle cx="40.5" cy="37" r="2" fill="url(#gemP)"/><circle cx="59.5" cy="37" r="2" fill="url(#gemP)"/>
-  ${gl(38,48,7,4,-30)}${face(50,61,s,{d:9,rx:4.2,ry:5.3,lash:true})}`,
+  ${gl(38,48,7,4,-30)}${sp(40,50,7)}${face(50,61,s,{d:9,rx:4.2,ry:5.3,lash:true})}`,
  k:s=>`${shadow}${base(s,28)}
   <path d="M50 35 C67 35 76 47 76 61 C76 74 65 82 50 82 C35 82 24 74 24 61 C24 47 33 35 50 35Z" fill="${s.body}" stroke="${s.line}" ${LW}/>
   <path d="M27 71 Q50 84 73 71 L75 79 Q50 93 25 79Z" fill="${s.acc}" stroke="${s.line}" stroke-width="2.2" stroke-linejoin="round"/>
@@ -503,7 +529,7 @@ const DRAW={
   <path d="M50 15 V5.5 M45.5 9.5 H54.5" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
   <circle cx="50" cy="31" r="3.6" fill="url(#gemP)" stroke="#d58d2c" stroke-width="1.2"/>
   <circle cx="38" cy="34.5" r="2.4" fill="url(#gemB)" stroke="#d58d2c" stroke-width="1"/><circle cx="62" cy="34.5" r="2.4" fill="url(#gemM)" stroke="#d58d2c" stroke-width="1"/>
-  ${gl(37,30,5,2.4,-25,.6)}${gl(37,49,7,4,-30)}${face(50,58,s,{d:9.5,rx:4.3,ry:5.2,open:true})}`
+  ${gl(37,30,5,2.4,-25,.6)}${gl(37,49,7,4,-30)}${sp(39,51,7)}${face(50,58,s,{d:9.5,rx:4.3,ry:5.2,open:true})}`
 };
 const svgCache={};
 function pieceSVG(t,c){const k=t+c;if(!svgCache[k])svgCache[k]=`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">${DRAW[t](SIDE[c])}</svg>`;return svgCache[k];}
@@ -674,6 +700,8 @@ const SFX={
   draw:()=>{[523,659,523,659].forEach((f,i)=>tone(f,.2,{type:'triangle',vol:.09,at:i*.14}));},
   tap:()=>tone(660,.05,{vol:.05}),
   tok:()=>{tone(1250,.07,{type:'sine',vol:.2,to:620});tone(2500,.025,{type:'triangle',vol:.05});tone(420,.09,{type:'sine',vol:.08,at:.01,to:300});},
+  impact:()=>{tone(180,.09,{type:'sine',vol:.14,to:90});tone(980,.05,{type:'triangle',vol:.1});tone(2100,.03,{type:'sine',vol:.06,at:.02});},
+  thump:()=>{tone(140,.08,{type:'sine',vol:.1,to:70});tone(520,.05,{type:'triangle',vol:.05,at:.02});},
   no:()=>tone(330,.09,{type:'triangle',vol:.08,to:280})
 };
 function sfx(n){if(soundOn)try{SFX[n]();}catch(e){}}
@@ -872,53 +900,75 @@ function render(anim){
 }
 function sqCenter(i){const br=boardEl.getBoundingClientRect(),r=squares[i].getBoundingClientRect(),fr=$('frame').getBoundingClientRect();
   return {x:r.left-fr.left+r.width/2,y:r.top-fr.top+r.height/2,w:r.width};}
-function slide(from,to,dur=300){
+function slide(from,to,dur=380){
   const pc=squares[to].querySelector('.pc');if(!pc)return;
   const a=squares[from].getBoundingClientRect(),b=squares[to].getBoundingClientRect();
+  const dx=a.left-b.left,dy=a.top-b.top;
   squares[to].classList.add('moving');
-  const an=pc.animate([{transform:`translate(${a.left-b.left}px,${a.top-b.top}px) scale(1.06)`},{transform:`translate(${(a.left-b.left)*.1}px,${(a.top-b.top)*.1-6}px) scale(1.04)`,offset:.8},{transform:'none'}],{duration:dur,easing:'cubic-bezier(.35,.75,.3,1)'});
-  an.onfinish=()=>{squares[to].classList.remove('moving');pc.classList.add('land');};
+  // subtle afterimage trail (transform/opacity only)
+  const fx=$('bfx'),fr=$('frame').getBoundingClientRect(),tc=sqCenter(to),w=tc.w;
+  const trail=document.createElement('div');trail.className='trail';
+  trail.style.cssText=`left:${tc.x-w*.45}px;top:${tc.y-w*.45}px;width:${w*.9}px;height:${w*.9}px`;
+  trail.innerHTML=pc.innerHTML;fx.appendChild(trail);
+  trail.animate([{transform:`translate(${dx}px,${dy}px) scale(1.02)`,opacity:.4},{transform:`translate(${dx*.35}px,${dy*.35-4}px) scale(.96)`,opacity:.12,offset:.55},{transform:'translate(0,0) scale(.9)',opacity:0}],{duration:dur*.9,easing:'cubic-bezier(.25,.8,.25,1)'}).onfinish=()=>trail.remove();
+  setTimeout(()=>trail.remove(),dur+80);
+  // ease-out with slight overshoot, then soft land
+  const an=pc.animate([
+    {transform:`translate(${dx}px,${dy}px) scale(1.08)`,easing:'cubic-bezier(.2,.85,.3,1)'},
+    {transform:`translate(${dx*.18}px,${dy*.18-10}px) scale(1.1,.96)`,offset:.62,easing:'cubic-bezier(.15,.9,.35,1)'},
+    {transform:`translate(${-dx*.03}px,${-dy*.03-2}px) scale(1.02)`,offset:.86},
+    {transform:'translate(0,0) scale(1)'}
+  ],{duration:dur,easing:'cubic-bezier(.2,.9,.25,1)'});
+  an.onfinish=()=>{squares[to].classList.remove('moving');pc.classList.remove('land');void pc.offsetWidth;pc.classList.add('land');
+    squares[to].classList.remove('thump');void squares[to].offsetWidth;squares[to].classList.add('thump');
+    setTimeout(()=>{squares[to].classList.remove('thump');pc.classList.remove('land');},520);sfx('thump');};
 }
 function animateMove(m){
-  slide(m.from,m.to);
-  if(m.castle){const row=m.to>>3;const rf=m.castle==='K'?row*8+7:row*8,rt=m.castle==='K'?row*8+5:row*8+3;slide(rf,rt,360);}
-  if(m.captured){const at=m.ep?m.to+(m.color==='w'?8:-8):m.to;knockOff(at,m.captured,opp(m.color),m.color);setTimeout(()=>poof(at,m.captured),210);}
-  if(m.promo)setTimeout(()=>poof(m.to,null,true),280);
+  slide(m.from,m.to,m.captured?420:380);
+  if(m.castle){const row=m.to>>3;const rf=m.castle==='K'?row*8+7:row*8,rt=m.castle==='K'?row*8+5:row*8+3;slide(rf,rt,400);}
+  if(m.captured){const at=m.ep?m.to+(m.color==='w'?8:-8):m.to;knockOff(at,m.captured,opp(m.color),m.color);setTimeout(()=>poof(at,m.captured),180);}
+  if(m.promo)setTimeout(()=>poof(m.to,null,true),300);
 }
-/* captured piece gets knocked off: pops up, spins and arcs toward the capturer's tray while shrinking/fading (transform+opacity only) */
+/* captured piece: impact flash + stronger knock-back spin-arc to tray (transform/opacity only, ~800ms) */
 function knockOff(i,t,col,byCol){
   const fx=$('bfx'),c=sqCenter(i),w=c.w;
+  // brief square flash + impact bloom
+  const fl=document.createElement('div');fl.className='flash';
+  fl.style.cssText=`left:${c.x-w*.5}px;top:${c.y-w*.5}px;width:${w}px;height:${w}px`;fx.appendChild(fl);setTimeout(()=>fl.remove(),320);
+  const im=document.createElement('div');im.className='impact';
+  im.style.cssText=`left:${c.x-w*.55}px;top:${c.y-w*.55}px;width:${w*1.1}px;height:${w*1.1}px`;fx.appendChild(im);setTimeout(()=>im.remove(),450);
   const g=document.createElement('div');g.className='ghost';
   g.style.cssText=`left:${c.x-w*.45}px;top:${c.y-w*.45}px;width:${w*.9}px;height:${w*.9}px`;
   g.innerHTML=pieceSVG(t,col);fx.appendChild(g);
-  // aim at the tray that collects pieces captured by the mover
   const top=vsAI?me:'w',tray=$(byCol===top?'capW':'capB'),fr=$('frame').getBoundingClientRect();
   let dx,dy;const tr=tray&&tray.getBoundingClientRect();
   if(tr&&tr.width){dx=tr.left+Math.min(tr.width,60)/2-fr.left-c.x;dy=tr.top+tr.height/2-fr.top-c.y;}else{dx=(c.x<fr.width/2?-1:1)*w*3;dy=w*4;}
-  const L=Math.hypot(dx,dy),maxL=w*4.2;if(L>maxL){dx*=maxL/L;dy*=maxL/L;}
-  if(Math.abs(dx)<w*.6)dx=(c.x<fr.width/2?-1:1)*w*1.2;   // always a visible sideways arc
-  const spin=dx<0?-1:1,lift=w*.95;
+  const L=Math.hypot(dx,dy),maxL=w*4.6;if(L>maxL){dx*=maxL/L;dy*=maxL/L;}
+  if(Math.abs(dx)<w*.7)dx=(c.x<fr.width/2?-1:1)*w*1.4;
+  const spin=dx<0?-1:1,lift=w*1.15,kb=w*.22; // stronger knock-back then lift
   const an=g.animate([
-    {transform:'translate(0,0) rotate(0) scale(1)',opacity:1,easing:'cubic-bezier(.2,.9,.35,1)'},
-    {transform:`translate(${dx*.12}px,${-lift}px) rotate(${spin*110}deg) scale(1.12)`,opacity:1,offset:.28,easing:'cubic-bezier(.45,0,.75,.4)'},
-    {transform:`translate(${dx*.55}px,${dy*.35-lift*.55}px) rotate(${spin*380}deg) scale(.78)`,opacity:.95,offset:.62,easing:'cubic-bezier(.4,0,.9,.6)'},
-    {transform:`translate(${dx}px,${dy}px) rotate(${spin*640}deg) scale(.32)`,opacity:0}
-  ],{duration:720,delay:170,fill:'both'});
-  setTimeout(()=>{sfx('tok');const s=document.createElement('div');s.className='tokstar';
-    s.style.cssText=`left:${c.x-w*.35}px;top:${c.y-w*.75}px;width:${w*.7}px;height:${w*.7}px`;
+    {transform:'translate(0,0) rotate(0) scale(1)',opacity:1,easing:'cubic-bezier(.15,.9,.35,1)'},
+    {transform:`translate(${-dx*.08}px,${kb}px) rotate(${spin*-25}deg) scale(1.08,.9)`,opacity:1,offset:.1,easing:'cubic-bezier(.2,.9,.3,1)'},
+    {transform:`translate(${dx*.18}px,${-lift}px) rotate(${spin*160}deg) scale(1.18)`,opacity:1,offset:.32,easing:'cubic-bezier(.4,0,.7,.3)'},
+    {transform:`translate(${dx*.6}px,${dy*.3-lift*.4}px) rotate(${spin*480}deg) scale(.72)`,opacity:.9,offset:.66,easing:'cubic-bezier(.4,0,.85,.5)'},
+    {transform:`translate(${dx}px,${dy}px) rotate(${spin*820}deg) scale(.28)`,opacity:0}
+  ],{duration:820,delay:90,fill:'both'});
+  setTimeout(()=>{sfx('impact');sfx('tok');const s=document.createElement('div');s.className='tokstar';
+    s.style.cssText=`left:${c.x-w*.35}px;top:${c.y-w*.85}px;width:${w*.75}px;height:${w*.75}px`;
     s.innerHTML='<svg viewBox="0 0 40 40" width="100%" height="100%"><path d="M20 0 Q23 17 40 20 Q23 23 20 40 Q17 23 0 20 Q17 17 20 0Z" fill="#fff6b0" stroke="#ffc94d" stroke-width="2"/></svg><b style="left:'+(spin>0?'-18%':'118%')+'">톡!</b>';
-    fx.appendChild(s);setTimeout(()=>s.remove(),650);},170);
-  an.onfinish=an.oncancel=()=>g.remove();setTimeout(()=>g.remove(),1200);
+    fx.appendChild(s);setTimeout(()=>s.remove(),700);},90);
+  an.onfinish=an.oncancel=()=>g.remove();setTimeout(()=>g.remove(),1300);
 }
 function poof(i,capturedPiece,gold){
   const fx=$('bfx');const c=sqCenter(i);
-  const ring=document.createElement('div');ring.className='ring';ring.style.cssText=`left:${c.x-c.w/2}px;top:${c.y-c.w/2}px;width:${c.w}px;height:${c.w}px`;fx.appendChild(ring);setTimeout(()=>ring.remove(),600);
-  const cols=gold?['#ffd36b','#fff3b0','#ffb6d0']:['#ff9cc3','#ffd36b','#c3b0ff','#9fe3c8','#fff'];
-  for(let k=0;k<12;k++){const s=document.createElement('div');s.className='puff';const ang=k/12*Math.PI*2+Math.random()*.4,dist=c.w*(.55+Math.random()*.45);
-    s.style.cssText=`left:${c.x}px;top:${c.y}px;--dx:${Math.cos(ang)*dist}px;--dy:${Math.sin(ang)*dist}px;width:${c.w*.22}px;height:${c.w*.22}px;margin:${-c.w*.11}px 0 0 ${-c.w*.11}px;animation-delay:${Math.random()*60}ms`;
+  const ring=document.createElement('div');ring.className='ring';ring.style.cssText=`left:${c.x-c.w/2}px;top:${c.y-c.w/2}px;width:${c.w}px;height:${c.w}px`;fx.appendChild(ring);setTimeout(()=>ring.remove(),650);
+  const ring2=document.createElement('div');ring2.className='ring';ring2.style.cssText=`left:${c.x-c.w*.35}px;top:${c.y-c.w*.35}px;width:${c.w*.7}px;height:${c.w*.7}px;animation-delay:60ms;border-color:#ffe08a`;fx.appendChild(ring2);setTimeout(()=>ring2.remove(),700);
+  const cols=gold?['#ffd36b','#fff3b0','#ffb6d0','#fff']:['#ff9cc3','#ffd36b','#c3b0ff','#9fe3c8','#fff','#ffc4a8'];
+  for(let k=0;k<16;k++){const s=document.createElement('div');s.className='puff';const ang=k/16*Math.PI*2+Math.random()*.35,dist=c.w*(.6+Math.random()*.55);
+    s.style.cssText=`left:${c.x}px;top:${c.y}px;--dx:${Math.cos(ang)*dist}px;--dy:${Math.sin(ang)*dist}px;width:${c.w*.2}px;height:${c.w*.2}px;margin:${-c.w*.1}px 0 0 ${-c.w*.1}px;animation-delay:${Math.random()*70}ms`;
     s.innerHTML=k%3===0?`<svg viewBox="0 0 40 40" width="100%" height="100%"><path d="M20 35 C6 24 4 14 11 9 C16 6 20 10 20 13 C20 10 24 6 29 9 C36 14 34 24 20 35Z" fill="${cols[k%cols.length]}"/></svg>`
       :`<svg viewBox="0 0 40 40" width="100%" height="100%"><path d="M20 0 Q23 17 40 20 Q23 23 20 40 Q17 23 0 20 Q17 17 20 0Z" fill="${cols[k%cols.length]}"/></svg>`;
-    fx.appendChild(s);setTimeout(()=>s.remove(),800);}
+    fx.appendChild(s);setTimeout(()=>s.remove(),850);}
 }
 function statusDot(c){return pieceSVG('p',c);}
 function updateStatus(){
