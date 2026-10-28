@@ -266,6 +266,66 @@ body.short .hintBtn{min-height:38px;font-size:14px}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
 .fall{position:absolute;top:-40px;will-change:transform;animation:fall linear forwards}
 @keyframes fall{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(var(--sx),110vh) rotate(var(--rot))}}
+
+/* ---------- learn / badges modals ---------- */
+.learnBtns{display:grid;grid-template-columns:1fr;gap:8px;margin:4px 0 10px}
+.learnBtns button{border:0;border-radius:16px;padding:12px 14px;font-size:15px;font-weight:800;cursor:pointer;color:#6a4a8a;
+  background:linear-gradient(180deg,#fff,#ffeef6);box-shadow:0 4px 0 #f3c0d8;text-align:left;min-height:48px}
+.learnBtns button:active{transform:translateY(2px);box-shadow:0 2px 0 #f3c0d8}
+.learnBtns .ico{font-size:20px;margin-right:6px}
+.bigModal .mbox{max-width:min(520px,96vw);max-height:min(88vh,720px);padding:14px 14px 12px;text-align:left;display:flex;flex-direction:column}
+.bigModal .mbox h2{text-align:center;font-size:22px;margin:0 0 8px;flex-shrink:0}
+.bigModal .xclose{position:absolute;top:10px;right:12px;width:36px;height:36px;border:0;border-radius:50%;
+  background:#ffe3ef;color:#e2629a;font-size:18px;font-weight:900;cursor:pointer;line-height:1;z-index:2}
+.bigModal .hubTabs{display:flex;gap:4px;margin-bottom:10px;flex-shrink:0}
+.bigModal .hubTabs button{flex:1;border:0;background:#f6f0ff;border-radius:12px;padding:9px 4px;font-size:14px;font-weight:800;color:#8c76b3;cursor:pointer;min-height:40px}
+.bigModal .hubTabs button.on{background:linear-gradient(180deg,#ffe3ef,#ffd0e2);color:#e2629a}
+.bigModal .hubBody{overflow:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0;padding:2px 4px 8px}
+.bigModal .hubFoot{flex-shrink:0;display:flex;gap:8px;margin-top:6px}
+.bigModal .hubFoot .btn{flex:1}
+.pCard{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;background:#fff7fb;border:2px solid #ffe0ee;
+  border-radius:18px;padding:10px 12px;margin-bottom:8px}
+.pCard .pics{display:flex;gap:4px;align-items:center}
+.pCard .pics svg{width:52px;height:52px;filter:drop-shadow(0 3px 4px rgba(90,60,120,.18))}
+.pCard .tag{display:inline-block;font-size:11px;font-weight:800;padding:2px 7px;border-radius:999px;margin-right:4px}
+.pCard .tag.cream{background:#ffe8d4;color:#c07050}.pCard .tag.sky{background:#e0e4ff;color:#5a55a8}
+.pCard h3{margin:0 0 3px;font-size:16px;color:#e2629a}
+.pCard p{margin:0;font-size:13.5px;line-height:1.4;color:#6a5588}
+.techCard{background:#fff7fb;border:2px solid #ffe0ee;border-radius:18px;padding:12px 14px;margin-bottom:10px}
+.techCard h3{margin:0 0 6px;font-size:16px;color:#e2629a}
+.techCard p,.techCard li{font-size:13.5px;line-height:1.45;color:#6a5588;margin:0 0 6px}
+.techCard ul{margin:4px 0 6px;padding-left:18px}
+.techCard .tinyDiag{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.techCard .tinyDiag .d{flex:1;min-width:120px;background:#f3efff;border-radius:12px;padding:8px;font-size:12.5px;text-align:center;font-weight:700;color:#7b6fd6}
+.techCard .tip{background:#fff8e0;border-radius:10px;padding:6px 10px;font-size:12.5px;color:#a07830;margin-top:4px}
+.badgeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 2px 8px}
+@media (max-width:400px){.badgeGrid{grid-template-columns:repeat(2,1fr)}}
+.badgeCell{position:relative;background:linear-gradient(180deg,#fff,#fff5fa);border:2px solid #eadfff;border-radius:18px;
+  padding:10px 6px 8px;text-align:center;min-height:118px}
+.badgeCell.on{border-color:#ffb6d0;box-shadow:0 0 0 2px #ffe3ef,0 6px 14px rgba(255,120,170,.2)}
+.badgeCell .ico{font-size:34px;line-height:1;filter:grayscale(1) opacity(.4);transform:scale(.92)}
+.badgeCell.on .ico{filter:none;transform:none;animation:bshine 2.4s ease-in-out infinite}
+@keyframes bshine{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 6px rgba(255,180,80,.7))}}
+.badgeCell .bn{display:block;font-size:12.5px;font-weight:800;color:#a594c4;margin-top:6px;line-height:1.25}
+.badgeCell.on .bn{color:#e2629a}
+.badgeCell .bd{display:block;font-size:10.5px;color:#b0a0c8;margin-top:2px;line-height:1.2}
+.badgeCell.on .bd{color:#9a7ab0}
+.badgeCell .lock{position:absolute;top:6px;right:8px;font-size:12px;opacity:.5}
+.badgeCell.on .lock{display:none}
+.badgeSum{text-align:center;font-size:13.5px;font-weight:800;color:#8c76b3;margin:0 0 8px}
+.achToast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%) translateY(120%);
+  z-index:80;background:linear-gradient(180deg,#fff,#fff0f7);border:3px solid #ffd3e6;border-radius:22px;
+  padding:12px 16px;min-width:min(300px,90vw);max-width:360px;box-shadow:0 10px 28px rgba(120,80,160,.28);
+  display:flex;gap:12px;align-items:center;transition:transform .45s cubic-bezier(.3,1.4,.5,1);pointer-events:auto}
+.achToast.show{transform:translateX(-50%) translateY(0)}
+.achToast .tico{font-size:40px;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(200,100,150,.3))}
+.achToast .tt{font-size:15px;font-weight:900;color:#e2629a;margin:0 0 2px}
+.achToast .td{font-size:13px;color:#7a6698;margin:0;line-height:1.3}
+.techLink{display:inline-block;margin-top:4px;border:0;background:linear-gradient(180deg,#ffe9a8,#ffd25a);color:#8a5a10;
+  font-weight:800;font-size:13px;padding:5px 12px;border-radius:999px;cursor:pointer;box-shadow:0 2px 0 #e0a52e}
+body[data-layout=phone] .bigModal .mbox{max-height:92vh;padding:12px 10px 10px;border-radius:22px}
+body[data-layout=phone] .pCard .pics svg{width:44px;height:44px}
+body[data-layout=phone] .bigModal .mbox h2{font-size:19px}
 /* ---------- compact tweaks ---------- */
 body[data-layout=phone] h1{font-size:25px}
 body[data-layout=phone] .sub{font-size:12.5px}
@@ -411,17 +471,22 @@ body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size
    <div class="tabbar" role="tablist">
     <button class="on" data-tab="tScore">🏆 기록</button>
     <button data-tab="tRecent">💌 최근</button>
-    <button data-tab="tHelp">📖 말 소개</button>
+    <button data-tab="tHelp">📚 배우기</button>
    </div>
    <div class="tabpane on score" id="tScore">
     <table><thead><tr><th class="who">👑 <span id="recTitle">보애공주 vs 컴퓨터</span></th><th>승</th><th>패</th><th>무승부</th></tr></thead><tbody id="scoreBody"></tbody></table>
+    <button class="tiny" id="btnBadgesScore" style="width:100%;margin-top:8px">🏅 내 배지 보기</button>
    </div>
    <div class="tabpane" id="tRecent">
     <ul class="recent" id="recent"></ul>
     <button class="tiny" id="clearRec">🗑 기록 지우기</button>
    </div>
    <div class="tabpane" id="tHelp">
-    <div class="legend" id="legend"></div>
+    <div class="learnBtns">
+     <button type="button" id="btnPieces"><span class="ico">📖</span>말 친구들 — 누가 어떻게 움직여요?</button>
+     <button type="button" id="btnTech"><span class="ico">✨</span>체스 기술 — 캐슬링·앙파상·변신</button>
+     <button type="button" id="btnBadges"><span class="ico">🏆</span>내 배지 — 모은 업적 보기</button>
+    </div>
     <label class="opt"><input type="checkbox" id="coordTg" checked> 칸 이름(a1, b2…) 보이기</label>
    </div>
   </section>
@@ -440,6 +505,37 @@ body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size
  <button class="btn" id="setClose">좋아! ♡</button></div></div>
 <div class="modal" id="confirmModal"><div class="mbox"><h2 id="cfTitle">기록을 지울까? 🥺</h2><p id="cfText">지우면 승·패·무승부 기록과 최근 게임이 모두 사라지고 되돌릴 수 없어.</p>
  <div class="row"><button class="btn lav" id="cfNo">아니, 그냥 둘래</button><button class="btn" id="cfYes">응, 지울래</button></div></div></div>
+
+<div class="modal bigModal" id="learnModal" role="dialog" aria-modal="true" aria-label="체스 배우기">
+ <div class="mbox">
+  <button type="button" class="xclose" id="learnX" aria-label="닫기">✕</button>
+  <h2 id="learnTitle">📚 체스 배우기</h2>
+  <div class="hubTabs" id="learnTabs">
+   <button type="button" class="on" data-hub="pieces">📖 말 친구들</button>
+   <button type="button" data-hub="tech">✨ 체스 기술</button>
+  </div>
+  <div class="hubBody" id="learnBody"></div>
+  <div class="hubFoot">
+   <button type="button" class="btn" id="learnOk">좋아! ♡</button>
+  </div>
+ </div>
+</div>
+<div class="modal bigModal" id="badgeModal" role="dialog" aria-modal="true" aria-label="배지">
+ <div class="mbox">
+  <button type="button" class="xclose" id="badgeX" aria-label="닫기">✕</button>
+  <h2>🏆 보애공주의 배지</h2>
+  <p class="badgeSum" id="badgeSum">0 / 0</p>
+  <div class="hubBody"><div class="badgeGrid" id="badgeGrid"></div></div>
+  <div class="hubFoot">
+   <button type="button" class="btn lav" id="badgeClear">배지 초기화</button>
+   <button type="button" class="btn" id="badgeOk">좋아! ♡</button>
+  </div>
+ </div>
+</div>
+<div class="achToast" id="achToast" aria-live="polite">
+ <div class="tico" id="achToastIco">🏅</div>
+ <div><p class="tt" id="achToastTitle">배지 획득!</p><p class="td" id="achToastDesc"></p></div>
+</div>
 <script>
 /* ================= cute SVG piece characters ================= */
 const SIDE={
@@ -974,11 +1070,11 @@ function statusDot(c){return pieceSVG('p',c);}
 function updateStatus(){
   const st=$('status');const ms=allLegal(S),chk=inCheck(S,S.turn);
   st.classList.toggle('check',chk&&ms.length>0);
-  const finish=(html,kind,winner)=>{over=true;st.innerHTML=html;if(recorded)return;record(winner);setTimeout(()=>showEnd(kind,winner),650);};
+  const finish=(html,kind,winner,extra)=>{over=true;st.innerHTML=html;if(recorded)return;record(winner,Object.assign({kind},extra||{}));setTimeout(()=>showEnd(kind,winner),650);};
   if(!ms.length){
     if(chk){const w=opp(S.turn);
-      if(vsAI)finish(w===me?`${pieceSVG('k',me)} ${PLAYER} 승리! 🎉`:`${pieceSVG('k',opp(me))} 컴퓨터가 이겼어`,w===me?'win':'lose',w);
-      else finish(`${pieceSVG('k',w)} ${TEAM[w]} 승리! 🎉`,'fwin',w);}
+      if(vsAI)finish(w===me?`${pieceSVG('k',me)} ${PLAYER} 승리! 🎉`:`${pieceSVG('k',opp(me))} 컴퓨터가 이겼어`,w===me?'win':'lose',w,{mate:true});
+      else finish(`${pieceSVG('k',w)} ${TEAM[w]} 승리! 🎉`,'fwin',w,{mate:true});}
     else finish('🤝 스테일메이트! 비겼어','draw','draw');
     return;}
   if(insufficient(S.B)){finish('🤝 남은 말로는 못 이겨서 비겼어','draw','draw');return;}
@@ -1011,6 +1107,12 @@ function doMove(m){
   // sounds + mascot reaction
   const chk=inCheck(S,S.turn),end=over;
   const byPlayer=!vsAI||mover===me;
+  // achievements for special moves (even if the move also gave check)
+  if(byPlayer){
+    if(m.promo){unlockBadge('promo_any');if(m.promo==='q')unlockBadge('promo_q');if(!end)offerTechTip('promo');}
+    if(m.ep){unlockBadge('ep_ok');if(!end)offerTechTip('ep');}
+    if(m.castle){unlockBadge('castle_ok');if(!end)offerTechTip('castle');}
+  }
   if(!end){
     if(chk){sfx('check');say(vsAI?(mover===me?SAY.checkGiven:SAY.inCheck):SAY.inCheck);}
     else if(m.promo){sfx('promote');say(SAY.promo);}
@@ -1067,7 +1169,7 @@ function showEnd(kind,winner){
 function newGame(){hint=null;hintsUsed=0;updHintCount();gameId++;busy=false;recorded=false;S=initState();hist=[];sel=-1;moves=[];over=false;pendingPromo=null;
   me=vsAI?(sidePref==='second'?'b':sidePref==='random'?(Math.random()<.5?'w':'b'):'w'):'w';
   orientBoard();syncSideUI();
-  ['endModal','promoModal'].forEach(id=>$(id).classList.remove('show'));render();
+  ['endModal','promoModal','learnModal','badgeModal'].forEach(id=>{const el=$(id);if(el)el.classList.remove('show');});render();
   if(vsAI&&me==='b'){say(sidePref==='random'?SAY.startRandomB:SAY.startSecond);scheduleAI(false,900);}
   else if(vsAI&&sidePref==='random')say(SAY.startRandomW);
   else say(SAY.start);}
@@ -1081,6 +1183,7 @@ $('endClose').onclick=()=>{sfx('tap');$('endModal').classList.remove('show');};
 $('undoBtn').onclick=()=>{ac();if(!hist.length||pendingPromo){sfx('no');return;}
   if(vsAI&&me==='b'&&hist.length<=1&&S.turn===me){sfx('no');say(LINE.noUndo);return;}
   hint=null;gameId++;busy=false;S=hist.pop();
+  unlockBadge('first_undo');
   while(vsAI&&S.turn!==me&&hist.length)S=hist.pop();   // always land on 보애공주's turn
   sel=-1;moves=[];$('endModal').classList.remove('show');sfx('tap');render();
   if(aiTurn()&&!over)scheduleAI(false,700);else if(!over)say(SAY.undo);};
@@ -1110,13 +1213,33 @@ function emptyRec(){return {player:PLAYER,stats:{easy:{w:0,l:0,d:0},normal:{w:0,
 function loadRec(){try{const r=JSON.parse(localStorage.getItem(REC_KEY));if(r&&r.stats&&r.recent){const e=emptyRec();for(const k in e.stats)r.stats[k]=Object.assign({w:0,l:0,d:0},r.stats[k]);return r;}}catch(e){}return emptyRec();}
 function saveRec(r){try{localStorage.setItem(REC_KEY,JSON.stringify(r));}catch(e){}}
 // Called only when a game really ends (checkmate / stalemate / draw rule). New game mid-way never counts.
-function record(winner){
+function record(winner,extra){
   if(recorded)return;recorded=true;
   const r=loadRec(),key=vsAI?level:'friend';
   const res=winner==='draw'?'d':vsAI?(winner===me?'w':'l'):(winner==='w'?'w':'l'); // vs AI: 보애공주 기준 승/패. 친구랑: w=크림 팀 승, l=밤하늘 팀 승
   r.stats[key][res]++;r.player=PLAYER;
   r.recent.unshift(Object.assign({t:Date.now(),k:key,r:res,p:PLAYER},vsAI?{s:me==='w'?'first':'second'}:{}));r.recent=r.recent.slice(0,10);
   saveRec(r);renderRec();
+  try{
+    const a=loadAch();
+    if(vsAI&&res==='w'){a.streak=(a.streak||0)+1;saveAch(a);}
+    else if(vsAI&&res==='l'){a.streak=0;saveAch(a);}
+    if(!vsAI)unlockBadge('friend_done');
+    if(res==='d')unlockBadge('first_draw');
+    if(vsAI&&res==='w'){
+      unlockBadge('first_win');
+      if(level==='easy')unlockBadge('win_easy');
+      if(level==='normal')unlockBadge('win_normal');
+      if(level==='hard')unlockBadge('win_hard');
+      if(r.stats.normal.w>=3)unlockBadge('win_normal_3');
+      if(extra&&extra.mate)unlockBadge('mate_win');
+      if((loadAch().streak||0)>=2)unlockBadge('streak_2');
+      const mine=me==='w'?S.capW:S.capB;if((mine||[]).length>=5)unlockBadge('cap5_win');
+    }else if(!vsAI&&winner!=='draw'){
+      unlockBadge('first_win');
+      if(extra&&extra.mate)unlockBadge('mate_win');
+    }
+  }catch(e){}
 }
 function renderRec(){
   const r=loadRec();
@@ -1149,16 +1272,146 @@ function celebrate(){
     fx.appendChild(s);setTimeout(()=>s.remove(),7000);}
 }
 
-/* ================= legend ================= */
-$('legend').innerHTML=[
-  ['k','<b>왕</b> — 모든 방향으로 딱 한 칸! 왕을 꼭 지켜 줘.'],
-  ['q','<b>여왕</b> — 가로·세로·대각선 어디든 쭉쭉!'],
-  ['r','<b>성</b> — 가로·세로로 쭉 달려가요.'],
-  ['b','<b>주교</b> — 대각선으로만 미끄러져요.'],
-  ['n','<b>조랑말 기사</b> — ㄱ자로 폴짝! 다른 말을 뛰어넘어요.'],
-  ['p','<b>폰</b> — 앞으로 한 칸(처음엔 두 칸), 잡을 땐 대각선!']
-].map(([t,s])=>`<div>${pieceSVG(t,'w')}</div><div>${s}</div>`).join('')+
-`<div>${pieceSVG('q','b')}</div><div><b>크림 팀</b>(크림·분홍)이 항상 먼저 시작해요. 컴퓨터랑 할 때 <b>먼저 할래(선공)</b>를 고르면 ${PLAYER}는 크림 팀, <b>나중에 할래(후공)</b>를 고르면 <b>밤하늘 팀</b>이 되고 판이 돌아가서 내 말이 아래에 와요.</div>`;
+/* ================= learn popups (말 친구들 / 체스 기술) ================= */
+const PIECE_HELP=[
+  ['k','왕','모든 방향으로 딱 <b>한 칸</b>만 갈 수 있어요. 제일 소중한 말! 왕이 잡히면 게임이 끝나요.'],
+  ['q','여왕','가로·세로·대각선 <b>어디든 쭉쭉</b>! 가장 강한 친구예요.'],
+  ['r','성','가로·세로로만 <b>쭉 달려</b>가요. 캐슬링할 때 왕과 같이 움직여요.'],
+  ['b','주교','<b>대각선</b>으로만 미끄러져요. 같은 색 칸만 다녀요.'],
+  ['n','조랑말 기사','<b>ㄱ자</b>로 폴짝! 다른 말을 뛰어넘을 수 있는 특별한 친구예요.'],
+  ['p','폰','앞으로 <b>한 칸</b>(처음엔 두 칸도 OK). 잡을 땐 <b>대각선</b>으로! 끝까지 가면 변신해요.']
+];
+function piecesHTML(){
+  return PIECE_HELP.map(([t,n,d])=>`<div class="pCard"><div class="pics">${pieceSVG(t,'w')}${pieceSVG(t,'b')}</div>
+    <div><h3>${n}</h3><span class="tag cream">크림</span><span class="tag sky">밤하늘</span>
+    <p>${d}</p></div></div>`).join('')+
+    `<div class="techCard"><p>🍰 <b>크림 팀</b>이 항상 먼저 시작해요. 컴퓨터랑 할 때 <b>먼저 할래(선공)</b>이면 ${PLAYER}는 크림 팀,
+    <b>나중에 할래(후공)</b>이면 밤하늘 팀이 되고 판이 돌아가서 내 말이 아래에 와요.</p></div>`;
+}
+function techHTML(){
+  return `
+<div class="techCard" id="techCastle"><h3>🏰 캐슬링</h3>
+<p>왕과 성이 <b>한 번에</b> 자리를 바꿔 왕이 성 뒤로 쏙 숨는 특별한 수예요.</p>
+<div class="tinyDiag"><div class="d">킹사이드<br>왕 → 오른쪽 두 칸<br>성 → 왕 옆</div><div class="d">퀸사이드<br>왕 → 왼쪽 두 칸<br>성 → 왕 옆</div></div>
+<ul>
+<li>왕과 그 성이 <b>한 번도 안 움직였</b>어야 해요</li>
+<li>사이에 <b>다른 말이 없어</b>야 해요</li>
+<li>왕이 <b>체크</b> 중이거나, 지나가는·도착하는 칸이 위험하면 안 돼요</li>
+</ul>
+<div class="tip">왕을 두 칸 옆으로 옮기면 성이 자동으로 따라와요 ♡</div></div>
+<div class="techCard" id="techEp"><h3>💨 앙파상 (지나가며 잡기)</h3>
+<p>상대 폰이 처음에 <b>두 칸</b> 뛰어서 내 폰 옆을 스치면, <b>바로 다음 수</b>에만 “한 칸만 온 것처럼” 대각선으로 잡을 수 있어요.</p>
+<div class="tip">다음 수로 다른 걸 하면 기회가 사라져요!</div></div>
+<div class="techCard" id="techPromo"><h3>👑 프로모션 (변신)</h3>
+<p>폰이 맨 끝 줄에 도착하면 <b>여왕·성·주교·조랑말 기사</b> 중 하나로 변신해요. 보통은 여왕이 제일 세져요!</p></div>
+<div class="techCard"><h3>⚡ 체크 · 체크메이트 · 스테일메이트</h3>
+<ul>
+<li><b>체크</b> — 왕이 공격받고 있어요! 피하거나 막거나 잡아야 해요</li>
+<li><b>체크메이트</b> — 왕이 위험한데 피할 수가 없어요 → 그 팀이 져요</li>
+<li><b>스테일메이트</b> — 체크는 아닌데 움직일 수가 없어요 → <b>무승부</b></li>
+</ul></div>
+<div class="techCard"><h3>🤝 다른 무승부</h3>
+<ul>
+<li><b>50수</b> — 오랫동안 폰도 안 움직이고 말도 안 잡으면 비겨요</li>
+<li><b>기물 부족</b> — 남은 말만으로는 체크메이트를 못 만들 때</li>
+<li><b>같은 모양 3번</b> — 판이 똑같아진 게 세 번이면 비겨요</li>
+</ul></div>`;
+}
+let learnHub='pieces';
+function fillLearn(hub){
+  learnHub=hub||learnHub;
+  document.querySelectorAll('#learnTabs button').forEach(b=>b.classList.toggle('on',b.dataset.hub===learnHub));
+  $('learnTitle').textContent=learnHub==='tech'?'✨ 체스 기술':'📖 말 친구들';
+  $('learnBody').innerHTML=learnHub==='tech'?techHTML():piecesHTML();
+  $('learnBody').scrollTop=0;
+}
+function openLearn(hub,scrollId){
+  fillLearn(hub||'pieces');
+  $('learnModal').classList.add('show');sfx('tap');
+  if(scrollId){requestAnimationFrame(()=>{const el=$(scrollId);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});}
+}
+function closeLearn(){$('learnModal').classList.remove('show');}
+document.querySelectorAll('#learnTabs button').forEach(b=>b.onclick=()=>{sfx('tap');fillLearn(b.dataset.hub);});
+$('btnPieces').onclick=()=>openLearn('pieces');
+$('btnTech').onclick=()=>openLearn('tech');
+$('learnOk').onclick=()=>{sfx('tap');closeLearn();};
+$('learnX').onclick=()=>{sfx('tap');closeLearn();};
+$('learnModal').addEventListener('click',e=>{if(e.target.id==='learnModal')closeLearn();});
+
+/* ================= achievements / badges ================= */
+const ACH_KEY='cuteChessAchieves_v1:'+PLAYER;
+const BADGES=[
+  {id:'first_win',ico:'🥇',name:'첫 승리',desc:'컴퓨터나 친구랑 이겨 보기'},
+  {id:'first_undo',ico:'↩️',name:'첫 무르기',desc:'한 수를 되돌렸어'},
+  {id:'first_hint',ico:'💡',name:'첫 훈수',desc:'말랑이에게 도움을 받았어'},
+  {id:'castle_ok',ico:'🏰',name:'성 속으로 쏙',desc:'캐슬링에 성공했어'},
+  {id:'ep_ok',ico:'💨',name:'지나가며 톡',desc:'앙파상으로 잡았어'},
+  {id:'promo_q',ico:'👑',name:'여왕 변신',desc:'폰을 여왕으로 바꿨어'},
+  {id:'win_easy',ico:'🌱',name:'새싹 챔피언',desc:'쉬움에서 1승'},
+  {id:'win_normal',ico:'🌷',name:'꽃밭 기사',desc:'보통에서 1승'},
+  {id:'win_hard',ico:'🌟',name:'별빛 용사',desc:'어려움에서 1승'},
+  {id:'win_normal_3',ico:'🌸',name:'보통 달인',desc:'보통에서 합계 3승'},
+  {id:'mate_win',ico:'♟️',name:'체크메이트!',desc:'체크메이트로 이겼어'},
+  {id:'friend_done',ico:'👭',name:'친구랑 한 판',desc:'친구 모드 게임을 끝냈어'},
+  {id:'streak_2',ico:'🔥',name:'연속 2승',desc:'컴퓨터전에서 연달아 이겼어'},
+  {id:'cap5_win',ico:'🍬',name:'냠냠 수집가',desc:'말 5개 이상 잡고 승리'},
+  {id:'first_draw',ico:'🤝',name:'사이좋은 무승부',desc:'한 판을 비겼어'},
+  {id:'promo_any',ico:'✨',name:'변신의 마법',desc:'폰을 아무 걸로든 변신'}
+];
+function emptyAch(){return {unlocked:{},streak:0};}
+function loadAch(){try{const a=JSON.parse(localStorage.getItem(ACH_KEY));if(a&&a.unlocked)return Object.assign(emptyAch(),a);}catch(e){}return emptyAch();}
+function saveAch(a){try{localStorage.setItem(ACH_KEY,JSON.stringify(a));}catch(e){}}
+let achQueue=[],achShowing=false,achTimer=null;
+function badgeById(id){return BADGES.find(b=>b.id===id);}
+function showAchToast(b){
+  $('achToastIco').textContent=b.ico;
+  $('achToastTitle').textContent='배지 획득! '+b.name;
+  $('achToastDesc').textContent=b.desc+' · 말랑이가 축하해 줘 ♡';
+  const t=$('achToast');t.classList.add('show');
+  sfx('promote');
+  try{say([`와! 「${b.name}」 배지를 얻었어! 🏅✨`],{low:true});}catch(e){}
+  clearTimeout(achTimer);
+  achTimer=setTimeout(()=>{t.classList.remove('show');achShowing=false;drainAch();},3200);
+}
+function drainAch(){
+  if(achShowing||!achQueue.length)return;
+  achShowing=true;showAchToast(achQueue.shift());
+}
+function unlockBadge(id){
+  const a=loadAch();if(a.unlocked[id])return false;
+  a.unlocked[id]=Date.now();saveAch(a);
+  const b=badgeById(id);if(b){achQueue.push(b);drainAch();}
+  renderBadges();return true;
+}
+function renderBadges(){
+  const a=loadAch(),n=Object.keys(a.unlocked).length;
+  if($('badgeSum'))$('badgeSum').textContent=`모은 배지 ${n} / ${BADGES.length}`;
+  if(!$('badgeGrid'))return;
+  $('badgeGrid').innerHTML=BADGES.map(b=>{
+    const on=!!a.unlocked[b.id];
+    return `<div class="badgeCell${on?' on':''}" title="${b.desc}"><span class="lock">🔒</span>
+      <div class="ico">${b.ico}</div><span class="bn">${b.name}</span><span class="bd">${on?'획득!':b.desc}</span></div>`;
+  }).join('');
+}
+function openBadges(){renderBadges();$('badgeModal').classList.add('show');sfx('tap');}
+function closeBadges(){$('badgeModal').classList.remove('show');}
+function clearAchievements(){try{localStorage.removeItem(ACH_KEY);}catch(e){}renderBadges();say(['배지를 깨끗이 지웠어. 다시 모아 보자! ✨']);}
+$('btnBadges').onclick=openBadges;
+$('btnBadgesScore').onclick=openBadges;
+$('badgeOk').onclick=()=>{sfx('tap');closeBadges();};
+$('badgeX').onclick=()=>{sfx('tap');closeBadges();};
+$('badgeModal').addEventListener('click',e=>{if(e.target.id==='badgeModal')closeBadges();});
+$('badgeClear').onclick=()=>{sfx('tap');askConfirm('배지를 초기화할까? 🥺','모은 배지가 모두 사라지고 되돌릴 수 없어. 승패 기록은 그대로 남아.','응, 지울래','아니, 그냥 둘래',clearAchievements);};
+renderBadges();
+
+function offerTechTip(kind){
+  const map={castle:['techCastle','캐슬링'],ep:['techEp','앙파상'],promo:['techPromo','변신']};
+  const m=map[kind];if(!m)return;
+  const btn=document.createElement('button');btn.className='techLink';btn.type='button';
+  btn.textContent=`이게 ${m[1]}이야! 알아보기`;
+  btn.onclick=()=>openLearn('tech',m[0]);
+  setTimeout(()=>{if(!$('bubble').querySelector('.techLink'))$('bubble').appendChild(btn);},80);
+}
 
 /* ================= responsive layout ================= */
 function layout(){
@@ -1242,7 +1495,7 @@ $('hintBtn').onclick=()=>{ac();
   setTimeout(()=>{
     const m=bestMoveFor(S,1000);btn.disabled=false;
     if(gid!==gameId||posKey(S)!==key||!m)return;
-    hintsUsed++;updHintCount();
+    hintsUsed++;updHintCount();unlockBadge('first_hint');
     hint={from:m.from,to:m.to};sel=-1;moves=[];render();
     setBubbleHTML(explainMove(S,m),hintKeys.slice());sfx('promote');
   },60);
