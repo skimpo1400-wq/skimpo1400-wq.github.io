@@ -51,14 +51,17 @@ h1 .hrt{display:inline-block;animation:beat 1.6s ease-in-out infinite;color:#ff9
 @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}}
 .sub{margin:2px 0 0;font-size:14px;color:#8c76b3}
 .grid{display:grid;gap:14px;align-items:start}
-body[data-layout=row] .grid{grid-template-columns:auto var(--pw);grid-template-areas:"board hud" "board controls" "board tabs";grid-template-rows:auto auto 1fr}
+body[data-layout=row] .grid{grid-template-columns:auto var(--pw);grid-template-areas:"board hud" "board controls" "board tabs";
+  grid-template-rows:auto auto minmax(200px,1fr);align-items:stretch;
+  /* Use full viewport column height so scoreboard isn't clipped to board size */
+  height:var(--gh,auto);min-height:0}
 body[data-layout=tab] .grid{grid-template-columns:1fr 1fr;grid-template-areas:"hud hud" "board board" "controls tabs";width:calc(var(--sz)*8 + var(--fp)*2 + 14px)}
 body[data-layout=phone] .grid{grid-template-columns:1fr;grid-template-areas:"hud" "board" "controls" "tabs";width:calc(var(--sz)*8 + var(--fp)*2 + 12px);gap:10px}
-.boardArea{grid-area:board;justify-self:center}
+.boardArea{grid-area:board;justify-self:center;align-self:start}
 .hud{grid-area:hud}.controls{grid-area:controls}.tabs{grid-area:tabs}
-body[data-layout=row] .tabs{align-self:stretch;min-height:0}
-body[data-layout=row] .grid{height:var(--bh);grid-template-rows:auto auto minmax(0,1fr)}
-body[data-layout=tab] .tabs{height:var(--tabh,316px)}
+body[data-layout=row] .tabs{align-self:stretch;min-height:200px;display:flex;flex-direction:column;overflow:hidden}
+body[data-layout=tab] .tabs{height:var(--tabh,316px);min-height:200px;display:flex;flex-direction:column;overflow:hidden}
+body[data-layout=phone] .tabs{min-height:150px;max-height:min(42vh,320px);display:flex;flex-direction:column;overflow:hidden}
 .card{background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:3px solid #fff;border-radius:22px;
   box-shadow:0 6px 0 rgba(185,163,255,.45),0 12px 24px rgba(140,110,200,.15);padding:10px 12px}
 /* ---------- hud (mascot + status) ---------- */
@@ -224,11 +227,29 @@ body[data-layout=phone] .hintBtn{font-size:16px;min-height:46px}
 body.short .hintBtn{min-height:38px;font-size:14px}
 /* ---------- tabs ---------- */
 .tabs{display:flex;flex-direction:column;min-height:0;padding:8px 10px 10px}
-.tabbar{display:flex;gap:4px;margin-bottom:8px}
-.tabbar button{flex:1;border:0;background:#f6f0ff;border-radius:12px;padding:8px 2px;font-size:14px;font-weight:800;color:#8c76b3;cursor:pointer;min-height:40px}
+.tabbar{display:flex;gap:4px;margin-bottom:6px;flex-shrink:0}
+.tabbar button{flex:1;border:0;background:#f6f0ff;border-radius:12px;padding:7px 2px;font-size:13.5px;font-weight:800;color:#8c76b3;cursor:pointer;min-height:36px}
 .tabbar button.on{background:linear-gradient(180deg,#ffe3ef,#ffd0e2);color:#e2629a}
-.tabpane{display:none;overflow:auto;min-height:0;flex:1;-webkit-overflow-scrolling:touch}
+.tabpane{display:none;overflow:auto;min-height:0;flex:1;-webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;scrollbar-color:#ffb6d0 #ffeef6}
 .tabpane.on{display:block}
+.tabpane::-webkit-scrollbar{width:7px}
+.tabpane::-webkit-scrollbar-track{background:#fff5fa;border-radius:6px}
+.tabpane::-webkit-scrollbar-thumb{background:#ffb6d0;border-radius:6px}
+body[data-layout=row] .tabpane{min-height:180px}
+body[data-layout=phone] .tabpane{min-height:120px}
+/* compact desktop side column so tabs get more of --gh */
+body[data-layout=row]:not(.short) #mascot{width:68px;height:68px}
+body[data-layout=row]:not(.short) .bubble{font-size:14px;padding:5px 10px;min-height:calc(2 * 1.35em + 14px)}
+body[data-layout=row]:not(.short) .status{font-size:14.5px;min-height:36px;padding:4px 10px}
+body[data-layout=row]:not(.short) .hud{gap:6px}
+body[data-layout=row]:not(.short) .mrow{gap:8px}
+body[data-layout=row]:not(.short) .card{padding:8px 10px}
+body[data-layout=row]:not(.short) .controls{gap:5px}
+body[data-layout=row]:not(.short) .seg button{min-height:32px;font-size:13.5px}
+body[data-layout=row]:not(.short) .crow .btn{min-height:38px;font-size:14px}
+body[data-layout=row]:not(.short) .learnBtns{gap:6px;margin:2px 0 6px}
+body[data-layout=row]:not(.short) .learnBtns button{padding:9px 12px;min-height:42px;font-size:14px}
 .score table{width:100%;border-collapse:separate;border-spacing:0 3px;font-size:14px;text-align:center}
 .score th{font-weight:700;color:#8c76b3;font-size:12px;padding:0}
 .score td{background:#fff5fa;padding:3px 2px}
@@ -298,6 +319,14 @@ body.short .hintBtn{min-height:38px;font-size:14px}
 .techCard .tinyDiag{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
 .techCard .tinyDiag .d{flex:1;min-width:120px;background:#f3efff;border-radius:12px;padding:8px;font-size:12.5px;text-align:center;font-weight:700;color:#7b6fd6}
 .techCard .tip{background:#fff8e0;border-radius:10px;padding:6px 10px;font-size:12.5px;color:#a07830;margin-top:4px}
+.techViz{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:8px 0 10px}
+.techViz .viz{flex:1;min-width:140px;max-width:220px;background:#f6f0ff;border-radius:14px;padding:8px 8px 6px;text-align:center}
+.techViz .viz svg{width:100%;height:auto;display:block;border-radius:10px;background:#fff}
+.techViz .viz .cap{display:block;margin-top:4px;font-size:11.5px;font-weight:800;color:#8c76b3;line-height:1.25}
+.techIcons{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.techIcons .ti{flex:1;min-width:90px;background:#f3efff;border-radius:14px;padding:8px 6px;text-align:center;font-size:12px;font-weight:800;color:#7b6fd6;line-height:1.3}
+.techIcons .ti svg{width:64px;height:48px;display:block;margin:0 auto 4px}
+body[data-layout=phone] .techViz .viz{min-width:130px}
 .badgeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 2px 8px}
 @media (max-width:400px){.badgeGrid{grid-template-columns:repeat(2,1fr)}}
 .badgeCell{position:relative;background:linear-gradient(180deg,#fff,#fff5fa);border:2px solid #eadfff;border-radius:18px;
@@ -1289,10 +1318,89 @@ function piecesHTML(){
     <b>나중에 할래(후공)</b>이면 밤하늘 팀이 되고 판이 돌아가서 내 말이 아래에 와요.</p></div>`;
 }
 function techHTML(){
+  /* cute pastel mini-diagrams (inline SVG) for kid-friendly special rules */
+  const sq=(x,y,l,dark)=>`<rect x="${x}" y="${y}" width="${l}" height="${l}" rx="3" fill="${dark?'#c8e8d8':'#fff6ec'}" stroke="#e8d0e0" stroke-width=".6"/>`;
+  const board=(cols,rows,cells,extra='')=>{
+    const L=22,pad=6,W=pad*2+cols*L,H=pad*2+rows*L;
+    let g='';
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)g+=sq(pad+c*L,pad+r*L,L,(r+c)%2);
+    for(const [c,r,t,col] of cells){
+      const cx=pad+c*L+L/2,cy=pad+r*L+L/2;
+      if(t==='k')g+=`<g transform="translate(${cx} ${cy})"><circle r="8" fill="${col==='w'?'#ffe0c8':'#9a8ee0'}" stroke="#c0729a" stroke-width="1.2"/><path d="M-5 -3 h10 M-3 -6 h6" stroke="#f0b040" stroke-width="1.6" stroke-linecap="round"/><circle cx="-2.5" cy="-1" r="1.1" fill="#432a4f"/><circle cx="2.5" cy="-1" r="1.1" fill="#432a4f"/><path d="M-2 2.5 Q0 4.5 2 2.5" stroke="#9b4f78" stroke-width="1" fill="none"/></g>`;
+      else if(t==='r')g+=`<g transform="translate(${cx} ${cy})"><rect x="-7" y="-6" width="14" height="13" rx="2" fill="${col==='w'?'#ffd0e0':'#8a7ed8'}" stroke="#c0729a" stroke-width="1.1"/><path d="M-7 -6 v-4 h4 v3 h3 v-3 h3 v3 h3 v-3 h4 v4" fill="${col==='w'?'#ffd0e0':'#8a7ed8'}" stroke="#c0729a" stroke-width="1.1" stroke-linejoin="round"/><circle cx="-2.2" cy="0" r="1" fill="#432a4f"/><circle cx="2.2" cy="0" r="1" fill="#432a4f"/></g>`;
+      else if(t==='p')g+=`<g transform="translate(${cx} ${cy})"><circle r="6.5" fill="${col==='w'?'#ffe0c8':'#9a8ee0'}" stroke="#c0729a" stroke-width="1.1"/><circle cx="-2" cy="-1" r=".9" fill="#432a4f"/><circle cx="2" cy="-1" r=".9" fill="#432a4f"/><path d="M-1.5 2 Q0 3.5 1.5 2" stroke="#9b4f78" stroke-width=".9" fill="none"/></g>`;
+      else if(t==='q')g+=`<g transform="translate(${cx} ${cy})"><circle r="8" fill="${col==='w'?'#ffe8f2':'#b0a4f0'}" stroke="#c0729a" stroke-width="1.2"/><path d="M-6 -2 L-4 -8 L-1 -3 L0 -9 L1 -3 L4 -8 L6 -2 Z" fill="#ffd25a" stroke="#d98a2b" stroke-width=".9"/><circle cx="-2.4" cy="1" r="1.1" fill="#432a4f"/><circle cx="2.4" cy="1" r="1.1" fill="#432a4f"/></g>`;
+      else if(t==='n')g+=`<g transform="translate(${cx} ${cy})"><ellipse rx="7" ry="6.5" fill="${col==='w'?'#ffe0c8':'#9a8ee0'}" stroke="#c0729a" stroke-width="1.1"/><path d="M-2 -4 Q4 -8 7 -2" fill="${col==='w'?'#ffe0c8':'#9a8ee0'}" stroke="#c0729a" stroke-width="1"/><circle cx="-1.5" cy="-1" r="1" fill="#432a4f"/></g>`;
+      else if(t==='b')g+=`<g transform="translate(${cx} ${cy})"><circle r="7" fill="${col==='w'?'#ffe0c8':'#9a8ee0'}" stroke="#c0729a" stroke-width="1.1"/><path d="M0 -10 l2 4 h-4 Z" fill="#ff9cc3" stroke="#c0729a" stroke-width=".8"/><circle cx="-2" cy="-1" r=".9" fill="#432a4f"/><circle cx="2" cy="-1" r=".9" fill="#432a4f"/></g>`;
+    }
+    return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">${g}${extra}</svg>`;
+  };
+  const arrow=(x1,y1,x2,y2,col='#ff7fae')=>{
+    const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L;
+    const hx=x2-ux*5,hy=y2-uy*5,px=-uy,py=ux;
+    return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${col}" stroke-width="2.2" stroke-linecap="round"/>
+      <polygon points="${x2},${y2} ${hx+px*3.2},${hy+py*3.2} ${hx-px*3.2},${hy-py*3.2}" fill="${col}"/>`;
+  };
+  // castling mini boards: 1 row x 5/6 cols — kingside before/after, queenside before/after
+  const L=22,pad=6;
+  const ksBefore=board(5,1,[[0,0,'k','w'],[4,0,'r','w']],
+    arrow(pad+0*L+L/2,pad+L/2,pad+2*L+L/2,pad+L/2)+arrow(pad+4*L+L/2,pad+L/2-6,pad+3*L+L/2,pad+L/2-6,'#7fd9b5'));
+  const ksAfter=board(5,1,[[2,0,'k','w'],[3,0,'r','w']],
+    `<text x="${pad+2.5*L}" y="${pad+L-3}" text-anchor="middle" font-size="8" font-weight="800" fill="#e2629a">완료!</text>`);
+  const qsBefore=board(5,1,[[4,0,'k','w'],[0,0,'r','w']],
+    arrow(pad+4*L+L/2,pad+L/2,pad+2*L+L/2,pad+L/2)+arrow(pad+0*L+L/2,pad+L/2-6,pad+3*L+L/2,pad+L/2-6,'#7fd9b5'));
+  const qsAfter=board(5,1,[[2,0,'k','w'],[3,0,'r','w']],
+    `<text x="${pad+2.5*L}" y="${pad+L-3}" text-anchor="middle" font-size="8" font-weight="800" fill="#e2629a">완료!</text>`);
+  // en passant: 3x3 — black pawn jumps, white captures to dotted square
+  const epExtra=arrow(pad+2*L+L/2,pad+0*L+L*.2,pad+2*L+L/2,pad+2*L+L/2,'#9a8ee0')
+    +`<circle cx="${pad+1*L+L/2}" cy="${pad+1*L+L/2}" r="7" fill="none" stroke="#ff7fae" stroke-width="1.6" stroke-dasharray="3 2"/>`
+    +arrow(pad+0*L+L/2+4,pad+2*L+L/2-4,pad+1*L+L/2,pad+1*L+L/2,'#ff7fae')
+    +`<text x="${pad+2*L+L/2}" y="${pad+L*1.1}" text-anchor="middle" font-size="7" fill="#7b6fd6" font-weight="700">두 칸!</text>`;
+  const epDiag=board(3,3,[[0,2,'p','w'],[2,0,'p','b']],epExtra);
+  // promotion
+  const promoExtra=`<text x="${pad+0*L+L/2}" y="${pad-1}" text-anchor="middle" font-size="10">✨</text>`
+    +arrow(pad+0*L+L/2,pad+1*L+2,pad+0*L+L/2,pad+0*L+L*.85,'#ffb020')
+    +`<text x="${pad+2*L+L/2}" y="${pad+L/2+3}" text-anchor="middle" font-size="9" font-weight="800" fill="#e2629a">변신!</text>`;
+  const promoDiag=board(3,2,[[0,1,'p','w'],[2,0,'q','w']],promoExtra);
+  const promoIcons=`<div class="techIcons">
+    <div class="ti">${board(1,1,[[0,0,'q','w']])}여왕</div>
+    <div class="ti">${board(1,1,[[0,0,'r','w']])}성</div>
+    <div class="ti">${board(1,1,[[0,0,'b','w']])}주교</div>
+    <div class="ti">${board(1,1,[[0,0,'n','w']])}기사</div>
+  </div>`;
+  // check
+  const chkExtra=arrow(pad+0*L+L/2,pad+2*L+L/2,pad+2*L+L/2-6,pad+0*L+L/2+6,'#ff5f9b')
+    +`<circle cx="${pad+2*L+L/2}" cy="${pad+0*L+L/2}" r="11" fill="none" stroke="#ff5f9b" stroke-width="2" opacity=".85">
+       <animate attributeName="r" values="9;12;9" dur="1.2s" repeatCount="indefinite"/>
+       <animate attributeName="opacity" values=".9;.4;.9" dur="1.2s" repeatCount="indefinite"/>
+     </circle>`
+    +`<text x="${pad+2*L+L/2}" y="${pad+0*L-1}" text-anchor="middle" font-size="9" font-weight="900" fill="#ff5f9b">체크!</text>`;
+  const checkDiag=board(3,3,[[2,0,'k','w'],[0,2,'q','b']],chkExtra);
+  // checkmate — king surrounded
+  const mateExtra=`<circle cx="${pad+1*L+L/2}" cy="${pad+1*L+L/2}" r="12" fill="none" stroke="#ff5f9b" stroke-width="2.2"/>
+    <text x="${pad+1*L+L/2}" y="${pad+3*L-2}" text-anchor="middle" font-size="8" font-weight="900" fill="#e2629a">피할 곳 없음</text>`;
+  const mateDiag=board(3,3,[[1,1,'k','w'],[0,0,'q','b'],[2,0,'r','b'],[0,2,'r','b']],mateExtra);
+  // stalemate
+  const staleExtra=`<text x="${pad+1*L+L/2}" y="${pad-1}" text-anchor="middle" font-size="9" font-weight="800" fill="#33a77a">체크 아님</text>
+    <path d="M${pad+1*L+4} ${pad+1*L+L/2} h${L-8}" stroke="#a594c4" stroke-width="2" stroke-linecap="round"/>
+    <path d="M${pad+1*L+L/2} ${pad+1*L+4} v${L-8}" stroke="#a594c4" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="${pad+1*L+L/2}" cy="${pad+1*L+L/2}" r="9" fill="none" stroke="#a594c4" stroke-width="1.8"/>
+    <text x="${pad+1*L+L/2}" y="${pad+3*L-2}" text-anchor="middle" font-size="8" font-weight="800" fill="#8c76b3">갈 곳 없음 → 무승부</text>`;
+  const staleDiag=board(3,3,[[1,1,'k','w'],[2,0,'k','b']],staleExtra);
+  // draw icons
+  const ico50=`<svg viewBox="0 0 64 48"><rect x="4" y="8" width="56" height="32" rx="10" fill="#ffe8f2" stroke="#ffb6d0" stroke-width="2"/><text x="32" y="30" text-anchor="middle" font-size="16" font-weight="900" fill="#e2629a">50</text></svg>`;
+  const icoMat=`<svg viewBox="0 0 64 48"><circle cx="22" cy="24" r="10" fill="#ffe0c8" stroke="#c0729a"/><circle cx="42" cy="24" r="10" fill="#9a8ee0" stroke="#5a55a8"/><text x="32" y="44" text-anchor="middle" font-size="8" fill="#8c76b3" font-weight="700">말 부족</text></svg>`;
+  const ico3=`<svg viewBox="0 0 64 48"><rect x="6" y="6" width="20" height="20" rx="4" fill="#e3f7ee" stroke="#7fd9b5"/><rect x="22" y="14" width="20" height="20" rx="4" fill="#fff6ec" stroke="#ffd25a"/><rect x="38" y="22" width="20" height="20" rx="4" fill="#f3efff" stroke="#b9a3ff"/><text x="32" y="12" text-anchor="middle" font-size="9" font-weight="900" fill="#7b6fd6">×3</text></svg>`;
+
   return `
 <div class="techCard" id="techCastle"><h3>🏰 캐슬링</h3>
 <p>왕과 성이 <b>한 번에</b> 자리를 바꿔 왕이 성 뒤로 쏙 숨는 특별한 수예요.</p>
-<div class="tinyDiag"><div class="d">킹사이드<br>왕 → 오른쪽 두 칸<br>성 → 왕 옆</div><div class="d">퀸사이드<br>왕 → 왼쪽 두 칸<br>성 → 왕 옆</div></div>
+<div class="techViz">
+  <div class="viz">${ksBefore}<span class="cap">킹사이드 · 출발</span></div>
+  <div class="viz">${ksAfter}<span class="cap">킹사이드 · 도착</span></div>
+  <div class="viz">${qsBefore}<span class="cap">퀸사이드 · 출발</span></div>
+  <div class="viz">${qsAfter}<span class="cap">퀸사이드 · 도착</span></div>
+</div>
 <ul>
 <li>왕과 그 성이 <b>한 번도 안 움직였</b>어야 해요</li>
 <li>사이에 <b>다른 말이 없어</b>야 해요</li>
@@ -1300,23 +1408,30 @@ function techHTML(){
 </ul>
 <div class="tip">왕을 두 칸 옆으로 옮기면 성이 자동으로 따라와요 ♡</div></div>
 <div class="techCard" id="techEp"><h3>💨 앙파상 (지나가며 잡기)</h3>
+<div class="techViz"><div class="viz">${epDiag}<span class="cap">보라 폰이 두 칸 → 분홍 폰이 점선 칸으로 톡!</span></div></div>
 <p>상대 폰이 처음에 <b>두 칸</b> 뛰어서 내 폰 옆을 스치면, <b>바로 다음 수</b>에만 “한 칸만 온 것처럼” 대각선으로 잡을 수 있어요.</p>
 <div class="tip">다음 수로 다른 걸 하면 기회가 사라져요!</div></div>
 <div class="techCard" id="techPromo"><h3>👑 프로모션 (변신)</h3>
+<div class="techViz"><div class="viz">${promoDiag}<span class="cap">끝 줄 도착 → 반짝 변신!</span></div></div>
+${promoIcons}
 <p>폰이 맨 끝 줄에 도착하면 <b>여왕·성·주교·조랑말 기사</b> 중 하나로 변신해요. 보통은 여왕이 제일 세져요!</p></div>
-<div class="techCard"><h3>⚡ 체크 · 체크메이트 · 스테일메이트</h3>
-<ul>
-<li><b>체크</b> — 왕이 공격받고 있어요! 피하거나 막거나 잡아야 해요</li>
-<li><b>체크메이트</b> — 왕이 위험한데 피할 수가 없어요 → 그 팀이 져요</li>
-<li><b>스테일메이트</b> — 체크는 아닌데 움직일 수가 없어요 → <b>무승부</b></li>
-</ul></div>
+<div class="techCard"><h3>⚡ 체크</h3>
+<div class="techViz"><div class="viz">${checkDiag}<span class="cap">공격 화살표 + 빨간 맥박</span></div></div>
+<p>왕이 공격받고 있어요! 피하거나 막거나 잡아야 해요.</p></div>
+<div class="techCard"><h3>🏁 체크메이트</h3>
+<div class="techViz"><div class="viz">${mateDiag}<span class="cap">위험한데 도망·막기·잡기 불가</span></div></div>
+<p>왕이 위험한데 피할 수가 없어요 → 그 팀이 져요.</p></div>
+<div class="techCard"><h3>🤝 스테일메이트</h3>
+<div class="techViz"><div class="viz">${staleDiag}<span class="cap">체크는 아닌데 한 수도 못 둠</span></div></div>
+<p>체크는 아닌데 움직일 수가 없어요 → <b>무승부</b>.</p></div>
 <div class="techCard"><h3>🤝 다른 무승부</h3>
-<ul>
-<li><b>50수</b> — 오랫동안 폰도 안 움직이고 말도 안 잡으면 비겨요</li>
-<li><b>기물 부족</b> — 남은 말만으로는 체크메이트를 못 만들 때</li>
-<li><b>같은 모양 3번</b> — 판이 똑같아진 게 세 번이면 비겨요</li>
-</ul></div>`;
+<div class="techIcons">
+  <div class="ti">${ico50}<b>50수</b><br>오래 폰·잡기 없으면</div>
+  <div class="ti">${icoMat}<b>기물 부족</b><br>남은 말로 못 이겨요</div>
+  <div class="ti">${ico3}<b>같은 모양 3번</b><br>판이 세 번 똑같으면</div>
+</div></div>`;
 }
+
 let learnHub='pieces';
 function fillLearn(hub){
   learnHub=hub||learnHub;
@@ -1407,10 +1522,15 @@ renderBadges();
 function offerTechTip(kind){
   const map={castle:['techCastle','캐슬링'],ep:['techEp','앙파상'],promo:['techPromo','변신']};
   const m=map[kind];if(!m)return;
-  const btn=document.createElement('button');btn.className='techLink';btn.type='button';
-  btn.textContent=`이게 ${m[1]}이야! 알아보기`;
-  btn.onclick=()=>openLearn('tech',m[0]);
-  setTimeout(()=>{if(!$('bubble').querySelector('.techLink'))$('bubble').appendChild(btn);},80);
+  const add=()=>{
+    if($('bubble').querySelector('.techLink'))return;
+    const btn=document.createElement('button');btn.className='techLink';btn.type='button';
+    btn.textContent=`이게 ${m[1]}이야! 알아보기`;
+    btn.onclick=()=>openLearn('tech',m[0]);
+    $('bubble').appendChild(btn);
+  };
+  setTimeout(add,150);
+  setTimeout(add,3400); // re-attach after achievement toast replaces the bubble
 }
 
 /* ================= responsive layout ================= */
@@ -1422,17 +1542,31 @@ function layout(){
   const trays=document.querySelector('.trays'),under=mode==='row'&&!short;   // desktop: captured pieces strip under the board
   if(under&&!trays.classList.contains('under')){trays.classList.add('under');document.querySelector('.boardArea').appendChild(trays);}
   else if(!under&&trays.classList.contains('under')){trays.classList.remove('under');document.querySelector('.controls').appendChild(trays);}
-  const fp=mode==='phone'?Math.max(8,Math.min(14,W*.03)):short?10:18;
+  const fp=mode==='phone'?Math.max(8,Math.min(14,W*.03)):short?10:14;
   document.documentElement.style.setProperty('--fp',fp+'px');
   const appCS=getComputedStyle($('app'));const padX=parseFloat(appCS.paddingLeft)+parseFloat(appCS.paddingRight),padY=parseFloat(appCS.paddingTop)+parseFloat(appCS.paddingBottom);
-  const hh=document.querySelector('header').offsetHeight+10;const extra=2*fp+10+6; // frame padding + board border + gap
+  const hh=document.querySelector('header').offsetHeight+8;const extra=2*fp+10+6; // frame padding + board border + gap
   let sz;
-  if(mode==='row'){const pw=short?Math.min(320,W*.4):(W>=1220?420:W>=1080?370:320);document.documentElement.style.setProperty('--pw',pw+'px');
-    sz=Math.min((H-padY-hh-extra-12-(short?0:40))/8,(W-padX-pw-14-extra)/8,88);}
-  else if(mode==='tab'){const hud=$('app').querySelector('.hud').offsetHeight||130;const ctl=Math.max(316,document.querySelector('.controls').offsetHeight);
-    document.documentElement.style.setProperty('--tabh',ctl+'px');
-    sz=Math.min((W-padX-extra)/8,(H-padY-hh-hud-14-ctl-6-extra)/8,88);}
-  else sz=(W-padX-extra)/8;
+  if(mode==='row'){
+    // Slightly narrower side panel + smaller board max so scoreboard gets a tall column
+    const pw=short?Math.min(300,W*.38):(W>=1400?400:W>=1200?380:W>=1080?350:310);
+    document.documentElement.style.setProperty('--pw',pw+'px');
+    const traysH=under?36:0;
+    // Grid uses full remaining viewport height (--gh), board sized independently (cap 70)
+    const gh=Math.max(420,H-padY-hh-4);
+    document.documentElement.style.setProperty('--gh',gh+'px');
+    sz=Math.min((gh-traysH-extra-8)/8,(W-padX-pw-14-extra)/8,70);
+  }else if(mode==='tab'){
+    document.documentElement.style.removeProperty('--gh');
+    const hud=$('app').querySelector('.hud').offsetHeight||120;
+    // Reserve min ~200px for tabs beside controls
+    const ctl=Math.max(280,document.querySelector('.controls').offsetHeight);
+    document.documentElement.style.setProperty('--tabh',Math.max(ctl,220)+'px');
+    sz=Math.min((W-padX-extra)/8,(H-padY-hh-hud-14-Math.max(ctl,220)-6-extra)/8,70);
+  }else{
+    document.documentElement.style.removeProperty('--gh');
+    sz=(W-padX-extra)/8;
+  }
   sz=Math.max(30,Math.floor(sz));
   document.documentElement.style.setProperty('--sz',sz+'px');
   document.documentElement.style.setProperty('--bh',(sz*8+extra)+'px');
