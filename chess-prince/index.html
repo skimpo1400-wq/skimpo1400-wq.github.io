@@ -379,9 +379,35 @@ body.short .status{min-height:36px;font-size:15px;padding:3px 10px}
 body.short .status svg{width:24px;height:24px}
 body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size:14px}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+/* ---------- online duel ---------- */
+.onlinePanel{display:none;flex-direction:column;gap:8px;padding:10px 12px;border-radius:16px;background:linear-gradient(135deg,#fff7fb,#f3e8ff);border:2px solid #f0c6de;box-shadow:inset 0 1px 0 #fff}
+body.theme-prince .onlinePanel{background:linear-gradient(135deg,#eef6ff,#e8f0ff);border-color:#9ec0ef}
+.onlinePanel.show{display:flex}
+.onlinePanel .opTitle{font-weight:800;font-size:15px;color:#9a4d78}
+body.theme-prince .onlinePanel .opTitle{color:#2f5f9a}
+.onlinePanel .presence{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}
+.onlinePanel .dotLive{width:10px;height:10px;border-radius:50%;background:#bbb;box-shadow:0 0 0 3px rgba(180,180,180,.25)}
+.onlinePanel .dotLive.on{background:#3ecf8e;box-shadow:0 0 0 3px rgba(62,207,142,.28);animation:pulseOn 1.4s ease-in-out infinite}
+@keyframes pulseOn{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.onlinePanel .opHint{font-size:12px;color:#a08098;line-height:1.35}
+body.theme-prince .onlinePanel .opHint{color:#6a87a8}
+.onlinePanel .opRow{display:flex;gap:8px;flex-wrap:wrap}
+.onlinePanel .opRow .btn{flex:1;min-width:120px}
+.onlineToast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(120%);z-index:90;
+  background:#2b2438;color:#fff;padding:12px 18px;border-radius:999px;font-weight:800;font-size:14px;
+  box-shadow:0 8px 24px rgba(40,20,50,.35);transition:transform .35s cubic-bezier(.2,1.2,.4,1);max-width:92vw;text-align:center}
+.onlineToast.show{transform:translateX(-50%) translateY(0)}
+#modeOnline{font-size:13px}
+body[data-layout=phone] #modeSeg{flex-wrap:wrap}
+body[data-layout=phone] #modeOnline{flex:1 1 100%}
+.chalWho{font-size:22px;font-weight:900;margin:6px 0 2px}
+.chalSub{font-size:14px;color:#8a6a80;margin:0 0 10px}
+body.theme-prince .chalSub{color:#5a7a9a}
+
 </style>
 </head>
-<body data-layout="row">
+<body class="theme-prince" data-layout="row">
 <!-- shared gradients for all piece SVGs -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
  <defs>
@@ -487,6 +513,7 @@ body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size
     <div class="seg" id="modeSeg">
      <button id="modeAI" class="on">🤖 컴퓨터랑</button>
      <button id="mode2">🤝 친구랑</button>
+     <button id="modeOnline">🌐 온라인</button>
     </div>
     <button class="btn ico" id="setBtn" aria-label="소리 설정" aria-haspopup="dialog">⚙️</button>
    </div>
@@ -499,6 +526,16 @@ body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size
     <button data-s="random" class="rnd"><span class="l1">🎲 랜덤</span><span class="l2">두근두근</span></button>
    </div>
    <div class="sideNote" id="sideNote"></div>
+   <div class="onlinePanel" id="onlinePanel" aria-live="polite">
+    <div class="opTitle">🌐 온라인 대결</div>
+    <div class="presence"><span class="dotLive" id="sibDot"></span><span id="sibStatus">보애공주 …</span></div>
+    <div class="opHint" id="onlineHint">같은 Wi‑Fi가 아니어도 돼요. 둘 다 온라인 모드로 들어오면 대결할 수 있어요!</div>
+    <div class="opRow">
+     <button class="btn" id="challengeBtn" disabled>⚔️ 대결 신청</button>
+     <button class="btn lav" id="resignOnlineBtn" style="display:none">🏳️ 기권하기</button>
+     <button class="btn lav" id="cancelChallengeBtn" style="display:none">신청 취소</button>
+    </div>
+   </div>
    <div class="crow">
     <button class="btn hintBtn" id="hintBtn">💡 훈수 부탁해 <span class="hcount" id="hintCount">이번 판 0번</span></button>
     <button class="btn" id="newBtn">⚔️ 새 게임</button>
@@ -536,6 +573,12 @@ body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size
  </div>
 </div>
 
+<div class="modal" id="challengeModal"><div class="mbox"><h2>⚔️ 대결 신청!</h2>
+ <p class="chalWho" id="chalWho">보애공주</p>
+ <p class="chalSub" id="chalSub">대결을 신청했어! 승락할까?</p>
+ <p class="opHint">신청한 쪽이 크림 팀(먼저)이에요 🍰</p>
+ <div class="row"><button class="btn lav" id="chalNo">거절</button><button class="btn" id="chalYes">승락!</button></div></div></div>
+<div class="onlineToast" id="onlineToast" role="status"></div>
 <div id="fx" aria-hidden="true"></div>
 <div class="modal" id="promoModal"><div class="mbox"><h2>폰이 끝까지 왔어! 🎉</h2><p>무엇으로 변신할까?</p><div class="promo" id="promoChoices"></div></div></div>
 <div class="modal" id="endModal"><div class="mbox"><div id="endArt"></div><h2 id="endTitle"></h2><p id="endText"></p>
@@ -579,6 +622,40 @@ body.short .seg button,body.short .btn{min-height:38px;padding:6px 4px;font-size
  <div class="tico" id="achToastIco">🏅</div>
  <div><p class="tt" id="achToastTitle">배지 획득!</p><p class="td" id="achToastDesc"></p></div>
 </div>
+
+<script type="module">
+/* Firebase online duel bootstrap (modular CDN) */
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import {
+  getFirestore, doc, setDoc, getDoc, updateDoc, addDoc, collection,
+  onSnapshot, query, where, orderBy, limit, serverTimestamp, deleteDoc
+} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+
+const FB_CONFIG={
+  apiKey:"AIzaSyBBVqnkN3gUwCL7jW3f5YmOAhuX3QY591g",
+  authDomain:"kids-chess-duel.firebaseapp.com",
+  projectId:"kids-chess-duel",
+  storageBucket:"kids-chess-duel.firebasestorage.app",
+  messagingSenderId:"613695768487",
+  appId:"1:613695768487:web:695244b7506e7f1796d882",
+  measurementId:"G-D3YBPZ941L"
+};
+
+const app = initializeApp(FB_CONFIG);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window.__KidsFB = {
+  auth, db, ready:true,
+  signInAnonymously: () => signInAnonymously(auth),
+  onAuthStateChanged: (cb) => onAuthStateChanged(auth, cb),
+  doc, setDoc, getDoc, updateDoc, addDoc, collection,
+  onSnapshot, query, where, orderBy, limit, serverTimestamp, deleteDoc
+};
+window.dispatchEvent(new Event('kidsfb-ready'));
+</script>
+
 <script>
 /* ================= cute SVG piece characters ================= */
 const SIDE={
@@ -788,6 +865,429 @@ function posKey(S){if(S._key)return S._key;
 
 /* ================= names & constants ================= */
 const PLAYER='보석왕자'; // built-in player name (no login)
+
+/* ================= Firebase online duel ================= */
+const ONLINE_THEME='prince';
+const MY_PRESENCE_ID='보석왕자';
+const SIB_PRESENCE_ID='보애공주';
+const SIB_NAME='보애공주';
+const FRIEND_EMOJI='🤝';
+let vsOnline=false, onlineUid=null, onlineReady=false;
+let onlineGameId=null, onlineColor=null, applyingRemote=false;
+let siblingOnline=false, siblingUid=null, siblingUpdatedAt=0;
+let myOutgoingChalId=null, incomingChalId=null, incomingChalData=null;
+let onlineUnsubs=[], presenceTimer=null, lastPushedMoveCount=0;
+let onlineGameMeta={whiteName:'',blackName:''};
+
+function onlineToast(msg,ms){
+  const el=$('onlineToast'); if(!el) return;
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(onlineToast._t);
+  onlineToast._t=setTimeout(()=>el.classList.remove('show'), ms||2800);
+}
+function waitKidsFB(){
+  return new Promise(res=>{
+    if(window.__KidsFB&&window.__KidsFB.ready) return res(window.__KidsFB);
+    const t=setTimeout(()=>res(window.__KidsFB||null),12000);
+    addEventListener('kidsfb-ready',()=>{clearTimeout(t);res(window.__KidsFB);},{once:true});
+  });
+}
+function packState(st){
+  const packP=p=>p? (p.c+p.t):null;
+  return {
+    B:st.B.map(packP), turn:st.turn,
+    castle:Object.assign({},st.castle), ep:st.ep|0, half:st.half|0,
+    last:st.last?{from:st.last.from,to:st.last.to}:null,
+    capW:(st.capW||[]).slice(), capB:(st.capB||[]).slice()
+  };
+}
+function unpackState(o){
+  if(!o||!o.B) return initState();
+  const B=o.B.map(x=>x?{c:x[0],t:x.slice(1)}:null);
+  return {B, turn:o.turn||'w', castle:Object.assign({wK:true,wQ:true,bK:true,bQ:true},o.castle||{}),
+    ep:o.ep==null?-1:o.ep, half:o.half|0, last:o.last||null, capW:(o.capW||[]).slice(), capB:(o.capB||[]).slice()};
+}
+function clearOnlineListeners(){
+  onlineUnsubs.forEach(u=>{try{u();}catch(e){}}); onlineUnsubs=[];
+  if(presenceTimer){clearInterval(presenceTimer);presenceTimer=null;}
+}
+async function ensureOnlineAuth(){
+  const fb=await waitKidsFB();
+  if(!fb){onlineToast('온라인 연결을 불러오지 못했어 😢'); return null;}
+  if(fb.auth.currentUser){onlineUid=fb.auth.currentUser.uid; onlineReady=true; return fb;}
+  try{
+    const cred=await fb.signInAnonymously();
+    onlineUid=cred.user.uid; onlineReady=true; return fb;
+  }catch(e){console.error(e); onlineToast('로그인에 실패했어. 인터넷을 확인해 줘!'); return null;}
+}
+async function beatPresence(online){
+  const fb=window.__KidsFB; if(!fb||!onlineUid) return;
+  try{
+    await fb.setDoc(fb.doc(fb.db,'presence',MY_PRESENCE_ID),{
+      name:PLAYER, theme:ONLINE_THEME, uid:onlineUid,
+      updatedAt:Date.now(), online:!!online
+    },{merge:true});
+  }catch(e){console.warn('presence',e);}
+}
+function updatePresenceUI(){
+  const age=Date.now()-(siblingUpdatedAt||0);
+  const live=siblingOnline && age<45000 && !!siblingUid;
+  siblingOnline=live;
+  const dot=$('sibDot'), st=$('sibStatus'), btn=$('challengeBtn');
+  if(dot)dot.classList.toggle('on',live);
+  if(st)st.textContent=live?`${SIB_NAME}가 접속 중! ✨`:`${SIB_NAME} 아직 안 접속`;
+  if(btn){
+    const inGame=!!onlineGameId;
+    btn.disabled=!live||inGame||!!myOutgoingChalId;
+    btn.style.display=inGame?'none':'';
+  }
+  const resB=$('resignOnlineBtn'), canB=$('cancelChallengeBtn');
+  if(resB)resB.style.display=(vsOnline&&onlineGameId&&!over)?'':'none';
+  if(canB)canB.style.display=(vsOnline&&myOutgoingChalId&&!onlineGameId)?'':'none';
+  const hint=$('onlineHint');
+  if(hint){
+    if(onlineGameId) hint.textContent=onlineColor==='w'
+      ?`너는 크림 팀(먼저)! ${SIB_NAME}와 실시간 대결 중 🍰`
+      :`너는 밤하늘 팀(후공)! ${SIB_NAME}와 실시간 대결 중 🌙`;
+    else if(myOutgoingChalId) hint.textContent=`${SIB_NAME}의 대답을 기다리는 중…`;
+    else hint.textContent='신청한 쪽이 크림 팀(먼저)이에요. 둘 다 온라인 모드로 들어와야 해요!';
+  }
+}
+function listenSiblingPresence(fb){
+  const u=fb.onSnapshot(fb.doc(fb.db,'presence',SIB_PRESENCE_ID),(snap)=>{
+    if(!snap.exists()){siblingOnline=false;siblingUid=null;siblingUpdatedAt=0;updatePresenceUI();return;}
+    const d=snap.data();
+    siblingUid=d.uid||null;
+    siblingUpdatedAt=d.updatedAt||0;
+    siblingOnline=!!d.online && (Date.now()-siblingUpdatedAt)<45000;
+    updatePresenceUI();
+  },e=>console.warn(e));
+  onlineUnsubs.push(u);
+}
+function listenIncomingChallenges(fb){
+  // Prefer indexed query; fall back to all challenges filtered client-side
+  let q;
+  try{
+    q=fb.query(fb.collection(fb.db,'challenges'), fb.where('toUid','==',onlineUid), fb.where('status','==','pending'), fb.orderBy('createdAt','desc'), fb.limit(5));
+  }catch(e){ q=fb.collection(fb.db,'challenges'); }
+  const u=fb.onSnapshot(q,(snap)=>{
+    let found=null, foundId=null;
+    snap.forEach(docu=>{
+      const d=docu.data();
+      if(d.toUid===onlineUid && d.status==='pending'){ if(!found){found=d;foundId=docu.id;} }
+    });
+    if(found && foundId!==incomingChalId && !onlineGameId){
+      incomingChalId=foundId; incomingChalData=found;
+      $('chalWho').textContent=found.fromName||SIB_NAME;
+      $('chalSub').textContent=`${found.fromName||SIB_NAME}가 대결 신청했어!`;
+      $('challengeModal').classList.add('show');
+      sfx('tap');
+    }else if(!found){
+      if(incomingChalId && $('challengeModal').classList.contains('show')){
+        $('challengeModal').classList.remove('show');
+      }
+      incomingChalId=null; incomingChalData=null;
+    }
+  },async err=>{
+    console.warn('chal query',err);
+    // fallback: unfiltered
+    const u2=fb.onSnapshot(fb.collection(fb.db,'challenges'),(snap)=>{
+      let found=null, foundId=null;
+      snap.forEach(docu=>{
+        const d=docu.data();
+        if(d.toUid===onlineUid && d.status==='pending'){ if(!found){found=d;foundId=docu.id;} }
+      });
+      if(found && foundId!==incomingChalId && !onlineGameId){
+        incomingChalId=foundId; incomingChalData=found;
+        $('chalWho').textContent=found.fromName||SIB_NAME;
+        $('chalSub').textContent=`${found.fromName||SIB_NAME}가 대결 신청했어!`;
+        $('challengeModal').classList.add('show');
+      }else if(!found){
+        $('challengeModal').classList.remove('show');
+        incomingChalId=null; incomingChalData=null;
+      }
+    });
+    onlineUnsubs.push(u2);
+  });
+  onlineUnsubs.push(u);
+}
+function listenOutgoingChallenge(fb,chalId){
+  const u=fb.onSnapshot(fb.doc(fb.db,'challenges',chalId),async (snap)=>{
+    if(!snap.exists()){myOutgoingChalId=null;updatePresenceUI();return;}
+    const d=snap.data();
+    if(d.status==='declined'){
+      onlineToast(`${SIB_NAME}가 거절했어 😢`); myOutgoingChalId=null; updatePresenceUI();
+      try{await fb.deleteDoc(snap.ref);}catch(e){}
+    }else if(d.status==='cancelled'){
+      myOutgoingChalId=null; updatePresenceUI();
+    }else if(d.status==='accepted' && d.gameId){
+      myOutgoingChalId=null;
+      await joinOnlineGame(d.gameId, true);
+    }
+    updatePresenceUI();
+  });
+  onlineUnsubs.push(u);
+}
+async function sendChallenge(){
+  const fb=await ensureOnlineAuth(); if(!fb||!siblingUid) return;
+  if(myOutgoingChalId||onlineGameId) return;
+  try{
+    const ref=await fb.addDoc(fb.collection(fb.db,'challenges'),{
+      fromUid:onlineUid, fromName:PLAYER, fromTheme:ONLINE_THEME,
+      toUid:siblingUid, toName:SIB_NAME, toTheme:ONLINE_THEME==='princess'?'prince':'princess',
+      status:'pending', createdAt:Date.now()
+    });
+    myOutgoingChalId=ref.id;
+    onlineToast(`대결 신청 보냈어! ${SIB_NAME} 대답 기다리는 중…`);
+    listenOutgoingChallenge(fb,ref.id);
+    updatePresenceUI();
+  }catch(e){console.error(e);onlineToast('신청에 실패했어 😢');}
+}
+async function cancelOutgoingChallenge(){
+  const fb=window.__KidsFB; if(!fb||!myOutgoingChalId) return;
+  try{await fb.updateDoc(fb.doc(fb.db,'challenges',myOutgoingChalId),{status:'cancelled'});}catch(e){}
+  myOutgoingChalId=null; updatePresenceUI(); onlineToast('신청을 취소했어');
+}
+async function declineChallenge(){
+  const fb=window.__KidsFB; if(!fb||!incomingChalId) return;
+  try{await fb.updateDoc(fb.doc(fb.db,'challenges',incomingChalId),{status:'declined'});}catch(e){}
+  $('challengeModal').classList.remove('show');
+  incomingChalId=null; incomingChalData=null;
+  onlineToast('거절했어');
+}
+async function acceptChallenge(){
+  const fb=await ensureOnlineAuth(); if(!fb||!incomingChalId||!incomingChalData) return;
+  const fromUid=incomingChalData.fromUid, fromName=incomingChalData.fromName||SIB_NAME;
+  // Challenger is white (선공)
+  const whiteUid=fromUid, blackUid=onlineUid;
+  const whiteName=fromName, blackName=PLAYER;
+  const st0=initState();
+  try{
+    const gRef=await fb.addDoc(fb.collection(fb.db,'games'),{
+      whiteUid, blackUid, whiteName, blackName,
+      boardState:packState(st0), turn:'w', status:'active', result:null,
+      lastMove:null, moves:[], updatedAt:Date.now(),
+      createdAt:Date.now()
+    });
+    await fb.updateDoc(fb.doc(fb.db,'challenges',incomingChalId),{status:'accepted', gameId:gRef.id});
+    $('challengeModal').classList.remove('show');
+    incomingChalId=null; incomingChalData=null;
+    await joinOnlineGame(gRef.id, false);
+  }catch(e){console.error(e);onlineToast('대결 시작에 실패했어 😢');}
+}
+async function joinOnlineGame(gid, iAmChallenger){
+  const fb=window.__KidsFB; if(!fb) return;
+  onlineGameId=gid; lastPushedMoveCount=0;
+  // leave solo modes
+  vsAI=false; vsOnline=true;
+  $('modeAI').classList.remove('on'); $('mode2').classList.remove('on'); $('modeOnline').classList.add('on');
+  $('diffRow').classList.remove('show'); $('sideRow').classList.remove('show');
+  $('onlinePanel').classList.add('show');
+  try{
+    const snap=await fb.getDoc(fb.doc(fb.db,'games',gid));
+    if(!snap.exists()){onlineToast('게임을 찾지 못했어'); return;}
+    const g=snap.data();
+    onlineGameMeta={whiteName:g.whiteName,blackName:g.blackName};
+    onlineColor=(g.whiteUid===onlineUid)?'w':'b';
+    me=onlineColor;
+    S=unpackState(g.boardState); hist=[]; sel=-1; moves=[]; over=false; recorded=false; pendingPromo=null; busy=false; gameId++; // bump local counter
+    lastPushedMoveCount=(g.moves||[]).length;
+    orientBoard(); syncSideUI();
+    $('capWLabel').textContent=(onlineColor==='w'?PLAYER:g.whiteName)+'가 잡은 말';
+    $('capBLabel').textContent=(onlineColor==='b'?PLAYER:g.blackName)+'가 잡은 말';
+    render(); updatePresenceUI();
+    onlineToast(onlineColor==='w'?`대결 시작! 네가 크림 팀(먼저) 🍰`:`대결 시작! 네가 밤하늘 팀(후공) 🌙`);
+    say(onlineColor==='w'?SAY.start:SAY.startSecond);
+  }catch(e){console.error(e);}
+  // live listener
+  const u=fb.onSnapshot(fb.doc(fb.db,'games',gid),(snap)=>{
+    if(!snap.exists()){handleOnlineAbort('상대가 나갔어'); return;}
+    const g=snap.data();
+    if(!g) return;
+    const remoteMoves=g.moves||[];
+    if(g.status==='ended'){
+      if(!over){
+        // sync final board
+        if(g.boardState){S=unpackState(g.boardState);}
+        applyingRemote=true;
+        const res=g.result;
+        let kind, winner;
+        if(res==='1/2-1/2'){kind='draw'; winner='draw';}
+        else if(res==='1-0'){winner='w'; kind=(me==='w'?'win':'lose');}
+        else if(res==='0-1'){winner='b'; kind=(me==='b'?'win':'lose');}
+        else {kind='draw'; winner='draw';}
+        over=true; render();
+        if(!recorded) recordOnline(winner, g);
+        setTimeout(()=>showEnd(kind==='win'||kind==='lose'||kind==='draw'?kind:'draw', winner==='draw'?'draw':winner), 400);
+        applyingRemote=false;
+        updatePresenceUI();
+      }
+      return;
+    }
+    // apply remote moves if ahead of us
+    if(remoteMoves.length>lastPushedMoveCount){
+      const next=remoteMoves[lastPushedMoveCount];
+      // if this move was ours we already applied; skip local apply but advance counter
+      if(next && next.by && next.by===onlineUid){
+        lastPushedMoveCount=remoteMoves.length;
+        if(g.boardState){ /* already local */ }
+      }else if(next){
+        applyingRemote=true;
+        try{
+          // restore from board before move if needed, else apply move
+          const m={from:next.from,to:next.to};
+          if(next.promo)m.promo=next.promo;
+          if(next.ep)m.ep=true;
+          if(next.castle)m.castle=next.castle;
+          if(next.dbl)m.dbl=true;
+          // Prefer authoritative boardState after catch-up
+          if(g.boardState && remoteMoves.length===lastPushedMoveCount+1){
+            const mover=S.turn;
+            const captured=m.ep?'p':(S.B[m.to]?S.B[m.to].t:null);
+            hist.push(S); S=apply(S,m); sel=-1; moves=[];
+            lastPushedMoveCount=remoteMoves.length;
+            render(Object.assign({},m,{captured,color:mover}));
+            if(!over){
+              const chk=inCheck(S,S.turn);
+              if(chk){sfx('check');say(SAY.inCheck);}
+              else if(captured){sfx('capture');say(SAY.lost);}
+              else{sfx('move');}
+            }
+          }else{
+            S=unpackState(g.boardState); lastPushedMoveCount=remoteMoves.length; sel=-1; moves=[]; render();
+          }
+        }finally{applyingRemote=false;}
+      }
+    }else if(g.boardState && !over){
+      // soft sync turn
+      if(g.turn && g.turn!==S.turn && remoteMoves.length===lastPushedMoveCount){
+        S=unpackState(g.boardState); render();
+      }
+    }
+    updatePresenceUI();
+  },e=>console.warn(e));
+  onlineUnsubs.push(u);
+}
+function recordOnline(winner, g){
+  if(recorded)return; recorded=true;
+  const r=loadRec();
+  if(!r.stats.online) r.stats.online={w:0,l:0,d:0};
+  const res=winner==='draw'?'d':(winner===me?'w':'l');
+  r.stats.online[res]++; r.player=PLAYER;
+  const oppName=(me==='w'?(g&&g.blackName)||SIB_NAME:(g&&g.whiteName)||SIB_NAME);
+  r.recent.unshift({t:Date.now(),k:'online',r:res,p:PLAYER,opp:oppName,s:me==='w'?'first':'second'});
+  r.recent=r.recent.slice(0,10);
+  saveRec(r); renderRec();
+}
+async function pushOnlineMove(m, mover){
+  if(!onlineGameId||!window.__KidsFB||applyingRemote) return;
+  const fb=window.__KidsFB;
+  const moveRec={from:m.from,to:m.to,by:onlineUid,at:Date.now()};
+  if(m.promo)moveRec.promo=m.promo;
+  if(m.ep)moveRec.ep=true;
+  if(m.castle)moveRec.castle=m.castle;
+  if(m.dbl)moveRec.dbl=true;
+  try{
+    const ref=fb.doc(fb.db,'games',onlineGameId);
+    const snap=await fb.getDoc(ref);
+    if(!snap.exists())return;
+    const g=snap.data();
+    const moves=(g.moves||[]).concat([moveRec]);
+    const payload={boardState:packState(S), turn:S.turn, lastMove:moveRec, moves, updatedAt:Date.now()};
+    if(over){
+      // result already decided locally via updStatus finish — set below in endOnlineGame
+    }
+    await fb.updateDoc(ref, payload);
+    lastPushedMoveCount=moves.length;
+  }catch(e){console.error('push move',e); onlineToast('수 전송 실패… 인터넷을 확인해 줘');}
+}
+async function endOnlineGame(result, winnerColor){
+  // result: '1-0'|'0-1'|'1/2-1/2'
+  if(!onlineGameId||!window.__KidsFB) return;
+  const fb=window.__KidsFB;
+  try{
+    await fb.updateDoc(fb.doc(fb.db,'games',onlineGameId),{
+      status:'ended', result, boardState:packState(S), turn:S.turn, updatedAt:Date.now()
+    });
+  }catch(e){console.warn(e);}
+}
+async function resignOnline(){
+  if(!onlineGameId||over) return;
+  askConfirm('기권할까?','지금 판을 포기하면 패배로 기록돼.','응, 기권할래','아니',async ()=>{
+    over=true;
+    const result=me==='w'?'0-1':'1-0';
+    const winner=me==='w'?'b':'w';
+    await endOnlineGame(result, winner);
+    if(!recorded) recordOnline(winner, onlineGameMeta);
+    showEnd('lose', winner);
+    updatePresenceUI();
+  });
+}
+function handleOnlineAbort(msg){
+  if(over) return;
+  onlineToast(msg||'대결이 끝났어');
+  if(onlineGameId && !recorded){
+    // treat as draw / disconnect without forcing loss if already ended remotely
+  }
+  onlineGameId=null; onlineColor=null; updatePresenceUI();
+}
+async function startOnlineMode(){
+  vsAI=false; vsOnline=true;
+  $('modeAI').classList.remove('on'); $('mode2').classList.remove('on'); $('modeOnline').classList.add('on');
+  $('diffRow').classList.remove('show'); $('sideRow').classList.remove('show');
+  $('onlinePanel').classList.add('show');
+  $('capWLabel').textContent=`${PLAYER}가 잡은 말`;
+  $('capBLabel').textContent=`${SIB_NAME}가 잡은 말`;
+  clearOnlineListeners();
+  onlineGameId=null; myOutgoingChalId=null; incomingChalId=null; lastPushedMoveCount=0;
+  const fb=await ensureOnlineAuth();
+  if(!fb){updatePresenceUI(); return;}
+  await beatPresence(true);
+  presenceTimer=setInterval(()=>beatPresence(true),20000);
+  listenSiblingPresence(fb);
+  listenIncomingChallenges(fb);
+  // fresh idle board
+  gameId++; busy=false; recorded=false; S=initState(); hist=[]; sel=-1; moves=[]; over=false; pendingPromo=null; me='w';
+  orientBoard(); syncSideUI(); render(); updatePresenceUI();
+  say(SAY.hi,{silent:true});
+  onlineToast('온라인 모드야! 동생/형이 접속하면 대결 신청해 봐');
+}
+function leaveOnlineMode(toAI){
+  // if mid-game, resign
+  const finishing=async ()=>{
+    if(onlineGameId && !over){
+      try{
+        const result=me==='w'?'0-1':'1-0';
+        await endOnlineGame(result);
+        if(!recorded) recordOnline(me==='w'?'b':'w', onlineGameMeta);
+      }catch(e){}
+    }
+    if(myOutgoingChalId) await cancelOutgoingChallenge();
+    await beatPresence(false);
+    clearOnlineListeners();
+    onlineGameId=null; vsOnline=false; onlineColor=null; myOutgoingChalId=null;
+    $('onlinePanel').classList.remove('show');
+    $('challengeModal').classList.remove('show');
+    $('modeOnline').classList.remove('on');
+    $('resignOnlineBtn').style.display='none';
+    if(toAI) setModeClassic(true); else setModeClassic(false);
+  };
+  if(onlineGameId && !over){
+    askConfirm('온라인 대결을 나갈까?','나가면 기권(패배)으로 기록될 수 있어요.','응, 나갈래','아니',()=>{finishing();});
+  }else finishing();
+}
+function setModeClassic(ai){
+  vsOnline=false; vsAI=ai;
+  $('modeAI').classList.toggle('on',ai); $('mode2').classList.toggle('on',!ai); $('modeOnline').classList.remove('on');
+  $('diffRow').classList.toggle('show',ai); $('sideRow').classList.toggle('show',ai);
+  $('onlinePanel').classList.remove('show');
+  $('capWLabel').textContent=ai?`${PLAYER}가 잡은 말`:'크림 팀이 잡은 말';
+  $('capBLabel').textContent=ai?'컴퓨터가 잡은 말':'밤하늘 팀이 잡은 말';
+  newGame(); layout();
+}
+addEventListener('pagehide',()=>{ try{ if(onlineUid) beatPresence(false);}catch(e){} });
+addEventListener('beforeunload',()=>{ try{ if(onlineUid) navigator.sendBeacon && beatPresence(false);}catch(e){} });
+
 const NAME={k:'왕',q:'여왕',r:'성',b:'주교',n:'조랑말 기사',p:'폰'};
 const TEAM={w:'크림 팀',b:'밤하늘 팀'};
 const LV={easy:'쉬움',normal:'보통',hard:'어려움'};
@@ -1008,9 +1508,9 @@ const boardEl=$('board');const files='abcdefgh';
 const squares=[];
 for(let i=0;i<64;i++){const b=document.createElement('button');const r=i>>3,c=i&7;b.className='sq '+((r+c)%2?'d':'l');b.dataset.i=i;
   b.addEventListener('click',()=>click(i));squares.push(b);boardEl.appendChild(b);}
-function orientBoard(){const want=vsAI&&me==='b';if(want===flipped&&boardEl.children.length===64)return;flipped=want;
+function orientBoard(){const want=(vsAI||vsOnline)&&me==='b';if(want===flipped&&boardEl.children.length===64)return;flipped=want;
   const order=flipped?squares.slice().reverse():squares;order.forEach(b=>boardEl.appendChild(b));}
-const aiTurn=()=>vsAI&&S.turn!==me;
+const aiTurn=()=>vsAI&&!vsOnline&&S.turn!==me;
 function render(anim){
   const chk=inCheck(S,S.turn)?kingSq(S.B,S.turn):-1;
   for(let i=0;i<64;i++){
@@ -1028,7 +1528,7 @@ function render(anim){
   if(anim)animateMove(anim);
   const tray=(arr,col)=>{const v=arr.slice().sort((a,b)=>VAL[b]-VAL[a]);return v.map(t=>pieceSVG(t,col)).join('');};
   const pts=a=>a.reduce((s,t)=>s+({p:1,n:3,b:3,r:5,q:9}[t]||0),0);
-  const top=vsAI?me:'w',mine=top==='w'?S.capW:S.capB,theirs=top==='w'?S.capB:S.capW,dW=pts(mine)-pts(theirs);
+  const top=(vsAI||vsOnline)?me:'w',mine=top==='w'?S.capW:S.capB,theirs=top==='w'?S.capB:S.capW,dW=pts(mine)-pts(theirs);
   $('capW').innerHTML=tray(mine,opp(top))+(dW>0?`<span class="adv">+${dW}</span>`:'');
   $('capB').innerHTML=tray(theirs,top)+(dW<0?`<span class="adv">+${-dW}</span>`:'');
   updateStatus();
@@ -1075,7 +1575,7 @@ function knockOff(i,t,col,byCol){
   const g=document.createElement('div');g.className='ghost';
   g.style.cssText=`left:${c.x-w*.45}px;top:${c.y-w*.45}px;width:${w*.9}px;height:${w*.9}px`;
   g.innerHTML=pieceSVG(t,col);fx.appendChild(g);
-  const top=vsAI?me:'w',tray=$(byCol===top?'capW':'capB'),fr=$('frame').getBoundingClientRect();
+  const top=(vsAI||vsOnline)?me:'w',tray=$(byCol===top?'capW':'capB'),fr=$('frame').getBoundingClientRect();
   let dx,dy;const tr=tray&&tray.getBoundingClientRect();
   if(tr&&tr.width){dx=tr.left+Math.min(tr.width,60)/2-fr.left-c.x;dy=tr.top+tr.height/2-fr.top-c.y;}else{dx=(c.x<fr.width/2?-1:1)*w*3;dy=w*4;}
   const L=Math.hypot(dx,dy),maxL=w*4.6;if(L>maxL){dx*=maxL/L;dy*=maxL/L;}
@@ -1112,22 +1612,25 @@ function updateStatus(){
   const finish=(html,kind,winner,extra)=>{over=true;st.innerHTML=html;if(recorded)return;record(winner,Object.assign({kind},extra||{}));setTimeout(()=>showEnd(kind,winner),650);};
   if(!ms.length){
     if(chk){const w=opp(S.turn);
-      if(vsAI)finish(w===me?`${pieceSVG('k',me)} ${PLAYER} 승리! 🎉`:`${pieceSVG('k',opp(me))} 컴퓨터가 이겼어`,w===me?'win':'lose',w,{mate:true});
+      if(vsOnline){finish(w===me?`${pieceSVG('k',me)} ${PLAYER} 승리! 🎉`:`${pieceSVG('k',opp(me))} ${SIB_NAME}가 이겼어`,w===me?'win':'lose',w,{mate:true}); endOnlineGame(w==='w'?'1-0':'0-1',w);}
+      else if(vsAI)finish(w===me?`${pieceSVG('k',me)} ${PLAYER} 승리! 🎉`:`${pieceSVG('k',opp(me))} 컴퓨터가 이겼어`,w===me?'win':'lose',w,{mate:true});
       else finish(`${pieceSVG('k',w)} ${TEAM[w]} 승리! 🎉`,'fwin',w,{mate:true});}
-    else finish('🤝 스테일메이트! 비겼어','draw','draw');
+    else {finish('🤝 스테일메이트! 비겼어','draw','draw'); if(vsOnline)endOnlineGame('1/2-1/2','draw');}
     return;}
-  if(insufficient(S.B)){finish('🤝 남은 말로는 못 이겨서 비겼어','draw','draw');return;}
-  if(S.half>=100){finish('🤝 50수 규칙으로 비겼어','draw','draw');return;}
+  if(insufficient(S.B)){finish('🤝 남은 말로는 못 이겨서 비겼어','draw','draw'); if(vsOnline)endOnlineGame('1/2-1/2','draw');return;}
+  if(S.half>=100){finish('🤝 50수 규칙으로 비겼어','draw','draw'); if(vsOnline)endOnlineGame('1/2-1/2','draw');return;}
   {const k=posKey(S);let n=1;for(let j=hist.length-1;j>=0&&n<3;j--)if(posKey(hist[j])===k)n++;
-   if(n>=3){finish('🤝 같은 모양이 3번 나와서 비겼어','draw','draw');return;}}
+   if(n>=3){finish('🤝 같은 모양이 3번 나와서 비겼어','draw','draw'); if(vsOnline)endOnlineGame('1/2-1/2','draw');return;}}
   over=false;
   let who;
-  if(vsAI)who=S.turn===me?`${PLAYER} 차례야!`:`컴퓨터(${LV[level]}) 생각 중…`;
+  if(vsOnline)who=S.turn===me?`${PLAYER} 차례야!`:`${SIB_NAME} 차례야…`;
+  else if(vsAI)who=S.turn===me?`${PLAYER} 차례야!`:`컴퓨터(${LV[level]}) 생각 중…`;
   else who=`${TEAM[S.turn]} 차례야!`;
   st.innerHTML=`${statusDot(S.turn)}<span>${who}${chk?' <span class="warn">체크!</span>':''}</span>`;
 }
 function click(i){
   if(over||pendingPromo||busy)return;
+  if(vsOnline&&S.turn!==me){sfx('no');onlineToast('상대 차례야! 조금만 기다려 줘');return;}
   ac();
   const mv=moves.filter(m=>m.to===i);
   if(sel>=0&&mv.length){
@@ -1135,7 +1638,7 @@ function click(i){
     doMove(mv[0]);return;
   }
   const p=S.B[i];
-  if(p&&p.c===S.turn){if(sel===i){sel=-1;moves=[];}else{sel=i;moves=legalFrom(S,i);sfx('select');if(!moves.length)say(LINE.noMove);}}
+  if(p&&p.c===S.turn&&(!vsOnline||p.c===me)){if(sel===i){sel=-1;moves=[];}else{sel=i;moves=legalFrom(S,i);sfx('select');if(!moves.length)say(LINE.noMove);}}
   else{if(sel>=0)sfx('no');sel=-1;moves=[];}
   render();
 }
@@ -1145,7 +1648,7 @@ function doMove(m){
   render(Object.assign({},m,{captured,color:mover}));
   // sounds + mascot reaction
   const chk=inCheck(S,S.turn),end=over;
-  const byPlayer=!vsAI||mover===me;
+  const byPlayer=vsOnline?(mover===me):(!vsAI||mover===me);
   // achievements for special moves (even if the move also gave check)
   if(byPlayer){
     if(m.promo){unlockBadge('promo_any');if(m.promo==='q')unlockBadge('promo_q');if(!end)offerTechTip('promo');}
@@ -1159,6 +1662,7 @@ function doMove(m){
     else if(m.castle){sfx('castle');say(SAY.castle);}
     else{sfx('move');if(vsAI&&mover===me){if(Math.random()<.35)say(SAY.cheer,{low:true});}else if(!vsAI&&Math.random()<.4)say(SAY.friend(S.turn),{low:true});}
   }
+  if(vsOnline&&!applyingRemote){pushOnlineMove(m,mover);}
   if(aiTurn()&&!over)scheduleAI(!chk&&!captured&&Math.random()<.5);
 }
 function scheduleAI(talk,delay){
@@ -1212,14 +1716,14 @@ function newGame(){hint=null;hintsUsed=0;updHintCount();gameId++;busy=false;reco
   if(vsAI&&me==='b'){say(sidePref==='random'?SAY.startRandomB:SAY.startSecond);scheduleAI(false,900);}
   else if(vsAI&&sidePref==='random')say(SAY.startRandomW);
   else say(SAY.start);}
-const inProgress=()=>!over&&hist.length>(vsAI&&me==='b'?1:0);
+const inProgress=()=>vsOnline?!!(onlineGameId&&!over):(!over&&hist.length>(vsAI&&me==='b'?1:0));
 // gentle confirm before throwing away a game in progress (never counted as a loss)
 function confirmNew(title,cb){if(!inProgress()){cb();return;}
   askConfirm(title,'지금 하던 게임은 그만하고 새로 시작할까? (기록에는 안 남아요)','응, 새로 할래','아니, 계속할래',cb);}
-$('newBtn').onclick=()=>{ac();sfx('tap');confirmNew('새 게임을 시작할까? ✨',newGame);};
-$('endNew').onclick=()=>{sfx('tap');newGame();};
+$('newBtn').onclick=()=>{ac();sfx('tap');if(vsOnline){onlineToast(onlineGameId?'온라인 대결 중에는 새 게임을 못 해. 기권하거나 끝내 줘!':'온라인에서는 대결 신청으로 시작해!');return;}confirmNew('새 게임을 시작할까? ✨',newGame);};
+$('endNew').onclick=()=>{sfx('tap');if(vsOnline){onlineGameId=null;updatePresenceUI();startOnlineMode();return;}newGame();};
 $('endClose').onclick=()=>{sfx('tap');$('endModal').classList.remove('show');};
-$('undoBtn').onclick=()=>{ac();if(!hist.length||pendingPromo){sfx('no');return;}
+$('undoBtn').onclick=()=>{ac();if(vsOnline){sfx('no');onlineToast('온라인에서는 무르기를 쓸 수 없어');return;}if(!hist.length||pendingPromo){sfx('no');return;}
   if(vsAI&&me==='b'&&hist.length<=1&&S.turn===me){sfx('no');say(LINE.noUndo);return;}
   hint=null;gameId++;busy=false;S=hist.pop();
   unlockBadge('first_undo');
@@ -1227,16 +1731,25 @@ $('undoBtn').onclick=()=>{ac();if(!hist.length||pendingPromo){sfx('no');return;}
   sel=-1;moves=[];$('endModal').classList.remove('show');sfx('tap');render();
   if(aiTurn()&&!over)scheduleAI(false,700);else if(!over)say(SAY.undo);};
 
-function setMode(ai){vsAI=ai;$('modeAI').classList.toggle('on',ai);$('mode2').classList.toggle('on',!ai);$('diffRow').classList.toggle('show',ai);$('sideRow').classList.toggle('show',ai);
-  $('capWLabel').textContent=ai?`${PLAYER}가 잡은 말`:'크림 팀이 잡은 말';$('capBLabel').textContent=ai?'컴퓨터가 잡은 말':'밤하늘 팀이 잡은 말';
-  newGame();layout();}
-$('modeAI').onclick=()=>{ac();sfx('tap');if(vsAI)return;confirmNew('컴퓨터랑 새로 할까? 🤖',()=>setMode(true));};
-$('mode2').onclick=()=>{ac();sfx('tap');if(!vsAI)return;confirmNew('친구랑 새로 할까? 👭',()=>setMode(false));};
+function setMode(ai){
+  if(vsOnline){leaveOnlineMode(ai);return;}
+  setModeClassic(ai);
+}
+$('modeAI').onclick=()=>{ac();sfx('tap');if(vsAI&&!vsOnline)return;confirmNew('컴퓨터랑 새로 할까? 🤖',()=>setMode(true));};
+$('mode2').onclick=()=>{ac();sfx('tap');if(!vsAI&&!vsOnline)return;confirmNew('친구랑 새로 할까? 🤝',()=>setMode(false));};
+$('modeOnline').onclick=()=>{ac();sfx('tap');if(vsOnline&&!onlineGameId)return;
+  const go=()=>startOnlineMode();
+  if(inProgress())confirmNew('온라인 대결로 바꿀까? 🌐',go);else go();};
+$('challengeBtn').onclick=()=>{ac();sfx('tap');sendChallenge();};
+$('cancelChallengeBtn').onclick=()=>{ac();sfx('tap');cancelOutgoingChallenge();};
+$('resignOnlineBtn').onclick=()=>{ac();sfx('tap');resignOnline();};
+$('chalYes').onclick=()=>{ac();sfx('tap');acceptChallenge();};
+$('chalNo').onclick=()=>{ac();sfx('tap');declineChallenge();};
 function syncLevelUI(){document.querySelectorAll('#diffRow button').forEach(x=>x.classList.toggle('on',x.dataset.d===level));}
 document.querySelectorAll('#diffRow button').forEach(b=>b.onclick=()=>{ac();sfx('tap');if(b.dataset.d===level)return;
   confirmNew(`'${LV[b.dataset.d]}'으로 새로 할까?`,()=>{level=b.dataset.d;try{localStorage.setItem('princeChessLevel',level);}catch(e){}syncLevelUI();newGame();say(SAY.level(level));});});
 function syncSideUI(){document.querySelectorAll('#sideRow button').forEach(x=>x.classList.toggle('on',x.dataset.s===sidePref));
-  const t=$('sideNote');if(t)t.textContent=vsAI?(me==='w'?`🍰 ${PLAYER}는 크림 팀 · 먼저 시작해요`:`🌙 ${PLAYER}는 밤하늘 팀 · 컴퓨터가 먼저 해요`):'';}
+  const t=$('sideNote');if(t)t.textContent=vsOnline?(me==='w'?`🍰 ${PLAYER}는 크림 팀 · 먼저!`:`🌙 ${PLAYER}는 밤하늘 팀 · 후공`):vsAI?(me==='w'?`🍰 ${PLAYER}는 크림 팀 · 먼저 시작해요`:`🌙 ${PLAYER}는 밤하늘 팀 · 컴퓨터가 먼저 해요`):'';}
 document.querySelectorAll('#sideRow button').forEach(b=>b.onclick=()=>{ac();sfx('tap');const s=b.dataset.s;if(s===sidePref&&s!=='random')return;
   confirmNew(s==='first'?'먼저 할래 (선공)로 새로 할까?':s==='second'?'나중에 할래 (후공)로 새로 할까?':'랜덤으로 새로 할까? 🎲',()=>{sidePref=s;try{localStorage.setItem('princeChessSide',s);}catch(e){}newGame();});});
 let cfCb=null;
@@ -1248,22 +1761,22 @@ document.querySelectorAll('.tabbar button').forEach(b=>b.onclick=()=>{sfx('tap')
 
 /* ================= saved records (localStorage, per player name) ================= */
 const REC_KEY='princeChessRecords_v1:'+PLAYER;
-function emptyRec(){return {player:PLAYER,stats:{easy:{w:0,l:0,d:0},normal:{w:0,l:0,d:0},hard:{w:0,l:0,d:0},friend:{w:0,l:0,d:0}},recent:[]};}
+function emptyRec(){return {player:PLAYER,stats:{easy:{w:0,l:0,d:0},normal:{w:0,l:0,d:0},hard:{w:0,l:0,d:0},friend:{w:0,l:0,d:0},online:{w:0,l:0,d:0}},recent:[]};}
 function loadRec(){try{const r=JSON.parse(localStorage.getItem(REC_KEY));if(r&&r.stats&&r.recent){const e=emptyRec();for(const k in e.stats)r.stats[k]=Object.assign({w:0,l:0,d:0},r.stats[k]);return r;}}catch(e){}return emptyRec();}
 function saveRec(r){try{localStorage.setItem(REC_KEY,JSON.stringify(r));}catch(e){}}
 // Called only when a game really ends (checkmate / stalemate / draw rule). New game mid-way never counts.
 function record(winner,extra){
   if(recorded)return;recorded=true;
-  const r=loadRec(),key=vsAI?level:'friend';
-  const res=winner==='draw'?'d':vsAI?(winner===me?'w':'l'):(winner==='w'?'w':'l'); // vs AI: 보석왕자 기준 승/패. 친구랑: w=크림 팀 승, l=밤하늘 팀 승
+  const r=loadRec(),key=vsOnline?'online':(vsAI?level:'friend');
+  const res=winner==='draw'?'d':(vsAI||vsOnline)?(winner===me?'w':'l'):(winner==='w'?'w':'l'); // vs AI: 보석왕자 기준 승/패. 친구랑: w=크림 팀 승, l=밤하늘 팀 승
   r.stats[key][res]++;r.player=PLAYER;
-  r.recent.unshift(Object.assign({t:Date.now(),k:key,r:res,p:PLAYER},vsAI?{s:me==='w'?'first':'second'}:{}));r.recent=r.recent.slice(0,10);
+  r.recent.unshift(Object.assign({t:Date.now(),k:key,r:res,p:PLAYER},(vsAI||vsOnline)?{s:me==='w'?'first':'second'}:{},vsOnline?{opp:SIB_NAME}:{}));r.recent=r.recent.slice(0,10);
   saveRec(r);renderRec();
   try{
     const a=loadAch();
     if(vsAI&&res==='w'){a.streak=(a.streak||0)+1;saveAch(a);}
     else if(vsAI&&res==='l'){a.streak=0;saveAch(a);}
-    if(!vsAI)unlockBadge('friend_done');
+    if(!vsAI&&!vsOnline)unlockBadge('friend_done');
     if(res==='d')unlockBadge('first_draw');
     if(vsAI&&res==='w'){
       unlockBadge('first_win');
@@ -1274,7 +1787,7 @@ function record(winner,extra){
       if(extra&&extra.mate)unlockBadge('mate_win');
       if((loadAch().streak||0)>=2)unlockBadge('streak_2');
       const mine=me==='w'?S.capW:S.capB;if((mine||[]).length>=5)unlockBadge('cap5_win');
-    }else if(!vsAI&&winner!=='draw'){
+    }else if(!vsAI&&!vsOnline&&winner!=='draw'){
       unlockBadge('first_win');
       if(extra&&extra.mate)unlockBadge('mate_win');
     }
@@ -1286,12 +1799,15 @@ function renderRec(){
   const row=(k,label,cls='')=>{const s=r.stats[k];return `<tr class="${cls}"><td>${label}</td><td class="w">${s.w}</td><td class="l">${s.l}</td><td class="d">${s.d}</td></tr>`;};
   const tot=['easy','normal','hard'].reduce((a,k)=>({w:a.w+r.stats[k].w,l:a.l+r.stats[k].l,d:a.d+r.stats[k].d}),{w:0,l:0,d:0});
   r.stats.total=tot;
+  if(!r.stats.online)r.stats.online={w:0,l:0,d:0};
   $('scoreBody').innerHTML=row('easy','🌱 쉬움')+row('normal','⚔️ 보통')+row('hard','🌟 어려움')+row('total','💎 합계','tot')+
-    `<tr><td colspan="4" style="background:none;padding:6px 0 0;font-size:12px;color:#8fb4d9;text-align:left">🤝 친구랑 둘이서 (크림 승 / 밤하늘 승 / 무승부)</td></tr>`+row('friend','🤝 친구랑');
+    `<tr><td colspan="4" style="background:none;padding:6px 0 0;font-size:12px;color:#8fb4d9;text-align:left">🤝 친구랑 둘이서 (크림 승 / 밤하늘 승 / 무승부)</td></tr>`+row('friend','🤝 친구랑')+
+    `<tr><td colspan="4" style="background:none;padding:6px 0 0;font-size:12px;color:#8fb4d9;text-align:left">🌐 온라인 대결 vs 보애공주</td></tr>`+row('online','🌐 온라인');
   const z=n=>String(n).padStart(2,'0');
   const fmt=t=>{const d=new Date(t);return `${d.getMonth()+1}/${d.getDate()} ${z(d.getHours())}:${z(d.getMinutes())}`;};
   const txt=(k,v)=>k==='friend'?(v==='d'?'🤝 무승부':v==='w'?'🍰 크림 승':'🌙 밤하늘 승'):(v==='w'?'💎 승':v==='l'?'⚔️ 패':'🤝 무승부');
-  $('recent').innerHTML=r.recent.length?r.recent.map(g=>`<li class="${g.r==='w'?'win':g.r==='d'?'draw':''}"><span>${fmt(g.t)}</span><span>${g.k==='friend'?'친구랑':LV[g.k]+(g.s?(g.s==='first'?' · 선공':' · 후공'):'')}</span><span>${txt(g.k,g.r)}</span></li>`).join('')
+  const kn=g=>g.k==='friend'?'친구랑':g.k==='online'?('온라인'+(g.opp?' · '+g.opp:'')):(LV[g.k]||g.k)+(g.s?(g.s==='first'?' · 선공':' · 후공'):'');
+  $('recent').innerHTML=r.recent.length?r.recent.map(g=>`<li class="${g.r==='w'?'win':g.r==='d'?'draw':''}"><span>${fmt(g.t)}</span><span>${kn(g)}</span><span>${txt(g.k,g.r)}</span></li>`).join('')
     :'<li class="empty">아직 기록이 없어. 첫 판을 시작해 볼까? ✨</li>';
 }
 $('clearRec').onclick=()=>{sfx('tap');askConfirm('기록을 지울까? 🥺','지우면 승·패·무승부 기록과 최근 게임이 모두 사라지고 되돌릴 수 없어.','응, 지울래','아니, 그냥 둘래',clearRecords);};
@@ -1631,7 +2147,7 @@ function explainMove(S,m){
 function isDefended(S,sq,c){const B=S.B.slice();const p=B[sq];B[sq]={t:'p',c:opp(c)};return attacked(B,sq,c);}
 let hintKeys=[];
 function setBubbleHTML(h,keys){const b=$('bubble');b.innerHTML='<span>'+h+'</span>';if(keys)playKeys(keys,false,4000);b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');const mm=$('mascot');mm.classList.remove('hop');void mm.getBoundingClientRect();mm.classList.add('hop');}
-$('hintBtn').onclick=()=>{ac();
+$('hintBtn').onclick=()=>{if(vsOnline){sfx('no');onlineToast('온라인에서는 훈수를 쓸 수 없어');return;}ac();
   if(over){sfx('no');say(LINE.hintOver);return;}
   if(busy||pendingPromo||aiTurn()){sfx('no');say(LINE.hintWait);return;}
   sfx('select');say(LINE.hintSearch);
