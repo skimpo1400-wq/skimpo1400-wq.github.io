@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffd3e6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="보애공주 오목">
+<meta name="application-name" content="보애공주 오목">
+<meta name="format-detection" content="telephone=no">
+<title>보애공주의 오목 놀이 ♡</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2292%22%20rx%3D%2234%22%20ry%3D%225%22%20fill%3D%22%23000%22%20opacity%3D%22.16%22%2F%3E%3Cg%20stroke%3D%22%23c0729a%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22%3E%3Cellipse%20cx%3D%2232%22%20cy%3D%2227%22%20rx%3D%229%22%20ry%3D%2216%22%20transform%3D%22rotate%28-9%2032%2027%29%22%20fill%3D%22%23fffdf7%22%2F%3E%3Cellipse%20cx%3D%2268%22%20cy%3D%2227%22%20rx%3D%229%22%20ry%3D%2216%22%20transform%3D%22rotate%289%2068%2027%29%22%20fill%3D%22%23fffdf7%22%2F%3E%3C%2Fg%3E%3Cellipse%20cx%3D%2232%22%20cy%3D%2229%22%20rx%3D%224%22%20ry%3D%2210%22%20transform%3D%22rotate%28-9%2032%2029%29%22%20fill%3D%22%23ffb3cf%22%2F%3E%3Cellipse%20cx%3D%2268%22%20cy%3D%2229%22%20rx%3D%224%22%20ry%3D%2210%22%20transform%3D%22rotate%289%2068%2029%29%22%20fill%3D%22%23ffb3cf%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2260%22%20rx%3D%2238%22%20ry%3D%2231%22%20fill%3D%22%23fffdf7%22%20stroke%3D%22%23c0729a%22%20stroke-width%3D%223%22%2F%3E%3Cellipse%20cx%3D%2236%22%20cy%3D%2244%22%20rx%3D%2211%22%20ry%3D%224.6%22%20fill%3D%22%23fff%22%20opacity%3D%22.85%22%20transform%3D%22rotate%28-22%2036%2044%29%22%2F%3E%3Cellipse%20cx%3D%2236%22%20cy%3D%2258%22%20rx%3D%224.6%22%20ry%3D%225.6%22%20fill%3D%22%23432a4f%22%2F%3E%3Ccircle%20cx%3D%2237.6%22%20cy%3D%2255.8%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2234.8%22%20cy%3D%2260.4%22%20r%3D%22.9%22%20fill%3D%22%23fff%22%20opacity%3D%22.85%22%2F%3E%3Cellipse%20cx%3D%2264%22%20cy%3D%2258%22%20rx%3D%224.6%22%20ry%3D%225.6%22%20fill%3D%22%23432a4f%22%2F%3E%3Ccircle%20cx%3D%2265.6%22%20cy%3D%2255.8%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2262.8%22%20cy%3D%2260.4%22%20r%3D%22.9%22%20fill%3D%22%23fff%22%20opacity%3D%22.85%22%2F%3E%3Cellipse%20cx%3D%2223%22%20cy%3D%2267%22%20rx%3D%226%22%20ry%3D%223.6%22%20fill%3D%22%23ffa7c4%22%20opacity%3D%22.75%22%2F%3E%3Cellipse%20cx%3D%2277%22%20cy%3D%2267%22%20rx%3D%226%22%20ry%3D%223.6%22%20fill%3D%22%23ffa7c4%22%20opacity%3D%22.75%22%2F%3E%3Cellipse%20cx%3D%2250%22%20cy%3D%2265%22%20rx%3D%223.2%22%20ry%3D%222.4%22%20fill%3D%22%23ff7fa6%22%2F%3E%3Cpath%20d%3D%22M43%2069%20Q46.5%2073.5%2050%2069%20Q53.5%2073.5%2057%2069%22%20stroke%3D%22%23c0729a%22%20stroke-width%3D%222.4%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<style>
+:root{--cs:24px;--pad:10px;--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);--safe-l:env(safe-area-inset-left,0px);--safe-r:env(safe-area-inset-right,0px)}
+body.princess{
+  --ink:#5a4470;--accent:#ff7fae;--accent2:#ffb6d0;--soft:#fff3f9;--soft2:#f6e9ff;--card:rgba(255,255,255,.88);--cardB:#ffd3e6;--btn:#ff8fb7;--btnInk:#fff;--btn2:#e6dcff;--btn2Ink:#6a4f9c;
+  --boardA:#ffeec2;--boardB:#ffdfa3;--frame:#ffbfd9;--frameB:#ff9cc3;--line:#cf9f66;--hoshi:#b97d3e;--mark:#ff5c93;--okc:#58c79a;--gold:#ffd25a;--hint:#ff5c93;
+  --bgcss:radial-gradient(120% 60% at 15% 0%,rgba(255,255,255,.75),transparent 60%),radial-gradient(90% 60% at 100% 30%,rgba(255,214,236,.8),transparent 70%),linear-gradient(180deg,#cfe9ff 0%,#e9e0ff 42%,#ffe0ef 78%,#ffeaf3 100%);
+  --bubble:#fff;--bubbleInk:#5a4470;--h1:#ff7fae;--sub:#8c76b3;--win:#ff7fae}
+body.prince{
+  --ink:#d6e4f5;--accent:#f0c14b;--accent2:#ffd978;--soft:#12294a;--soft2:#0f2340;--card:rgba(16,36,68,.88);--cardB:#2c4a7e;--btn:#e2b13c;--btnInk:#1a1f33;--btn2:#1d3a68;--btn2Ink:#cfe0f8;
+  --boardA:#24467a;--boardB:#1a3562;--frame:#d9b252;--frameB:#a8802a;--line:#c9a74f;--hoshi:#f0c14b;--mark:#3de0c0;--okc:#2dd4a8;--gold:#f0c14b;--hint:#3de0c0;
+  --bgcss:radial-gradient(80% 50% at 20% 10%,rgba(61,139,253,.25),transparent 55%),radial-gradient(70% 45% at 90% 20%,rgba(45,212,168,.18),transparent 60%),radial-gradient(50% 40% at 50% 80%,rgba(240,193,75,.08),transparent 70%),linear-gradient(180deg,#071428 0%,#0d2040 35%,#12305a 70%,#0a2a3a 100%);
+  --bubble:#16315c;--bubbleInk:#e8f0ff;--h1:#f0c14b;--sub:#8fb0dc;--win:#f0c14b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%;background:#fbe3f1}
+body{margin:0;min-height:100dvh;color:var(--ink);word-break:keep-all;overflow-wrap:break-word;touch-action:manipulation;-webkit-user-select:none;user-select:none;overscroll-behavior:none;
+  font-family:ui-rounded,"SF Pro Rounded","NanumSquareRound","NanumSquare Round","나눔스퀘어라운드","Hiragino Maru Gothic ProN","Arial Rounded MT Bold","Varela Round","Apple SD Gothic Neo","Malgun Gothic","Nanum Gothic",system-ui,sans-serif}
+button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:var(--bgcss)}
+#bg .tw{position:absolute;animation:tw 3.2s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.3;transform:scale(.7) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(20deg)}}
+#app{position:relative;z-index:1;min-height:100dvh;padding:calc(10px + var(--safe-t)) calc(14px + var(--safe-r)) calc(18px + var(--safe-b)) calc(14px + var(--safe-l));display:flex;flex-direction:column;align-items:center}
+header{text-align:center;margin-bottom:8px}
+h1{margin:0;font-size:clamp(22px,4vw,36px);line-height:1.15;color:var(--h1);font-weight:800;letter-spacing:.5px}
+body.princess h1{text-shadow:0 2px 0 #fff,2px 0 0 #fff,-2px 0 0 #fff,0 -2px 0 #fff,2px 2px 0 #fff,-2px 2px 0 #fff,0 5px 0 rgba(255,127,174,.25)}
+body.prince h1{text-shadow:0 2px 0 #00122e,0 0 18px rgba(240,193,75,.35)}
+.sub{margin:2px 0 0;font-size:14px;color:var(--sub)}
+.grid{display:grid;gap:14px;align-items:start;justify-items:center;width:100%;max-width:1240px;justify-content:center}
+body[data-layout=row] .grid{grid-template-columns:auto 400px;align-items:stretch}
+body[data-layout=col] .grid{grid-template-columns:minmax(0,1fr)}
+.boardArea{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px}
+.frame{padding:var(--pad);border-radius:26px;background:linear-gradient(145deg,var(--frame),var(--frameB));box-shadow:0 10px 26px rgba(0,0,0,.22),inset 0 2px 0 rgba(255,255,255,.55)}
+#board{position:relative;width:calc(var(--cs)*15);height:calc(var(--cs)*15);border-radius:14px;background:linear-gradient(145deg,var(--boardA),var(--boardB));box-shadow:inset 0 3px 10px rgba(0,0,0,.18);touch-action:manipulation;cursor:pointer}
+#board svg.lay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#stones,#marks{position:absolute;inset:0;pointer-events:none}
+.stone{position:absolute;width:calc(var(--cs)*1.2);height:calc(var(--cs)*1.2);left:calc((var(--x) - .1)*var(--cs));top:calc((var(--y) - .196)*var(--cs));z-index:calc(var(--y) + 1);transform-origin:50% 80%;pointer-events:none}
+.stone svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.28))}
+.stone.drop{animation:pop .62s cubic-bezier(.3,.7,.4,1) both}
+@keyframes pop{0%{transform:translateY(calc(var(--cs)*-1.5)) scale(.6,1.35);opacity:0}
+ 38%{transform:translateY(0) scale(1.38,.62);opacity:1}
+ 56%{transform:translateY(calc(var(--cs)*-.42)) scale(.86,1.16)}
+ 74%{transform:translateY(0) scale(1.14,.88)}
+ 88%{transform:translateY(calc(var(--cs)*-.08)) scale(.98,1.03)}
+ 100%{transform:none}}
+.stone.win{animation:dance .9s ease-in-out infinite;animation-delay:calc(var(--k)*90ms);z-index:200}
+.stone.win svg{filter:drop-shadow(0 0 5px #fff) drop-shadow(0 0 10px var(--gold)) drop-shadow(0 0 16px var(--gold))}
+.stone.dim{opacity:.5;transition:opacity .5s}
+@keyframes dance{0%,100%{transform:translateY(0) rotate(0) scale(1.08)}20%{transform:translateY(calc(var(--cs)*-.55)) rotate(-14deg) scale(1.2)}
+ 45%{transform:translateY(0) rotate(0) scale(1.22,.86)}70%{transform:translateY(calc(var(--cs)*-.55)) rotate(14deg) scale(1.2)}}
+.ripple{position:absolute;width:calc(var(--cs)*1.1);height:calc(var(--cs)*1.1);left:calc((var(--x) - .05)*var(--cs));top:calc((var(--y) - .05)*var(--cs));border-radius:50%;border:2.5px solid var(--mark);opacity:0;animation:rip .6s .22s ease-out both;pointer-events:none;z-index:1}
+@keyframes rip{0%{transform:scale(.5);opacity:.85}100%{transform:scale(2.1);opacity:0}}
+.lastDot{position:absolute;width:calc(var(--cs)*.26);height:calc(var(--cs)*.26);left:calc((var(--x) + .5 - .13)*var(--cs));top:calc((var(--y) + .5 - .13)*var(--cs) - var(--cs)*.34);border-radius:50%;background:var(--mark);box-shadow:0 0 0 2px #fff;z-index:300}
+.ghost{position:absolute;width:calc(var(--cs)*1.2);height:calc(var(--cs)*1.2);left:calc((var(--x) - .1)*var(--cs));top:calc((var(--y) - .196)*var(--cs));opacity:.45;pointer-events:none;z-index:250}
+.ghost svg{width:100%;height:100%;display:block;overflow:visible}
+.ghost.confirm{opacity:.8;animation:wob .7s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.ring{position:absolute;width:calc(var(--cs)*.98);height:calc(var(--cs)*.98);left:calc((var(--x) + .01)*var(--cs));top:calc((var(--y) + .01)*var(--cs));border-radius:50%;border:3px solid var(--hint);box-shadow:0 0 10px var(--hint);animation:pulse 1s ease-in-out infinite;z-index:260;pointer-events:none}
+@keyframes pulse{0%,100%{transform:scale(.85);opacity:.9}50%{transform:scale(1.25);opacity:.5}}
+#fx{position:absolute;inset:0;pointer-events:none;z-index:400;overflow:visible}
+.conf{position:absolute;top:-10%;font-size:calc(var(--cs)*.9);animation:fall linear forwards;z-index:500;pointer-events:none}
+@keyframes fall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(calc(var(--cs)*17)) rotate(360deg);opacity:.9}}
+#endBar{display:none;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;background:var(--card);border:2px solid var(--cardB);border-radius:18px;padding:8px 14px;box-shadow:0 6px 18px rgba(0,0,0,.18);font-weight:800;font-size:17px;animation:slideIn .4s ease-out}
+#endBar.show{display:flex}
+@keyframes slideIn{from{transform:translateY(-10px);opacity:0}to{transform:none;opacity:1}}
+.card{background:var(--card);border:2px solid var(--cardB);border-radius:20px;padding:10px 12px;box-shadow:0 6px 16px rgba(0,0,0,.12);width:100%}
+.side{display:flex;flex-direction:column;gap:10px;width:100%;min-width:0}
+body[data-layout=row] .side{max-width:400px;min-height:0}
+body[data-layout=col] .side{display:contents}
+body[data-layout=col] .side>.card{width:calc(var(--cs)*15 + var(--pad)*2);max-width:100%}
+body[data-layout=col] .boardArea{order:2}body[data-layout=col] .side>.status{order:1}body[data-layout=col] .side>.hud{order:3}body[data-layout=col] .side>.ctl{order:4}body[data-layout=col] .side>.rec{order:5}
+.hud{display:flex;align-items:center;gap:10px}
+.mascot{flex:0 0 auto;width:68px;height:68px;animation:bob 3s ease-in-out infinite}
+.mascot svg{width:100%;height:100%;overflow:visible}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.bubble{position:relative;flex:1;background:var(--bubble);color:var(--bubbleInk);border:2px solid var(--cardB);border-radius:16px;padding:8px 12px;font-size:15px;font-weight:700;min-height:48px;display:flex;align-items:center}
+.bubble:before{content:"";position:absolute;left:-9px;top:50%;margin-top:-7px;border:7px solid transparent;border-right-color:var(--cardB);border-left:0}
+.status{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px}
+.turnStone{width:38px;height:38px;flex:0 0 auto}
+.turnStone svg{width:100%;height:100%;overflow:visible}
+#turnText{flex:1}
+#moveCount{font-size:13px;font-weight:700;color:var(--sub)}
+.seg{display:flex;gap:6px;margin-bottom:8px}
+.seg button,.acts button{flex:1;border:0;border-radius:14px;padding:9px 6px;font-weight:800;font-size:14px;background:var(--btn2);color:var(--btn2Ink);transition:transform .1s,filter .15s;min-height:42px}
+.seg button.on{background:var(--btn);color:var(--btnInk);box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.seg button:active,.acts button:active{transform:scale(.95)}
+.seg.sm button{font-size:13px;padding:7px 4px;min-height:38px}
+#diffRow,#sideRow,#onlinePanel{display:none}
+#diffRow.show,#sideRow.show{display:flex}
+#onlinePanel.show{display:block;margin-bottom:8px}
+.acts{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.acts button.pri{background:var(--btn);color:var(--btnInk)}
+.acts button:disabled{opacity:.4;cursor:default}
+.tgls{display:flex;flex-wrap:wrap;gap:6px 10px}
+.tgl{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:4px 2px}
+.tgl input{width:18px;height:18px;accent-color:var(--btn)}
+.presence{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px;margin-bottom:6px}
+.dotLive{width:11px;height:11px;border-radius:50%;background:#9aa;flex:0 0 auto}
+.dotLive.on{background:var(--okc);box-shadow:0 0 0 4px rgba(88,199,154,.3)}
+#onlineHint{font-size:12.5px;color:var(--sub);margin:4px 0 0}
+.rec{display:flex;flex-direction:column;min-height:0}
+body[data-layout=row] .side>.card{flex:0 0 auto}
+body[data-layout=row] .side>.rec{flex:1 1 auto;min-height:130px}
+.rec h3{margin:0 0 6px;font-size:16px;display:flex;justify-content:space-between;align-items:center}
+.rec h3 button{border:0;background:transparent;font-size:12px;color:var(--sub);text-decoration:underline;padding:4px}
+.recBody{overflow:auto;-webkit-overflow-scrolling:touch;min-height:0}
+.rrow{display:grid;grid-template-columns:minmax(78px,1.3fr) repeat(3,minmax(40px,1fr)) minmax(46px,.9fr);gap:4px;align-items:center;padding:5px 2px;border-bottom:1px dashed var(--cardB);font-size:13.5px;font-weight:700}
+.rrow.hd{font-size:12px;color:var(--sub);border-bottom:2px solid var(--cardB)}
+.rrow .c{text-align:center}
+.pw{color:var(--okc)}.pl{color:#ff7b8a}
+.recent{margin-top:8px;font-size:13px}
+.recent div{padding:3px 2px;border-bottom:1px dashed var(--cardB);display:flex;gap:6px;align-items:center}
+.recent .t{margin-left:auto;color:var(--sub);font-size:11.5px}
+.modal{position:fixed;inset:0;background:rgba(10,10,30,.45);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal.show{display:flex}
+.mbox{background:var(--card);backdrop-filter:blur(6px);border:3px solid var(--cardB);border-radius:24px;padding:20px 22px;max-width:340px;width:100%;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,.35);background-color:var(--soft)}
+.mbox h2{margin:6px 0;font-size:21px;color:var(--accent)}.mbox p{margin:4px 0 14px;font-size:15px;font-weight:700}
+.mbox .mb{display:flex;gap:10px}.mbox .mb button{flex:1;border:0;border-radius:14px;padding:12px;font-weight:800;font-size:16px;background:var(--btn2);color:var(--btn2Ink)}.mbox .mb button.pri{background:var(--btn);color:var(--btnInk)}
+.mbox .big{width:76px;height:76px;margin:0 auto;animation:bob 1.4s ease-in-out infinite}.mbox .big svg{width:100%;height:100%;overflow:visible}
+#toast{position:fixed;left:50%;bottom:calc(24px + var(--safe-b));transform:translateX(-50%) translateY(30px);background:rgba(30,30,60,.92);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;transition:.3s;z-index:2000;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:520px){.mascot{width:56px;height:56px}.bubble{font-size:14px}h1{font-size:23px}.sub{font-size:12.5px}}
+</style>
+</head>
+<body class="princess" data-layout="col">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="s_rabbit" viewBox="0 0 100 100"><ellipse cx="50" cy="92" rx="34" ry="5" fill="#000" opacity=".16"/><g stroke="#c0729a" stroke-width="3" stroke-linejoin="round"><ellipse cx="32" cy="27" rx="9" ry="16" transform="rotate(-9 32 27)" fill="#fffdf7"/><ellipse cx="68" cy="27" rx="9" ry="16" transform="rotate(9 68 27)" fill="#fffdf7"/></g><ellipse cx="32" cy="29" rx="4" ry="10" transform="rotate(-9 32 29)" fill="#ffb3cf"/><ellipse cx="68" cy="29" rx="4" ry="10" transform="rotate(9 68 29)" fill="#ffb3cf"/><ellipse cx="50" cy="60" rx="38" ry="31" fill="#fffdf7" stroke="#c0729a" stroke-width="3"/><ellipse cx="36" cy="44" rx="11" ry="4.6" fill="#fff" opacity=".85" transform="rotate(-22 36 44)"/><ellipse cx="36" cy="58" rx="4.6" ry="5.6" fill="#432a4f"/><circle cx="37.6" cy="55.8" r="1.9" fill="#fff"/><circle cx="34.8" cy="60.4" r=".9" fill="#fff" opacity=".85"/><ellipse cx="64" cy="58" rx="4.6" ry="5.6" fill="#432a4f"/><circle cx="65.6" cy="55.8" r="1.9" fill="#fff"/><circle cx="62.8" cy="60.4" r=".9" fill="#fff" opacity=".85"/><ellipse cx="23" cy="67" rx="6" ry="3.6" fill="#ffa7c4" opacity=".75"/><ellipse cx="77" cy="67" rx="6" ry="3.6" fill="#ffa7c4" opacity=".75"/><ellipse cx="50" cy="65" rx="3.2" ry="2.4" fill="#ff7fa6"/><path d="M43 69 Q46.5 73.5 50 69 Q53.5 73.5 57 69" stroke="#c0729a" stroke-width="2.4" fill="none" stroke-linecap="round"/></symbol><symbol id="s_rabbitH" viewBox="0 0 100 100"><ellipse cx="50" cy="92" rx="34" ry="5" fill="#000" opacity=".16"/><g stroke="#c0729a" stroke-width="3" stroke-linejoin="round"><ellipse cx="32" cy="27" rx="9" ry="16" transform="rotate(-9 32 27)" fill="#fffdf7"/><ellipse cx="68" cy="27" rx="9" ry="16" transform="rotate(9 68 27)" fill="#fffdf7"/></g><ellipse cx="32" cy="29" rx="4" ry="10" transform="rotate(-9 32 29)" fill="#ffb3cf"/><ellipse cx="68" cy="29" rx="4" ry="10" transform="rotate(9 68 29)" fill="#ffb3cf"/><ellipse cx="50" cy="60" rx="38" ry="31" fill="#fffdf7" stroke="#c0729a" stroke-width="3"/><ellipse cx="36" cy="44" rx="11" ry="4.6" fill="#fff" opacity=".85" transform="rotate(-22 36 44)"/><path d="M27.5 59 Q34 50 40.5 59" stroke="#432a4f" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M59.5 59 Q66 50 72.5 59" stroke="#432a4f" stroke-width="3.6" fill="none" stroke-linecap="round"/><ellipse cx="23" cy="67" rx="6" ry="3.6" fill="#ffa7c4" opacity=".75"/><ellipse cx="77" cy="67" rx="6" ry="3.6" fill="#ffa7c4" opacity=".75"/><ellipse cx="50" cy="65" rx="3.2" ry="2.4" fill="#ff7fa6"/><path d="M42 69 Q50 82 58 69Z" fill="#ff7fa6" stroke="#c0729a" stroke-width="2" stroke-linejoin="round"/></symbol><symbol id="s_cat" viewBox="0 0 100 100"><ellipse cx="50" cy="92" rx="34" ry="5" fill="#000" opacity=".16"/><path d="M14 46 L17 10 L46 30 Z" fill="#ffb45e" stroke="#a85a24" stroke-width="3" stroke-linejoin="round"/><path d="M86 46 L83 10 L54 30 Z" fill="#ffb45e" stroke="#a85a24" stroke-width="3" stroke-linejoin="round"/><path d="M22 38 L23 20 L38 30Z" fill="#ffb3cf"/><path d="M78 38 L77 20 L62 30Z" fill="#ffb3cf"/><ellipse cx="50" cy="60" rx="38" ry="31" fill="#ffb45e" stroke="#a85a24" stroke-width="3"/><path d="M50 30 V40 M41 32 L43 41 M59 32 L57 41" stroke="#e07f2c" stroke-width="3.4" stroke-linecap="round"/><ellipse cx="36" cy="46" rx="9" ry="3.6" fill="#fff" opacity=".6" transform="rotate(-22 36 46)"/><ellipse cx="50" cy="71" rx="14" ry="9.5" fill="#fff0d9"/><ellipse cx="36" cy="58" rx="4.6" ry="5.6" fill="#3b2547"/><circle cx="37.6" cy="55.8" r="1.9" fill="#fff"/><circle cx="34.8" cy="60.4" r=".9" fill="#fff" opacity=".85"/><ellipse cx="64" cy="58" rx="4.6" ry="5.6" fill="#3b2547"/><circle cx="65.6" cy="55.8" r="1.9" fill="#fff"/><circle cx="62.8" cy="60.4" r=".9" fill="#fff" opacity=".85"/><ellipse cx="22" cy="67" rx="5.5" ry="3.4" fill="#ff9aa8" opacity=".7"/><ellipse cx="78" cy="67" rx="5.5" ry="3.4" fill="#ff9aa8" opacity=".7"/><path d="M46.5 64 H53.5 L50 68.4Z" fill="#ff7a97" stroke="#a85a24" stroke-width="1.2" stroke-linejoin="round"/><path d="M6 60 L22 62 M6 70 L22 68 M94 60 L78 62 M94 70 L78 68" stroke="#a85a24" stroke-width="2" stroke-linecap="round"/><path d="M50 68.4 V71 M50 71 Q46 75 43 71 M50 71 Q54 75 57 71" stroke="#a85a24" stroke-width="2.2" fill="none" stroke-linecap="round"/></symbol><symbol id="s_catH" viewBox="0 0 100 100"><ellipse cx="50" cy="92" rx="34" ry="5" fill="#000" opacity=".16"/><path d="M14 46 L17 10 L46 30 Z" fill="#ffb45e" stroke="#a85a24" stroke-width="3" stroke-linejoin="round"/><path d="M86 46 L83 10 L54 30 Z" fill="#ffb45e" stroke="#a85a24" stroke-width="3" stroke-linejoin="round"/><path d="M22 38 L23 20 L38 30Z" fill="#ffb3cf"/><path d="M78 38 L77 20 L62 30Z" fill="#ffb3cf"/><ellipse cx="50" cy="60" rx="38" ry="31" fill="#ffb45e" stroke="#a85a24" stroke-width="3"/><path d="M50 30 V40 M41 32 L43 41 M59 32 L57 41" stroke="#e07f2c" stroke-width="3.4" stroke-linecap="round"/><ellipse cx="36" cy="46" rx="9" ry="3.6" fill="#fff" opacity=".6" transform="rotate(-22 36 46)"/><ellipse cx="50" cy="71" rx="14" ry="9.5" fill="#fff0d9"/><path d="M27.5 59 Q34 50 40.5 59" stroke="#3b2547" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M59.5 59 Q66 50 72.5 59" stroke="#3b2547" stroke-width="3.6" fill="none" stroke-linecap="round"/><ellipse cx="22" cy="67" rx="5.5" ry="3.4" fill="#ff9aa8" opacity=".7"/><ellipse cx="78" cy="67" rx="5.5" ry="3.4" fill="#ff9aa8" opacity=".7"/><path d="M46.5 64 H53.5 L50 68.4Z" fill="#ff7a97" stroke="#a85a24" stroke-width="1.2" stroke-linejoin="round"/><path d="M6 60 L22 62 M6 70 L22 68 M94 60 L78 62 M94 70 L78 68" stroke="#a85a24" stroke-width="2" stroke-linecap="round"/><path d="M43 71 Q50 82 57 71Z" fill="#ff7a97" stroke="#a85a24" stroke-width="2" stroke-linejoin="round"/></symbol></defs></svg>
+<div id="bg"><span class="tw" style="left:32%;top:51%;font-size:26px;animation-delay:2.6s">⭐</span><span class="tw" style="left:75%;top:42%;font-size:28px;animation-delay:2.4s">🌸</span><span class="tw" style="left:86%;top:65%;font-size:27px;animation-delay:1.8s">☁️</span><span class="tw" style="left:43%;top:14%;font-size:15px;animation-delay:1.4s">☁️</span><span class="tw" style="left:27%;top:10%;font-size:29px;animation-delay:0.2s">☁️</span><span class="tw" style="left:28%;top:54%;font-size:27px;animation-delay:2.8s">☁️</span><span class="tw" style="left:4%;top:8%;font-size:29px;animation-delay:2.2s">⭐</span><span class="tw" style="left:88%;top:50%;font-size:24px;animation-delay:1.9s">⭐</span><span class="tw" style="left:94%;top:62%;font-size:15px;animation-delay:1.9s">⭐</span><span class="tw" style="left:26%;top:39%;font-size:25px;animation-delay:1.0s">☁️</span><span class="tw" style="left:22%;top:78%;font-size:20px;animation-delay:0.2s">🎀</span><span class="tw" style="left:18%;top:86%;font-size:16px;animation-delay:1.8s">🎀</span><span class="tw" style="left:15%;top:75%;font-size:17px;animation-delay:1.5s">🌸</span><span class="tw" style="left:84%;top:17%;font-size:15px;animation-delay:2.6s">🎀</span><span class="tw" style="left:45%;top:27%;font-size:21px;animation-delay:0.5s">✨</span><span class="tw" style="left:23%;top:45%;font-size:15px;animation-delay:1.4s">💖</span><span class="tw" style="left:59%;top:73%;font-size:30px;animation-delay:1.5s">🎀</span><span class="tw" style="left:75%;top:88%;font-size:27px;animation-delay:0.0s">☁️</span><span class="tw" style="left:27%;top:48%;font-size:22px;animation-delay:0.9s">🌸</span><span class="tw" style="left:82%;top:85%;font-size:15px;animation-delay:1.9s">⭐</span><span class="tw" style="left:57%;top:37%;font-size:14px;animation-delay:1.0s">🌸</span><span class="tw" style="left:59%;top:25%;font-size:25px;animation-delay:2.9s">💖</span></div>
+<div id="app">
+<header><h1><span class="hrt">🐰</span> 보애공주의 오목 놀이 <span class="hrt">🐱</span></h1><p class="sub">가로·세로·대각선으로 다섯 개를 먼저 나란히 놓으면 이겨요!</p></header>
+<main class="grid">
+ <section class="boardArea">
+  <div class="frame"><div id="board" role="application" aria-label="오목판 15 곱하기 15">
+    <svg class="lay" id="lines"></svg><div id="marks"></div><div id="stones"></div><div id="fx"></div>
+  </div></div>
+  <div id="endBar"><span id="endMsg"></span><button class="pri" id="againBtn" style="border:0;border-radius:12px;padding:8px 14px;font-weight:800;background:var(--btn);color:var(--btnInk)">한 판 더!</button><button id="closeEnd" style="border:0;border-radius:12px;padding:8px 12px;font-weight:800;background:var(--btn2);color:var(--btn2Ink)">판 구경하기</button></div>
+ </section>
+ <aside class="side" id="side">
+  <div class="card hud"><div class="mascot"><svg viewBox="0 0 100 100"><use href="#s_rabbit"/></svg></div><div class="bubble" id="say">…</div></div>
+  <div class="card status"><span class="turnStone"><svg viewBox="0 0 100 100"><use id="turnUse" href="#s_rabbit"/></svg></span><span id="turnText">…</span><span id="moveCount"></span></div>
+  <div class="card ctl">
+   <div class="seg" id="modeRow"><button id="modeAI" class="on">🤖 컴퓨터</button><button id="mode2">👭 친구</button><button id="modeOnline">🌐 온라인</button></div>
+   <div class="seg sm" id="diffRow"><button data-d="easy">🌱 쉬움</button><button data-d="normal">⭐ 보통</button><button data-d="hard">🔥 어려움</button></div>
+   <div class="seg sm" id="sideRow"><button data-s="1">🐰 토끼 선공 (먼저)</button><button data-s="2">🐱 고양이 후공 (나중)</button></div>
+   <div id="onlinePanel">
+     <div class="presence"><span class="dotLive" id="sibDot"></span><span id="sibStatus">…</span></div>
+     <div class="acts"><button class="pri" id="challengeBtn">⚔️ 대결 신청</button><button id="cancelChalBtn" style="display:none">신청 취소</button><button id="resignBtn" style="display:none">🏳️ 기권</button></div>
+     <p id="onlineHint"></p>
+   </div>
+   <div class="acts"><button class="pri" id="newBtn">🔄 새 게임</button><button id="undoBtn">↩️ 무르기</button><button id="hintBtn">💡 힌트</button></div>
+   <div class="tgls"><label class="tgl"><input type="checkbox" id="optMusic">🎵 배경음</label><label class="tgl"><input type="checkbox" id="optSfx">🔔 효과음</label><label class="tgl"><input type="checkbox" id="optVoice">🗣️ 말랑이 목소리</label><label class="tgl"><input type="checkbox" id="optConfirm">👆 두 번 눌러 놓기</label></div>
+  </div>
+  <div class="card rec" id="recCard"><h3><span>🏆 보애공주의 기록</span><button id="resetRec">기록 지우기</button></h3><div class="recBody" id="recBody"></div></div>
+ </aside>
+</main>
+</div>
+<div class="modal" id="challengeModal"><div class="mbox"><div class="big"><svg viewBox="0 0 100 100"><use href="#s_rabbit"/></svg></div><h2><span id="chalWho">보석왕자</span> 도전!</h2><p id="chalSub">대결 신청이 왔어!</p><div class="mb"><button id="declineBtn">거절</button><button class="pri" id="acceptBtn">승락!</button></div></div></div>
+<div class="modal" id="confirmModal"><div class="mbox"><h2 id="cfTitle"></h2><p id="cfText"></p><div class="mb"><button id="cfNo">아니</button><button class="pri" id="cfYes">응</button></div></div></div>
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+import { getFirestore, doc, setDoc, getDoc, updateDoc, addDoc, collection, onSnapshot, query, where, limit, serverTimestamp, deleteDoc, runTransaction } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+const FB_CONFIG={
+  apiKey:"AIzaSyBBVqnkN3gUwCL7jW3f5YmOAhuX3QY591g",
+  authDomain:"kids-chess-duel.firebaseapp.com",
+  projectId:"kids-chess-duel",
+  storageBucket:"kids-chess-duel.firebasestorage.app",
+  messagingSenderId:"613695768487",
+  appId:"1:613695768487:web:695244b7506e7f1796d882",
+  measurementId:"G-D3YBPZ941L"
+};
+try{
+  const app=initializeApp(FB_CONFIG), auth=getAuth(app), db=getFirestore(app);
+  window.__KidsFB={auth,db,ready:true,signInAnonymously:()=>signInAnonymously(auth),onAuthStateChanged:cb=>onAuthStateChanged(auth,cb),
+    doc,setDoc,getDoc,updateDoc,addDoc,collection,onSnapshot,query,where,limit,serverTimestamp,deleteDoc,runTransaction};
+}catch(e){console.warn('firebase init',e);}
+window.dispatchEvent(new Event('kidsfb-ready'));
+</script>
+
+<script>
+/* ===== Omok core: board, win detection, threat-based AI (free-style: 5 or more wins) ===== */
+const N=15;
+const DIRS=[[1,0],[0,1],[1,1],[1,-1]];
+function newBoard(){return new Int8Array(N*N);}
+function inb(x,y){return x>=0&&y>=0&&x<N&&y<N;}
+/* run of >=5 through (x,y) of the stone there; returns array of cell indexes or null */
+function winLine(b,x,y){
+  const p=b[y*N+x]; if(!p) return null;
+  for(const [dx,dy] of DIRS){
+    const cells=[y*N+x];
+    for(let s=1;;s++){const nx=x+dx*s,ny=y+dy*s;if(!inb(nx,ny)||b[ny*N+nx]!==p)break;cells.push(ny*N+nx);}
+    for(let s=1;;s++){const nx=x-dx*s,ny=y-dy*s;if(!inb(nx,ny)||b[ny*N+nx]!==p)break;cells.unshift(ny*N+nx);}
+    if(cells.length>=5) return cells;
+  }
+  return null;
+}
+function winsAt(b,x,y,p){ // would p win by playing the empty cell (x,y)?
+  b[y*N+x]=p; const w=winLine(b,x,y); b[y*N+x]=0; return !!w;
+}
+/* ---- pattern levels on a 9-cell line ('x' mine, 'o' blocked/theirs, '.' empty), centre index 4 is mine ---- */
+const L_NONE=0,L_ONE=1,L_TWO_C=2,L_TWO_O=3,L_THREE_C=4,L_THREE_O=5,L_FOUR_C=6,L_FOUR_O=7,L_FIVE=8;
+const PTS=[0,1,10,60,150,1500,2000,50000,10000000];
+const lvCache=new Map();
+function fiveInfo(s){
+  let five=false; const comp=new Set();
+  for(let a=0;a<=4;a++){
+    let xs=0,e=-1,bad=false;
+    for(let i=a;i<a+5;i++){const c=s[i]; if(c==='x')xs++; else if(c==='.')e=i; else {bad=true;break;}}
+    if(bad)continue;
+    if(xs===5)five=true; else if(xs===4)comp.add(e);
+  }
+  return {five,n:comp.size};
+}
+function lvl(s){
+  const k=s.join(''); const c=lvCache.get(k); if(c!==undefined)return c;
+  const f=fiveInfo(s); let r;
+  if(f.five) r=L_FIVE; else if(f.n>=2) r=L_FOUR_O; else if(f.n===1) r=L_FOUR_C;
+  else{
+    let best=L_ONE;
+    for(let i=0;i<9;i++) if(s[i]==='.'){
+      s[i]='x'; const l=lvl(s); s[i]='.';
+      const m=l===L_FOUR_O?L_THREE_O:l===L_FOUR_C?L_THREE_C:l===L_THREE_O?L_TWO_O:l===L_THREE_C?L_TWO_C:L_ONE;
+      if(m>best)best=m;
+    }
+    r=best;
+  }
+  lvCache.set(k,r); return r;
+}
+function dirLevels(b,x,y,p){ // levels in the 4 directions if p stands at (x,y) (cell must be empty or p)
+  const out=[0,0,0,0], s=new Array(9);
+  for(let d=0;d<4;d++){
+    const dx=DIRS[d][0],dy=DIRS[d][1];
+    for(let k=-4;k<=4;k++){
+      const nx=x+dx*k,ny=y+dy*k;
+      s[k+4]= k===0?'x' : !inb(nx,ny)?'o' : b[ny*N+nx]===p?'x' : b[ny*N+nx]===0?'.':'o';
+    }
+    out[d]=lvl(s);
+  }
+  return out;
+}
+function evalCell(b,x,y,p){
+  const lv=dirLevels(b,x,y,p); let sc=0,four=0,three=0;
+  for(let i=0;i<4;i++){const l=lv[i]; sc+=PTS[l]; if(l===L_FOUR_C||l===L_FOUR_O)four++; else if(l===L_THREE_O)three++;}
+  if(lv.some(l=>l===L_FIVE)) return PTS[L_FIVE];
+  if(four>=2) sc+=60000; else if(four>=1&&three>=1) sc+=40000; else if(three>=2) sc+=9000;
+  return sc;
+}
+function candidates(b,rad){
+  const r=rad||2, seen=new Uint8Array(N*N), out=[]; let any=false;
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++) if(b[y*N+x]){
+    any=true;
+    for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){
+      const nx=x+dx,ny=y+dy; if(!inb(nx,ny))continue; const i=ny*N+nx;
+      if(!b[i]&&!seen[i]){seen[i]=1;out.push(i);}
+    }
+  }
+  if(!any) out.push(7*N+7);
+  return out;
+}
+function threatCells(b,p){ // empty cells where p would make five right now
+  const out=[]; const c=candidates(b,1);
+  for(const i of c){const x=i%N,y=(i/N)|0; if(winsAt(b,x,y,p))out.push(i);}
+  return out;
+}
+function centerBias(i){const x=i%N,y=(i/N)|0;return 14-(Math.abs(x-7)+Math.abs(y-7));}
+function scoreMoves(b,p,def){
+  const q=3-p, c=candidates(b,2), res=[];
+  for(const i of c){
+    const x=i%N,y=(i/N)|0;
+    const att=evalCell(b,x,y,p), dd=evalCell(b,x,y,q);
+    res.push({i,att,dd,s:att+dd*def+centerBias(i)*0.5});
+  }
+  res.sort((a,b2)=>b2.s-a.s);
+  return res;
+}
+/* hard only: short search along forcing fours (VCF) */
+function vcf(b,p,depth){
+  if(depth<=0)return -1;
+  const q=3-p;
+  const c=candidates(b,1);
+  for(const i of c){
+    const x=i%N,y=(i/N)|0;
+    const lv=dirLevels(b,x,y,p);
+    if(!lv.some(l=>l>=L_FOUR_C))continue;
+    b[i]=p;
+    let win=false;
+    if(winLine(b,x,y)) win=true;
+    else{
+      const th=threatCells(b,p);
+      if(th.length>=2) win=true;
+      else if(th.length===1){
+        const t=th[0],tx=t%N,ty=(t/N)|0;
+        if(!winsAt(b,tx,ty,q)||false){
+          b[t]=q;
+          let oppFive=threatCells(b,q).length>0; // opponent got his own four from the block? then too risky
+          if(!oppFive && vcf(b,p,depth-1)>=0) win=true;
+          b[t]=0;
+        }
+      }
+    }
+    b[i]=0;
+    if(win)return i;
+  }
+  return -1;
+}
+function aiMove(b,p,level,nMoves){
+  const q=3-p;
+  const mine=threatCells(b,p), theirs=threatCells(b,q);
+  if(level==='easy'){
+    if(mine.length&&Math.random()<0.65)return mine[0];
+    if(theirs.length&&Math.random()<0.45)return theirs[0];
+    const c=candidates(b,2);
+    if(Math.random()<0.18)return c[(Math.random()*c.length)|0];
+    const sc=scoreMoves(b,p,0.35).slice(0,7);
+    return sc[(Math.random()*sc.length)|0].i;
+  }
+  if(mine.length)return mine[0];
+  if(theirs.length)return theirs[0];
+  if(nMoves===0)return 7*N+7;
+  if(level==='normal'){
+    const sc=scoreMoves(b,p,0.85);
+    if(Math.random()<0.12){const t=sc.slice(0,5);return t[(Math.random()*t.length)|0].i;}
+    const t=sc.slice(0,3).filter(m=>m.s>sc[0].s*0.8);
+    return t[(Math.random()*t.length)|0].i;
+  }
+  /* hard */
+  const v=vcf(b,p,5); if(v>=0)return v;
+  const sc=scoreMoves(b,p,1.0);
+  const top=sc.slice(0,10);
+  let best=top[0].i,bv=-Infinity;
+  for(const m of top){
+    const x=m.i%N,y=(m.i/N)|0;
+    if(m.att>=PTS[L_FIVE]){return m.i;}
+    b[m.i]=p;
+    let pen=0;
+    if(threatCells(b,q).length) pen=1e9;                 // opponent would win next
+    else if(threatCells(b,p).length) pen=0;              // I force him to answer
+    else{
+      let mx=0; const c2=candidates(b,2);
+      for(const j of c2){const jx=j%N,jy=(j/N)|0; const e=evalCell(b,jx,jy,q); if(e>mx)mx=e;}
+      pen=mx*0.7;
+    }
+    b[m.i]=0;
+    const val=m.s-pen;
+    if(val>bv){bv=val;best=m.i;}
+  }
+  return best;
+}
+/*node*/if(false&&typeof module!=='undefined')module.exports={N,newBoard,winLine,winsAt,aiMove,evalCell,threatCells,candidates,dirLevels,scoreMoves,vcf};
+
+</script>
+<script>
+/* ===================== config ===================== */
+const CFG={"theme": "princess", "player": "보애공주", "sib": "보석왕자", "pre": "cuteOmok", "presId": "보애공주", "sibId": "보석왕자", "s1": "rabbit", "s2": "cat", "n1": "토끼", "n2": "고양이", "lines": {"hi_1": "안녕, 보애공주! 나는 말랑이야. 같이 오목 놀자~!", "hi_2": "오늘도 반가워, 보애공주! 오목 한 판 해볼까?", "start_me_1": "새 판 시작! 네가 먼저 놓아봐~!", "start_me_2": "두근두근! 먼저 한 수 놓아 봐~!", "start_opp_1": "이번엔 내가 먼저 둘게! 잘 봐~!", "start_opp_2": "내가 먼저 시작할게! 가자~!", "nice_1": "오~ 좋은 수야!", "nice_2": "와, 잘 두는데?", "nice_3": "음~ 재밌다! 계속 두자~!", "hint_1": "여기 어때? 한번 놓아봐!", "hint_2": "내 생각엔 여기가 좋아!", "undo_1": "알겠어, 한 수 물러줄게!", "win_1": "와아! 다섯 개 완성! 네가 이겼어! 최고야!", "win_2": "대단해, 보애공주! 오목 챔피언이야!", "lose_1": "야호! 내가 이겼다~ 그래도 정말 잘했어! 한 판 더 할까?", "lose_2": "이번엔 내가 이겼어! 다음엔 네가 이길 거야~!", "draw_1": "판이 꽉 찼어! 무승부야!", "fwin_1": "토끼팀이 이겼어! 축하해!", "fwin_2": "고양이팀이 이겼어! 축하해!", "online_start": "대결 시작! 힘내라~!", "online_win": "와, 온라인 대결 승리야! 멋져!", "online_lose": "아쉽다! 다음엔 꼭 이길 수 있어!", "challenge": "대결 신청이 왔어! 받아볼래?"}, "confetti": ["🎉", "✨", "💖", "🌸", "⭐", "🐰", "🐱"]};
+const PLAYER=CFG.player, SIB_NAME=CFG.sib, PRE=CFG.pre;
+const $=id=>document.getElementById(id);
+const SK=[null,CFG.s1,CFG.s2];            // stone skins: 1 = first (선공), 2 = second (후공)
+const QA=/[?&]t=qa/.test(location.search);  // test-only presence ids so QA never pings the real kids
+const MY_PRES=CFG.presId+(QA?'__qa':''), SIB_PRES=CFG.sibId+(QA?'__qa':'');
+const getPref=(k,d)=>{try{const v=localStorage.getItem(PRE+k);return v===null?d:v==='on';}catch(e){return d;}};
+const setPref=(k,v)=>{try{localStorage.setItem(PRE+k,v?'on':'off');}catch(e){}};
+const getJ=(k,d)=>{try{const v=localStorage.getItem(PRE+k);return v?JSON.parse(v):d;}catch(e){return d;}};
+const setJ=(k,v)=>{try{localStorage.setItem(PRE+k,JSON.stringify(v));}catch(e){}};
+const prefs=Object.assign({level:'normal',side:1,confirm:matchMedia('(pointer:coarse)').matches},getJ('Prefs',{}));
+const savePrefs=()=>setJ('Prefs',prefs);
+
+/* ===================== state ===================== */
+let B=newBoard(), moves=[], turn=1, over=false, winCells=null;
+let mode='ai', level=prefs.level, myColor=prefs.side, busy=false, seq=0, recorded=false;
+let pendingCell=-1, hintCell=-1, endBarT=null;
+const MS='http://www.w3.org/2000/svg';
+
+/* ===================== layout ===================== */
+function layout(){
+  const vw=innerWidth, vh=innerHeight;
+  const pad=vw<520?6:10;
+  const hH=($('app').querySelector('header')||{offsetHeight:60}).offsetHeight;
+  let cs, row=vw>=1000&&vw/vh>1.05;
+  if(row){const avail=Math.min(vh-hH-60,vw-400-70,860);cs=Math.floor((avail-pad*2)/15);}
+  else{const avail=Math.min(vw-28,640);cs=Math.floor((avail-pad*2)/15);}
+  cs=Math.max(cs,17);
+  document.body.dataset.layout=row?'row':'col';
+  document.documentElement.style.setProperty('--cs',cs+'px');
+  document.documentElement.style.setProperty('--pad',pad+'px');
+  buildLines(cs);
+  if(row){const fr=document.querySelector('.frame');$('side').style.minHeight=fr.offsetHeight+'px';}
+  else $('side').style.minHeight='';
+}
+function buildLines(cs){
+  const S=cs*15, svg=$('lines'); svg.setAttribute('viewBox',`0 0 ${S} ${S}`);
+  let h='';
+  const a=cs/2,b=S-cs/2;
+  for(let i=0;i<15;i++){const p=cs*(i+.5);
+    h+=`<line x1="${a}" y1="${p}" x2="${b}" y2="${p}"/><line x1="${p}" y1="${a}" x2="${p}" y2="${b}"/>`;}
+  let hs='';[[3,3],[11,3],[3,11],[11,11],[7,7]].forEach(([x,y])=>hs+=`<circle cx="${cs*(x+.5)}" cy="${cs*(y+.5)}" r="${Math.max(2.5,cs*.13)}"/>`);
+  svg.innerHTML=`<g stroke="var(--line)" stroke-width="${Math.max(1.2,cs*.055)}" stroke-linecap="round">${h}</g><g fill="var(--hoshi)">${hs}</g>
+   <rect x="${a}" y="${a}" width="${b-a}" height="${b-a}" fill="none" stroke="var(--line)" stroke-width="${Math.max(2,cs*.1)}" rx="2"/>`;
+}
+
+/* ===================== sound ===================== */
+let AC=null,unlocked=false,sfxOn=getPref('Sfx',true),musicOn=getPref('Music',true),voiceOn=getPref('Voice',true);
+let master=null,musicGain=null,sfxGain=null,vGain=null,speaking=false;
+function ac(){
+  if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;
+    AC=new C();master=AC.createGain();master.gain.value=1;master.connect(AC.destination);
+    musicGain=AC.createGain();musicGain.gain.value=.5;musicGain.connect(master);
+    sfxGain=AC.createGain();sfxGain.gain.value=.9;sfxGain.connect(master);
+    vGain=AC.createGain();vGain.gain.value=1;vGain.connect(master);}
+  return AC;
+}
+function unlock(){
+  if(unlocked)return;
+  const a=ac(); if(!a)return;
+  try{a.resume&&a.resume();const b=a.createBuffer(1,1,22050),s=a.createBufferSource();s.buffer=b;s.connect(a.destination);s.start(0);}catch(e){}
+  unlocked=true; startMusic(); vWarm();
+  setTimeout(()=>say('hi'),250);
+}
+['pointerup','touchend','click','keydown'].forEach(ev=>addEventListener(ev,unlock,{passive:true}));
+document.addEventListener('visibilitychange',()=>{if(!AC)return;if(document.hidden)AC.suspend&&AC.suspend();else AC.resume&&AC.resume();});
+const mf=n=>440*Math.pow(2,(n-69)/12);
+function tone(freq,t,dur,type,vol,dest,opt){
+  const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type=type||'sine';
+  o.frequency.setValueAtTime(freq,t);
+  if(opt&&opt.to)o.frequency.exponentialRampToValueAtTime(opt.to,t+(opt.at||dur*.5));
+  g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+(opt&&opt.atk||.01));g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g);g.connect(dest||sfxGain);o.start(t);o.stop(t+dur+.05);
+}
+function noiseBurst(t,dur,vol,freq){
+  const a=ac();if(!a)return;const n=Math.floor(a.sampleRate*dur),buf=a.createBuffer(1,n,a.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);
+  const s=a.createBufferSource();s.buffer=buf;const f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=freq||1800;
+  const g=a.createGain();g.gain.value=vol;s.connect(f);f.connect(g);g.connect(sfxGain);s.start(t);
+}
+const SFXD={
+  pop(){const a=ac();const t=a.currentTime;
+    if(CFG.theme==='princess'){tone(420,t,.2,'sine',.55,null,{to:1180,at:.08});tone(840,t+.02,.14,'triangle',.18,null,{to:1700,at:.07});noiseBurst(t,.03,.25,2400);}
+    else{tone(260,t,.22,'triangle',.6,null,{to:760,at:.08});tone(1568,t+.05,.35,'sine',.12);noiseBurst(t,.03,.3,1500);}},
+  tap(){const a=ac(),t=a.currentTime;tone(660,t,.08,'sine',.25);},
+  hint(){const a=ac(),t=a.currentTime;tone(880,t,.18,'sine',.3);tone(1320,t+.1,.24,'sine',.25);},
+  undo(){const a=ac(),t=a.currentTime;tone(700,t,.2,'sine',.3,null,{to:300,at:.15});},
+  ding(){const a=ac(),t=a.currentTime;tone(988,t,.25,'sine',.35);tone(1319,t+.12,.35,'sine',.3);},
+  win(){const a=ac(),t=a.currentTime;[523,659,784,1047,1319,1568].forEach((f,i)=>{tone(f,t+i*.11,.4,CFG.theme==='princess'?'triangle':'sine',.4);tone(f*2,t+i*.11+.03,.25,'sine',.1);});},
+  lose(){const a=ac(),t=a.currentTime;[523,466,415,349].forEach((f,i)=>tone(f,t+i*.18,.34,'triangle',.3));},
+  draw(){const a=ac(),t=a.currentTime;tone(523,t,.25,'sine',.3);tone(523,t+.25,.3,'sine',.3);}
+};
+function sfx(n){if(!sfxOn||!unlocked)return;try{ac();SFXD[n]&&SFXD[n]();}catch(e){}}
+/* background music: procedural music box (princess) / minor-key arpeggio (prince) */
+const MUS=CFG.theme==='princess'
+ ?{step:.34,per:6,wave:'triangle',melWave:'sine',vol:.11,
+   chords:[[48,55,64],[43,50,59],[45,52,60],[41,48,57],[48,55,64],[43,50,59],[41,48,57],[48,55,60]],arp:[0,1,2,1,2,1],
+   mel:[[76,0,79,0,76,0],[74,0,71,0,74,0],[72,0,76,0,79,0],[77,0,76,0,72,0],[79,0,84,0,79,0],[78,0,74,0,71,0],[77,0,76,0,74,0],[72,0,0,0,0,0]]}
+ :{step:.27,per:8,wave:'triangle',melWave:'sine',vol:.1,bass:true,
+   chords:[[45,52,57],[41,48,53],[48,55,60],[43,50,55],[45,52,57],[41,48,53],[40,47,52],[45,52,57]],arp:[0,1,2,1,0,1,2,1],
+   mel:[[69,0,0,72,0,76,0,0],[72,0,0,69,0,0,65,0],[76,0,0,79,0,76,0,0],[74,0,0,71,0,0,67,0],[69,0,72,0,76,0,81,0],[77,0,0,76,0,72,0,0],[71,0,0,76,0,0,74,0],[69,0,0,0,0,0,0,0]]};
+let musicTimer=null,nextT=0,mstep=0;
+function startMusic(){
+  if(!musicOn||!unlocked||musicTimer)return;const a=ac();if(!a)return;
+  nextT=a.currentTime+.15;mstep=0;
+  const sched=()=>{if(!AC||document.hidden){nextT=Math.max(nextT,AC?AC.currentTime+.1:0);return;}
+    while(nextT<AC.currentTime+.6){playMStep(mstep,nextT);nextT+=MUS.step;mstep++;}};
+  sched();musicTimer=setInterval(sched,150);
+}
+function stopMusic(){if(musicTimer){clearInterval(musicTimer);musicTimer=null;}}
+function playMStep(n,t){
+  const bar=Math.floor(n/MUS.per)%MUS.chords.length,s=n%MUS.per,ch=MUS.chords[bar];
+  const nt=ch[MUS.arp[s%MUS.arp.length]]+(s%2?12:0);
+  tone(mf(nt),t,MUS.step*2.2,MUS.wave,MUS.vol,musicGain);
+  if(MUS.bass&&(s===0||s===4))tone(mf(ch[0]-12),t,MUS.step*3,'triangle',MUS.vol*1.5,musicGain);
+  if(!MUS.bass&&s===0)tone(mf(ch[0]-12),t,MUS.step*4,'sine',MUS.vol*1.2,musicGain);
+  const m=MUS.mel[bar][s]; if(m)tone(mf(m),t,MUS.step*2.6,MUS.melWave,MUS.vol*1.15,musicGain);
+}
+function duck(on){if(musicGain&&AC)musicGain.gain.setTargetAtTime(on?.18:.5,AC.currentTime,.08);}
+
+/* ===================== voice (pre-recorded clips) ===================== */
+const VURL='voice/omok-clips.json';
+let VMAN=null,VB64={},VBUF=new Map(),vP=null,vSrc=null,vSeq=0,lastSpoke=0;
+function vWarm(){if(!voiceOn||VMAN||vP)return;
+  vP=fetch(VURL).then(r=>r.ok?r.json():null).then(j=>{if(j&&j.lines){VMAN=j.lines;VB64=j.clips||{};}vP=null;}).catch(()=>{vP=null;setTimeout(()=>{},0);});}
+function vB64(s){const bin=atob(s),n=bin.length,u=new Uint8Array(n);for(let i=0;i<n;i++)u[i]=bin.charCodeAt(i);return u.buffer;}
+function vBuffer(key){
+  if(VBUF.has(key))return Promise.resolve(VBUF.get(key));
+  const s=VB64[key];if(!s)return Promise.resolve(null);
+  const a=ac();if(!a)return Promise.resolve(null);
+  return new Promise(res=>{let done=false;const ok=b=>{if(!done){done=true;if(b)VBUF.set(key,b);res(b||null);}};
+    try{const p=a.decodeAudioData(vB64(s),ok,()=>ok(null));if(p&&p.then)p.then(ok,()=>ok(null));}catch(e){ok(null);}});
+}
+function vPlay(key){
+  if(!voiceOn||!unlocked||document.hidden)return;
+  if(!VMAN){vWarm();if(vP){const t0=Date.now();vP.then(()=>{if(VMAN&&Date.now()-t0<4000)vPlay(key);});}return;}
+  const my=++vSeq;
+  try{if(vSrc){vSrc.onended=null;vSrc.stop();}}catch(e){} vSrc=null;
+  vBuffer(key).then(b=>{if(!b||my!==vSeq||!voiceOn)return;const a=ac();if(!a)return;
+    const s=a.createBufferSource();s.buffer=b;s.connect(vGain);vSrc=s;speaking=true;duck(true);
+    s.onended=()=>{if(my===vSeq){speaking=false;duck(false);}};s.start(a.currentTime+.02);});
+}
+/* say(group): text always shows in the bubble; the clip plays if voice is on.
+   NOTE (no-leak rule): lines never depend on threats on the board - only on game start/end, hints and random pleasantries. */
+function say(group,opts){
+  const keys=Object.keys(CFG.lines).filter(k=>k===group||k.indexOf(group+'_')===0);
+  if(!keys.length)return;
+  const k=keys[(Math.random()*keys.length)|0];
+  $('say').textContent=CFG.lines[k];
+  if(!(opts&&opts.silent))vPlay(k);
+}
+
+/* ===================== stones & board drawing ===================== */
+function sym(c,happy){return '#s_'+SK[c]+(happy?'H':'');}
+function stoneEl(idx,c){
+  const el=document.createElement('div');el.className='stone';el.dataset.i=idx;
+  el.style.setProperty('--x',idx%N);el.style.setProperty('--y',(idx/N)|0);
+  el.innerHTML=`<svg viewBox="0 0 100 100"><use href="${sym(c)}"/></svg>`;return el;
+}
+function clearMarks(){$('marks').innerHTML='';hintCell=-1;}
+function drawLast(){
+  document.querySelectorAll('.lastDot').forEach(e=>e.remove());
+  if(!moves.length||over)return;
+  const i=moves[moves.length-1],d=document.createElement('div');d.className='lastDot';d.style.setProperty('--x',i%N);d.style.setProperty('--y',(i/N)|0);$('marks').appendChild(d);
+}
+function rebuild(){
+  $('stones').innerHTML='';$('fx').innerHTML='';$('marks').innerHTML='';pendingCell=-1;hintCell=-1;
+  B=newBoard();turn=1;
+  moves.forEach(i=>{B[i]=turn;$('stones').appendChild(stoneEl(i,turn));turn=3-turn;});
+  drawLast();
+}
+function addStone(idx,c,animate){
+  const el=stoneEl(idx,c);if(animate)el.classList.add('drop');$('stones').appendChild(el);
+  if(animate){const r=document.createElement('div');r.className='ripple';r.style.setProperty('--x',idx%N);r.style.setProperty('--y',(idx/N)|0);$('marks').appendChild(r);setTimeout(()=>r.remove(),1000);}
+}
+
+/* ===================== game flow ===================== */
+const me=()=>mode==='online'?onl.color:myColor;
+function canIPlay(){
+  if(over||busy)return false;
+  if(mode==='ai')return turn===myColor;
+  if(mode==='online')return !!onl.gid&&turn===onl.color&&!onl.pushing;
+  return true;
+}
+function setTurnUI(){
+  const u=$('turnUse');u.setAttribute('href',sym(over?(winCells?B[winCells[0]]:turn):turn));
+  let t;
+  if(over)t=$('turnText').textContent;
+  else if(mode==='online'){t=!onl.gid?'대결 신청을 해 보자!':(turn===onl.color?'내 차례예요! 👆':`${SIB_NAME} 차례… ⏳`);}
+  else if(mode==='ai'){t=turn===myColor?'내 차례예요! 👆':'컴퓨터가 생각 중… 🤔';}
+  else t=`${CFG['n'+turn]}팀 차례!`;
+  if(!over)$('turnText').textContent=t;
+  $('moveCount').textContent=moves.length?`${moves.length}수`:'';
+  $('undoBtn').disabled=mode==='online'||over||!moves.length||(mode==='ai'&&busy);
+  $('hintBtn').disabled=mode==='online'||over||busy||(mode==='ai'&&turn!==myColor);
+}
+function newGame(opts){
+  seq++;busy=false;over=false;winCells=null;recorded=false;moves=[];clearTimeout(endBarT);
+  $('endBar').classList.remove('show');rebuild();
+  if(mode==='online'){turn=1;setTurnUI();return;}
+  setTurnUI();
+  if(mode==='ai'){
+    if(myColor===2){say('start_opp');aiTurn();}else say('start_me');
+  }else $('say').textContent=`${CFG.n1}팀이 먼저! 번갈아 놓아요~`;
+}
+function aiTurn(){
+  const my=seq;busy=true;setTurnUI();
+  setTimeout(()=>{
+    if(my!==seq||over)return;
+    const t0=performance.now();let m=aiMove(B,3-myColor,level,moves.length);
+    busy=false;playMove(m,true);
+  },500+Math.random()*450);               // fixed random delay: thinking time never reveals how tense the board is
+}
+function playMove(idx,animate){
+  if(over||B[idx])return false;
+  clearGhost();pendingCell=-1;
+  const c=turn;B[idx]=c;moves.push(idx);addStone(idx,c,animate!==false);sfx('pop');
+  hintCell=-1;$('marks').querySelectorAll('.ring').forEach(e=>e.remove());
+  const x=idx%N,y=(idx/N)|0,w=winLine(B,x,y);
+  if(w){finish(c,w);return true;}
+  if(moves.length>=N*N){finish(0,null);return true;}
+  turn=3-turn;drawLast();setTurnUI();
+  if(mode==='ai'&&c===myColor&&!over){
+    if(Math.random()<.14&&moves.length>4)setTimeout(()=>{if(!over)say('nice');},250);
+    aiTurn();
+  }
+  return true;
+}
+function handleTap(x,y){
+  if(!canIPlay())return;
+  const idx=y*N+x;if(B[idx])return;
+  if(prefs.confirm){
+    if(pendingCell!==idx){pendingCell=idx;showGhost(idx);sfx('tap');return;}
+  }
+  clearGhost();pendingCell=-1;
+  const mover=turn;
+  if(!playMove(idx,true))return;
+  if(mode==='online')pushOnlineMove(idx,mover);
+}
+function showGhost(idx){
+  clearGhost();const g=document.createElement('div');g.className='ghost'+(prefs.confirm?' confirm':'');g.id='ghost';
+  g.style.setProperty('--x',idx%N);g.style.setProperty('--y',(idx/N)|0);g.innerHTML=`<svg viewBox="0 0 100 100"><use href="${sym(turn)}"/></svg>`;$('marks').appendChild(g);
+}
+function clearGhost(){const g=$('ghost');if(g)g.remove();}
+function cellFromEvent(e){
+  const r=$('board').getBoundingClientRect(),cs=r.width/15;
+  const x=Math.floor((e.clientX-r.left)/cs),y=Math.floor((e.clientY-r.top)/cs);
+  return (x<0||y<0||x>=N||y>=N)?null:[x,y];
+}
+$('board').addEventListener('click',e=>{const c=cellFromEvent(e);if(c)handleTap(c[0],c[1]);});
+$('board').addEventListener('pointermove',e=>{
+  if(e.pointerType!=='mouse'||prefs.confirm||!canIPlay()){if(e.pointerType==='mouse'&&!prefs.confirm)clearGhost();return;}
+  const c=cellFromEvent(e);if(!c||B[c[1]*N+c[0]]){clearGhost();return;}
+  const g=$('ghost');const idx=c[1]*N+c[0];if(g&&g.dataset.i==idx)return;showGhost(idx);$('ghost').dataset.i=idx;
+});
+$('board').addEventListener('pointerleave',()=>{if(!prefs.confirm)clearGhost();});
+
+/* ----- finish / records ----- */
+function finish(winner,cells){
+  over=true;busy=false;winCells=cells;clearGhost();pendingCell=-1;
+  document.querySelectorAll('.lastDot').forEach(e=>e.remove());
+  let kind,msg;
+  if(winner===0){kind='draw';msg='🤝 판이 꽉 찼어요! 무승부!';}
+  else if(mode==='friend'){kind='friend';msg=`🎉 ${CFG['n'+winner]}팀 승리! 5목 완성!`;}
+  else{kind=winner===me()?'win':'lose';msg=kind==='win'?'🎉 5목 완성! 내가 이겼어요!':'😢 아쉬워요… 다음엔 이길 수 있어요!';}
+  if(cells){celebrate(winner,cells);}
+  $('turnText').textContent=msg.replace(/^\S+\s/,'');setTurnUI();
+  setTimeout(()=>{
+    if(kind==='win'||kind==='friend')sfx('win');else if(kind==='lose')sfx('lose');else sfx('draw');
+    if(mode==='friend')say(winner===1?'fwin_1':'fwin_2');
+    else if(mode==='online')say(kind==='win'?'online_win':kind==='lose'?'online_lose':'draw');
+    else say(kind==='win'?'win':kind==='lose'?'lose':'draw');
+  },350);
+  record(winner);
+  $('endMsg').textContent=msg;
+  $('againBtn').textContent=mode==='online'?'확인':'한 판 더!';
+  endBarT=setTimeout(()=>$('endBar').classList.add('show'),cells?1500:500);
+  if(mode==='online')endOnlineGame(winner);
+}
+function celebrate(winner,cells){
+  const st=$('stones');
+  const set=new Set(cells);let k=0;
+  st.querySelectorAll('.stone').forEach(el=>{
+    const i=+el.dataset.i;
+    if(set.has(i)){el.classList.remove('drop');el.style.setProperty('--k',k++);el.classList.add('win');el.querySelector('use').setAttribute('href',sym(winner,true));}
+    else el.classList.add('dim');
+  });
+  /* glowing laser line through the winning stones */
+  const cs=$('board').getBoundingClientRect().width/15;
+  const a=cells[0],b=cells[cells.length-1];
+  const ln=document.createElementNS(MS,'svg');ln.setAttribute('width','100%');ln.setAttribute('height','100%');ln.style.cssText='position:absolute;inset:0;overflow:visible';
+  const x1=(a%N+.5)*cs,y1=((a/N|0)+.5)*cs,x2=(b%N+.5)*cs,y2=((b/N|0)+.5)*cs,len=Math.hypot(x2-x1,y2-y1);
+  ln.innerHTML=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#fff" stroke-width="${cs*.34}" stroke-linecap="round" opacity=".55" style="filter:drop-shadow(0 0 6px var(--gold))" stroke-dasharray="${len}" stroke-dashoffset="${len}"><animate attributeName="stroke-dashoffset" from="${len}" to="0" dur=".6s" fill="freeze"/></line>`;
+  $('fx').appendChild(ln);
+  const em=CFG.confetti;
+  for(let n=0;n<28;n++){const s=document.createElement('span');s.className='conf';s.textContent=em[n%em.length];
+    s.style.left=(Math.random()*96)+'%';s.style.animationDuration=(2.2+Math.random()*2)+'s';s.style.animationDelay=(Math.random()*1.2)+'s';$('fx').appendChild(s);}
+  setTimeout(()=>{$('fx').querySelectorAll('.conf').forEach(e=>e.remove());},6500);
+}
+const loadRec=()=>{const r=getJ('Rec',null)||{};r.stats=r.stats||{};
+  ['easy','normal','hard','online'].forEach(k=>{if(!r.stats[k])r.stats[k]={w:0,l:0,d:0};});
+  if(!r.stats.friend)r.stats.friend={a:0,b:0,d:0};r.recent=r.recent||[];return r;};
+const saveRec=r=>setJ('Rec',r);
+function record(winner){
+  if(recorded)return;recorded=true;
+  const r=loadRec();r.player=PLAYER;let e;
+  if(mode==='friend'){const f=r.stats.friend;if(winner===0)f.d++;else if(winner===1)f.a++;else f.b++;e={k:'friend',r:winner===0?'d':winner===1?'a':'b'};}
+  else{const res=winner===0?'d':(winner===me()?'w':'l');
+    const key=mode==='online'?'online':level;r.stats[key][res]++;
+    e={k:key,r:res,s:me()===1?'first':'second'};
+    if(mode==='online')e.opp=onl.oppName||SIB_NAME;}
+  e.t=Date.now();e.n=moves.length;r.recent.unshift(e);r.recent=r.recent.slice(0,10);
+  saveRec(r);renderRec();
+}
+function pct(s){const t=s.w+s.l+s.d;return t?Math.round(s.w*100/t)+'%':'-';}
+function renderRec(){
+  const r=loadRec(),S=r.stats;
+  const row=(label,s)=>`<div class="rrow"><span>${label}</span><span class="c pw">${s.w}</span><span class="c pl">${s.l}</span><span class="c">${s.d}</span><span class="c">${pct(s)}</span></div>`;
+  let h=`<div class="rrow hd"><span>모드</span><span class="c">승</span><span class="c">패</span><span class="c">무</span><span class="c">승률</span></div>`;
+  h+=row('🌱 쉬움',S.easy)+row('⭐ 보통',S.normal)+row('🔥 어려움',S.hard)+row('🌐 온라인',S.online);
+  const f=S.friend;h+=`<div class="rrow"><span>👭 친구</span><span class="c" style="grid-column:span 4;font-size:12.5px">${CFG.n1}팀 ${f.a}승 · ${CFG.n2}팀 ${f.b}승 · 무 ${f.d}</span></div>`;
+  const nm={easy:'🌱 쉬움',normal:'⭐ 보통',hard:'🔥 어려움',online:'🌐 온라인',friend:'👭 친구'};
+  if(r.recent.length){h+='<div class="recent"><b style="font-size:12.5px;color:var(--sub)">최근 대결</b>';
+    r.recent.forEach(e=>{const res=e.k==='friend'?(e.r==='a'?`${CFG.n1}팀 승`:e.r==='b'?`${CFG.n2}팀 승`:'무승부'):(e.r==='w'?'승 🎉':e.r==='l'?'패':'무');
+      const d=new Date(e.t);h+=`<div><span>${nm[e.k]||e.k}${e.opp?' vs '+e.opp:''}</span><b>${res}</b><span class="t">${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}</span></div>`;});
+    h+='</div>';}
+  $('recBody').innerHTML=h;
+}
+
+/* ----- undo / hint ----- */
+function undo(){
+  if(over||!moves.length||mode==='online')return;
+  if(mode==='ai'&&busy)return;
+  seq++;busy=false;
+  if(mode==='ai'){
+    moves.pop();                                   // always remove my last move together with the computer's answer
+    while(moves.length&&((moves.length%2===0)?1:2)!==myColor)moves.pop();
+  }else moves.pop();
+  rebuild();sfx('undo');say('undo');setTurnUI();
+  if(mode==='ai'&&turn!==myColor)aiTurn();
+}
+function hint(){
+  if(over||busy||mode==='online')return;
+  if(mode==='ai'&&turn!==myColor)return;
+  const m=aiMove(B,turn,'hard',moves.length);
+  $('marks').querySelectorAll('.ring').forEach(e=>e.remove());
+  const r=document.createElement('div');r.className='ring';r.style.setProperty('--x',m%N);r.style.setProperty('--y',(m/N)|0);$('marks').appendChild(r);
+  hintCell=m;sfx('hint');say('hint');
+}
+
+/* ===================== UI wiring ===================== */
+function setMode(m){
+  if(mode==='online'&&m!=='online')leaveOnline();
+  mode=m;
+  $('modeAI').classList.toggle('on',m==='ai');$('mode2').classList.toggle('on',m==='friend');$('modeOnline').classList.toggle('on',m==='online');
+  $('diffRow').classList.toggle('show',m==='ai');$('sideRow').classList.toggle('show',m==='ai');$('onlinePanel').classList.toggle('show',m==='online');
+  $('newBtn').style.display=m==='online'?'none':'';
+  if(m==='online'){startOnline();}
+  else newGame();
+}
+function syncSegs(){
+  document.querySelectorAll('#diffRow button').forEach(b=>b.classList.toggle('on',b.dataset.d===level));
+  document.querySelectorAll('#sideRow button').forEach(b=>b.classList.toggle('on',+b.dataset.s===myColor));
+}
+function askConfirm(title,text,yes,no,cb){
+  $('cfTitle').textContent=title;$('cfText').textContent=text;$('cfYes').textContent=yes||'응';$('cfNo').textContent=no||'아니';
+  $('confirmModal').classList.add('show');
+  $('cfYes').onclick=()=>{$('confirmModal').classList.remove('show');cb&&cb();};
+  $('cfNo').onclick=()=>$('confirmModal').classList.remove('show');
+}
+function toast(msg,ms){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),ms||2800);}
+$('modeAI').onclick=()=>{if(mode!=='ai')setMode('ai');};
+$('mode2').onclick=()=>{if(mode!=='friend')setMode('friend');};
+$('modeOnline').onclick=()=>{if(mode!=='online')setMode('online');};
+document.querySelectorAll('#diffRow button').forEach(b=>b.onclick=()=>{level=b.dataset.d;prefs.level=level;savePrefs();syncSegs();newGame();});
+document.querySelectorAll('#sideRow button').forEach(b=>b.onclick=()=>{myColor=+b.dataset.s;prefs.side=myColor;savePrefs();syncSegs();newGame();});
+$('newBtn').onclick=()=>{if(moves.length&&!over)askConfirm('새 게임을 할까?','지금 판은 기록 없이 끝나요.','응, 새로!','아니',()=>newGame());else newGame();};
+$('againBtn').onclick=()=>{if(mode==='online'){$('endBar').classList.remove('show');leaveOnlineGameUI();}else newGame();};
+$('closeEnd').onclick=()=>$('endBar').classList.remove('show');
+$('undoBtn').onclick=undo;$('hintBtn').onclick=hint;
+$('resetRec').onclick=()=>askConfirm('기록을 지울까?','승패 기록이 모두 사라져요.','지울래','아니',()=>{saveRec({stats:{},recent:[]});renderRec();});
+$('optMusic').checked=musicOn;$('optSfx').checked=sfxOn;$('optVoice').checked=voiceOn;$('optConfirm').checked=prefs.confirm;
+$('optMusic').onchange=e=>{musicOn=e.target.checked;setPref('Music',musicOn);musicOn?startMusic():stopMusic();};
+$('optSfx').onchange=e=>{sfxOn=e.target.checked;setPref('Sfx',sfxOn);};
+$('optVoice').onchange=e=>{voiceOn=e.target.checked;setPref('Voice',voiceOn);if(voiceOn)vWarm();else{vSeq++;try{vSrc&&vSrc.stop();}catch(x){}}};
+$('optConfirm').onchange=e=>{prefs.confirm=e.target.checked;savePrefs();clearGhost();pendingCell=-1;};
+$('challengeBtn').onclick=()=>sendChallenge();
+$('cancelChalBtn').onclick=()=>cancelChallenge();
+$('resignBtn').onclick=()=>askConfirm('기권할까?','지금 판을 포기하면 패배로 기록돼.','응, 기권','아니',()=>resignOnline());
+$('acceptBtn').onclick=()=>acceptChallenge();$('declineBtn').onclick=()=>declineChallenge();
+addEventListener('resize',layout);addEventListener('orientationchange',()=>setTimeout(layout,200));
+
+/* ===================== online duel (Firestore: omokPresence / omokChallenges / omokGames) ===================== */
+const COL={pres:'omokPresence',chal:'omokChallenges',games:'omokGames'};
+const onl={oppUid:null,uid:null,gid:null,color:0,oppName:'',unsubs:[],gameUnsub:null,presTimer:null,sibUid:null,sibAt:0,sibOn:false,outChal:null,inChal:null,inData:null,pushing:false,applied:0,pending:null,ending:false};
+function waitFB(){return new Promise(res=>{if(window.__KidsFB&&window.__KidsFB.ready)return res(window.__KidsFB);
+  const t=setTimeout(()=>res(window.__KidsFB||null),12000);addEventListener('kidsfb-ready',()=>{clearTimeout(t);res(window.__KidsFB);},{once:true});});}
+async function ensureAuth(){
+  const fb=await waitFB();if(!fb){toast('온라인 연결을 불러오지 못했어 😢');return null;}
+  if(fb.auth.currentUser){onl.uid=fb.auth.currentUser.uid;return fb;}
+  try{const c=await fb.signInAnonymously();onl.uid=c.user.uid;return fb;}catch(e){console.error(e);toast('로그인에 실패했어. 인터넷을 확인해 줘!');return null;}
+}
+async function beat(on){const fb=window.__KidsFB;if(!fb||!onl.uid)return;
+  try{await fb.setDoc(fb.doc(fb.db,COL.pres,MY_PRES),{name:PLAYER,theme:CFG.theme,uid:onl.uid,updatedAt:Date.now(),online:!!on},{merge:true});}catch(e){console.warn('presence',e);}}
+function presUI(){
+  const live=onl.sibOn&&(Date.now()-onl.sibAt)<45000&&!!onl.sibUid;
+  $('sibDot').classList.toggle('on',live);
+  $('sibStatus').textContent=live?`${SIB_NAME}가 접속 중! ✨`:`${SIB_NAME} 아직 안 접속`;
+  const inGame=!!onl.gid;
+  $('challengeBtn').style.display=inGame?'none':'';
+  $('challengeBtn').disabled=!live||!!onl.outChal;
+  $('cancelChalBtn').style.display=(onl.outChal&&!inGame)?'':'none';
+  $('resignBtn').style.display=(inGame&&!over)?'':'none';
+  $('onlineHint').textContent=inGame?(onl.color===1?`너는 ${CFG.n1}(선공)! ${SIB_NAME}와 실시간 대결 중`:`너는 ${CFG.n2}(후공)! ${SIB_NAME}와 실시간 대결 중`)
+    :onl.outChal?`${SIB_NAME}의 대답을 기다리는 중…`:'신청한 쪽이 선공이에요. 둘 다 온라인 모드로 들어와야 해요!';
+}
+function offOnline(){onl.unsubs.forEach(u=>{try{u();}catch(e){}});onl.unsubs=[];if(onl.presTimer){clearInterval(onl.presTimer);onl.presTimer=null;}
+  if(onl.gameUnsub){try{onl.gameUnsub();}catch(e){}onl.gameUnsub=null;}}
+async function startOnline(){
+  offOnline();onl.gid=null;onl.outChal=null;onl.inChal=null;newGame();
+  const fb=await ensureAuth();if(!fb){presUI();return;}
+  if(mode!=='online')return;
+  await beat(true);onl.presTimer=setInterval(()=>{beat(true);presUI();},20000);
+  onl.unsubs.push(fb.onSnapshot(fb.doc(fb.db,COL.pres,SIB_PRES),snap=>{
+    if(!snap.exists()){onl.sibOn=false;onl.sibUid=null;onl.sibAt=0;presUI();return;}
+    const d=snap.data();onl.sibUid=d.uid||null;onl.sibAt=d.updatedAt||0;onl.sibOn=!!d.online;presUI();},e=>console.warn(e)));
+  onl.unsubs.push(fb.onSnapshot(fb.query(fb.collection(fb.db,COL.chal),fb.where('toUid','==',onl.uid)),snap=>{
+    let found=null,fid=null;
+    snap.forEach(dd=>{const d=dd.data();if(d.status==='pending'&&Date.now()-(d.createdAt||0)<180000&&!found){found=d;fid=dd.id;}});
+    if(found&&!onl.gid){
+      if(fid!==onl.inChal){onl.inChal=fid;onl.inData=found;$('chalWho').textContent=found.fromName||SIB_NAME;$('chalSub').textContent=`${found.fromName||SIB_NAME}가 대결 신청했어!`;$('challengeModal').classList.add('show');sfx('ding');say('challenge');}
+    }else if(!found&&onl.inChal){$('challengeModal').classList.remove('show');onl.inChal=null;onl.inData=null;}
+  },e=>console.warn('chal',e)));
+  presUI();setTurnUI();say('hi',{silent:true});toast('온라인 모드야! 상대가 들어오면 대결 신청해 봐');
+}
+async function sendChallenge(){
+  const fb=await ensureAuth();if(!fb||!onl.sibUid||onl.outChal||onl.gid)return;
+  try{
+    const ref=await fb.addDoc(fb.collection(fb.db,COL.chal),{fromUid:onl.uid,fromName:PLAYER,fromTheme:CFG.theme,toUid:onl.sibUid,toName:SIB_NAME,status:'pending',createdAt:Date.now()});
+    onl.outChal=ref.id;toast(`대결 신청 보냈어! ${SIB_NAME} 대답 기다리는 중…`);presUI();
+    const u=fb.onSnapshot(ref,async snap=>{
+      if(!snap.exists()){onl.outChal=null;presUI();return;}
+      const d=snap.data();
+      if(d.status==='declined'){toast(`${SIB_NAME}가 거절했어 😢`);onl.outChal=null;presUI();try{await fb.deleteDoc(ref);}catch(e){}}
+      else if(d.status==='cancelled'){onl.outChal=null;presUI();try{await fb.deleteDoc(ref);}catch(e){}}
+      else if(d.status==='accepted'&&d.gameId){onl.outChal=null;try{u();}catch(e){}await joinGame(d.gameId);try{await fb.deleteDoc(ref);}catch(e){}}
+    });onl.unsubs.push(u);
+  }catch(e){console.error(e);toast('신청에 실패했어 😢');}
+}
+async function cancelChallenge(){const fb=window.__KidsFB;if(!fb||!onl.outChal)return;
+  try{await fb.updateDoc(fb.doc(fb.db,COL.chal,onl.outChal),{status:'cancelled'});}catch(e){}onl.outChal=null;presUI();toast('신청을 취소했어');}
+async function declineChallenge(){const fb=window.__KidsFB;if(!fb||!onl.inChal)return;
+  try{await fb.updateDoc(fb.doc(fb.db,COL.chal,onl.inChal),{status:'declined'});}catch(e){}
+  $('challengeModal').classList.remove('show');onl.inChal=null;onl.inData=null;toast('거절했어');}
+async function acceptChallenge(){
+  const fb=await ensureAuth();if(!fb||!onl.inChal||!onl.inData)return;
+  const d=onl.inData,cid=onl.inChal;
+  try{
+    // the challenger plays first (black-equivalent); the accepter plays second
+    const g=await fb.addDoc(fb.collection(fb.db,COL.games),{blackUid:d.fromUid,whiteUid:onl.uid,blackName:d.fromName||SIB_NAME,whiteName:PLAYER,
+      moves:[],status:'active',winnerUid:null,reason:null,createdAt:Date.now(),updatedAt:Date.now()});
+    await fb.updateDoc(fb.doc(fb.db,COL.chal,cid),{status:'accepted',gameId:g.id});
+    $('challengeModal').classList.remove('show');onl.inChal=null;onl.inData=null;
+    await joinGame(g.id);
+  }catch(e){console.error(e);toast('대결 시작에 실패했어 😢');}
+}
+async function joinGame(gid){
+  const fb=window.__KidsFB;if(!fb)return;
+  let g;
+  for(let i=0;i<5;i++){try{const s=await fb.getDoc(fb.doc(fb.db,COL.games,gid));if(s.exists()){g=s.data();break;}}catch(e){}await new Promise(r=>setTimeout(r,500));}
+  if(!g){toast('게임을 찾지 못했어');return;}
+  seq++;onl.gid=gid;onl.color=g.blackUid===onl.uid?1:2;onl.oppName=onl.color===1?g.whiteName:g.blackName;onl.oppUid=onl.color===1?g.whiteUid:g.blackUid;onl.pushing=false;onl.ending=false;
+  over=false;winCells=null;recorded=false;busy=false;moves=[];clearTimeout(endBarT);$('endBar').classList.remove('show');
+  rebuild();(g.moves||[]).forEach(i=>{B[i]=turn;moves.push(i);$('stones').appendChild(stoneEl(i,turn));turn=3-turn;});
+  onl.applied=moves.length;drawLast();presUI();setTurnUI();
+  toast(onl.color===1?`대결 시작! 네가 ${CFG.n1}(선공)`:`대결 시작! 네가 ${CFG.n2}(후공)`);say('online_start');
+  onl.gameUnsub=fb.onSnapshot(fb.doc(fb.db,COL.games,gid),snap=>{
+    if(!snap.exists())return;const d=snap.data();const rm=d.moves||[];
+    while(onl.applied<rm.length&&!over){            // apply the opponent's moves in order
+      const idx=rm[onl.applied];
+      if(moves.length>onl.applied){onl.applied++;continue;}     // already applied locally (my own move)
+      onl.applied++;playMove(idx,true);
+    }
+    if(d.status==='ended'&&!over){                    // resign / disconnect
+      const won=d.winnerUid===onl.uid;
+      over=true;winCells=null;clearGhost();recorded=false;
+      const msg=won?`🎉 ${onl.oppName}가 기권했어! 내가 이겼어요!`:'끝났어요';
+      $('turnText').textContent=won?'상대가 기권했어요!':'대결이 끝났어요';
+      $('endMsg').textContent=msg;$('endBar').classList.add('show');mode==='online'&&record(won?onl.color:3-onl.color);
+      if(won){sfx('win');say('online_win');}setTurnUI();presUI();
+    }
+    presUI();setTurnUI();
+  },e=>console.warn('game',e));
+}
+async function pushOnlineMove(idx,mover){
+  const fb=window.__KidsFB;if(!fb||!onl.gid)return;
+  const my=moves.length-1;onl.pushing=true;setTurnUI();
+  const ended=over;                                  // my move just won / filled the board
+  try{
+    await fb.runTransaction(fb.db,async tx=>{
+      const ref=fb.doc(fb.db,COL.games,onl.gid),s=await tx.get(ref);
+      if(!s.exists())throw new Error('gone');
+      const d=s.data(),cur=d.moves||[];
+      if(cur.length!==my)throw new Error('desync '+cur.length+' vs '+my);
+      const up={moves:cur.concat([idx]),updatedAt:Date.now()};
+      if(ended){up.status='ended';up.winnerUid=winCells?onl.uid:null;up.reason=winCells?'five':'full';}
+      tx.update(ref,up);
+    });
+    onl.applied=Math.max(onl.applied,moves.length);
+  }catch(e){console.error('push move',e);toast('수 전송 실패… 인터넷을 확인해 줘');}
+  onl.pushing=false;setTurnUI();
+}
+async function endOnlineGame(winner){ /* result already carried by the final move; nothing more to write */ }
+async function resignOnline(){
+  const fb=window.__KidsFB;if(!fb||!onl.gid||over)return;
+  over=true;
+  try{await fb.updateDoc(fb.doc(fb.db,COL.games,onl.gid),{status:'ended',winnerUid:onl.oppUid,reason:'resign',updatedAt:Date.now()});}catch(e){console.warn(e);}
+  $('turnText').textContent='기권했어요';$('endMsg').textContent='🏳️ 기권했어요… 다음엔 이길 수 있어요!';$('endBar').classList.add('show');
+  record(3-onl.color);sfx('lose');setTurnUI();presUI();
+}
+function leaveOnlineGameUI(){ // after a finished online game: back to the idle online board
+  if(onl.gameUnsub){try{onl.gameUnsub();}catch(e){}onl.gameUnsub=null;}
+  onl.gid=null;onl.color=0;onl.applied=0;over=false;winCells=null;recorded=false;moves=[];rebuild();presUI();setTurnUI();$('endBar').classList.remove('show');
+}
+async function leaveOnline(){
+  const fb=window.__KidsFB;
+  if(onl.gid&&!over){over=true;record(3-onl.color);try{await fb.updateDoc(fb.doc(fb.db,COL.games,onl.gid),{status:'ended',winnerUid:onl.oppUid,reason:'left',updatedAt:Date.now()});}catch(e){}}
+  if(onl.outChal)await cancelChallenge();
+  await beat(false);offOnline();onl.gid=null;onl.color=0;onl.applied=0;$('challengeModal').classList.remove('show');
+}
+addEventListener('pagehide',()=>{try{if(mode==='online'){beat(false);if(onl.gid&&!over){const fb=window.__KidsFB;fb.updateDoc(fb.doc(fb.db,COL.games,onl.gid),{status:'ended',winnerUid:onl.oppUid,reason:'left',updatedAt:Date.now()});}}}catch(e){}});
+
+/* ===================== boot ===================== */
+window.__omok={get audio(){return {ac:AC&&AC.state,voiceLoaded:!!VMAN,bufs:VBUF.size,music:!!musicTimer,unlocked};},get B(){return B;},get moves(){return moves;},get over(){return over;},get turn(){return turn;},get mode(){return mode;},handleTap,playMove,newGame,setMode,onl,get level(){return level;}};
+layout();syncSegs();renderRec();setMode('ai');
+setTimeout(layout,150);
+</script>
+</body>
+</html>
