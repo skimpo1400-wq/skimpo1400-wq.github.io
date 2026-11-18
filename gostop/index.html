@@ -111,8 +111,8 @@ h2{margin:.3em 0 .5em;font-size:1.4em}
 .hand .card.shakeok:before{content:'흔들기';background:#5a7dff;color:#fff}
 .hand .card.sel{transform:translateY(-14px) scale(1.06);box-shadow:0 0 0 4px #fff,0 0 20px 6px #fff8;z-index:4}
 .hand.dis .card{filter:brightness(.82)}
-.card{position:relative;aspect-ratio:2/3;border-radius:8%;perspective:600px}
-.card .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:8%;overflow:hidden;box-shadow:0 2px 4px rgba(0,0,0,.35)}
+.card{position:relative;aspect-ratio:2/3;border-radius:8%/5.33%;perspective:600px}
+.card .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:8%/5.33%;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.45),0 4px 10px rgba(0,0,0,.28)}
 .card .face svg{width:100%;height:100%;display:block}
 .card .back{transform:rotateY(180deg)}
 .card .inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .45s}
@@ -742,112 +742,87 @@ G.GoCore={CARDS,MONTHS,KNAME,DUMMY0,card,cardLabel,monthOf,rngFrom,shuffle,score
 if(false)module.exports=G.GoCore;
 })(typeof window!=='undefined'?window:globalThis);
 </script>
-<script>/* 화투 그림 (SVG 직접 그림) — 스타일: trad(전통), big(큰 글씨), flower(꽃 일러스트) */
+<script>/* 화투 그림 — 그림: Wikimedia Commons "Hwatu (Japanese-style artwork)" by Mliu92, CC BY-SA 4.0 (변형: 테두리 정리·홍단 한글화·비율 조정)
+   스타일: trad(전통), big(큰 글씨 배지), flower(=고급 금테) */
 (function(G){
 const C=G.GoCore;
-const PAL={
- trad:{bg:'#fffaf0',ink:'#1c1a1a',red:'#d7261e',pink:'#ef6f8f',green:'#2e7d32',dgreen:'#1b4d22',blue:'#1f4fa8',yellow:'#f2b705',purple:'#5b2a86',brown:'#7a4a24',sky:'#ffffff',sun:'#e3241b',border:'#3a2a1a'},
- big:{bg:'#fffaf0',ink:'#1c1a1a',red:'#d7261e',pink:'#ef6f8f',green:'#2e7d32',dgreen:'#1b4d22',blue:'#1f4fa8',yellow:'#f2b705',purple:'#5b2a86',brown:'#7a4a24',sky:'#ffffff',sun:'#e3241b',border:'#3a2a1a'},
- flower:{bg:'#fff4f7',ink:'#5a4652',red:'#ec5b6e',pink:'#ffa8c0',green:'#6dbb7a',dgreen:'#3f8f5a',blue:'#5b8de0',yellow:'#ffcf4d',purple:'#a47bd6',brown:'#b0805a',sky:'#e8f6ff',sun:'#ff8a7a',border:'#d9a4b8'},
-};
-const r=(x,y,w,h,f,ex)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" ${ex||''}/>`;
-const c=(x,y,rr,f,ex)=>`<circle cx="${x}" cy="${y}" r="${rr}" fill="${f}" ${ex||''}/>`;
-const e=(x,y,rx,ry,f,ex)=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${f}" ${ex||''}/>`;
-const P=(d,f,ex)=>`<path d="${d}" fill="${f}" ${ex||''}/>`;
-const S=(d,s,w,ex)=>`<path d="${d}" fill="none" stroke="${s}" stroke-width="${w}" stroke-linecap="round" ${ex||''}/>`;
-const T=(x,y,t,sz,f,ex)=>`<text x="${x}" y="${y}" font-size="${sz}" fill="${f}" text-anchor="middle" font-family="'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-weight="900" ${ex||''}>${t}</text>`;
-function blossom(x,y,s,f,cen){ let o=''; for(let i=0;i<5;i++){const a=i*72*Math.PI/180; o+=c(x+Math.cos(a)*s*.55,y+Math.sin(a)*s*.55,s*.48,f);} return o+c(x,y,s*.28,cen||'#ffe066'); }
-function pine(x,y,s,p){ let o=''; for(let i=0;i<7;i++){const a=(-90+(i-3)*28)*Math.PI/180; o+=S(`M${x} ${y} L${x+Math.cos(a)*s} ${y+Math.sin(a)*s}`,p.dgreen,3.2);} return o+e(x,y,s*.5,s*.28,p.green); }
-function gwangMark(p){ return c(20,22,13,p.red,'stroke="#fff" stroke-width="2"')+T(20,28.5,'光',15,'#fff'); }
-function ribbon(p,kind){
-  const col=kind==='cheong'?p.blue:p.red;
-  let o=P('M38 30 L62 30 L60 104 L50 112 L40 104 Z',col,'stroke="#fff" stroke-width="1.5"');
-  if(kind==='hong'||kind==='cheong'){ const t=kind==='hong'?['홍','단']:['청','단']; o+=r(42,40,16,46,'#fffaf0','rx="2"')+T(50,58,t[0],13,kind==='hong'?p.red:p.blue)+T(50,78,t[1],13,kind==='hong'?p.red:p.blue); }
-  else if(kind==='bi'){ o+=S('M42 50 L58 46 M42 66 L58 62 M42 82 L58 78',p.ink,2.5); }
-  else o+=S('M44 46 L56 46',  '#fff',1.2,'opacity=".5"');
+const VER='2';
+const IMG=id=>`cards/${id}.webp?v=${VER}`;
+const FONT=`font-family="'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif" font-weight="900"`;
+const T=(x,y,t,sz,f,ex)=>`<text x="${x}" y="${y}" font-size="${sz}" fill="${f}" text-anchor="middle" ${FONT} ${ex||''}>${t}</text>`;
+/* 공용 defs: 문서에 한 번만 넣고 모든 카드가 참조 (display:none 안의 defs 문제 방지) */
+const DEFS=`<svg id="gcDefs" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><defs>
+<clipPath id="gcClipCard" clipPathUnits="userSpaceOnUse"><rect width="100" height="150" rx="8"/></clipPath>
+<clipPath id="gcClipArt" clipPathUnits="userSpaceOnUse"><rect x="4" y="4" width="92" height="142" rx="2.5"/></clipPath>
+<clipPath id="gcClipLux" clipPathUnits="userSpaceOnUse"><rect x="6.5" y="6.5" width="87" height="137" rx="2.5"/></clipPath>
+<linearGradient id="gcRed" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3262e"/><stop offset=".55" stop-color="#c0141c"/><stop offset="1" stop-color="#8e0b11"/></linearGradient>
+<linearGradient id="gcBlack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3533"/><stop offset=".5" stop-color="#1a1716"/><stop offset="1" stop-color="#050404"/></linearGradient>
+<linearGradient id="gcGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0b0"/><stop offset=".3" stop-color="#e2b13c"/><stop offset=".55" stop-color="#fff3c4"/><stop offset=".8" stop-color="#b8861c"/><stop offset="1" stop-color="#f6d77a"/></linearGradient>
+<linearGradient id="gcGloss" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".28" stop-color="#fff" stop-opacity=".04"/><stop offset=".29" stop-color="#fff" stop-opacity="0"/><stop offset=".85" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".12"/></linearGradient>
+<linearGradient id="gcNavy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2d4f8e"/><stop offset="1" stop-color="#14274d"/></linearGradient>
+<linearGradient id="gcGoldBack" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset=".5" stop-color="#d9a520"/><stop offset="1" stop-color="#fff1b8"/></linearGradient>
+<linearGradient id="gcPink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffa3c0"/><stop offset="1" stop-color="#f06292"/></linearGradient>
+<linearGradient id="gcPurple" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#53307f"/><stop offset="1" stop-color="#25123f"/></linearGradient>
+<pattern id="gcDiaR" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M3 0.6 L5.4 3 L3 5.4 L0.6 3Z" fill="#000" fill-opacity=".11"/></pattern>
+<pattern id="gcDiaK" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M3 0.6 L5.4 3 L3 5.4 L0.6 3Z" fill="#fff" fill-opacity=".05"/></pattern>
+<pattern id="gcDiaG" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M4 1 L7 4 L4 7 L1 4Z" fill="none" stroke="#d8b55a" stroke-opacity=".35" stroke-width=".6"/></pattern>
+</defs></svg>`;
+function injectDefs(){ if(typeof document==='undefined'||document.getElementById('gcDefs'))return; const d=document.createElement('div'); d.innerHTML=DEFS; document.body.insertBefore(d.firstChild,document.body.firstChild); }
+const SVG=b=>`<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="cardsvg">${b}</svg>`;
+const img=(src,x,y,w,h,clip)=>`<g clip-path="url(#${clip})"><image href="${src}" xlink:href="${src}" x="${x}" y="${y}" width="${w}" height="${h}" preserveAspectRatio="none"/></g>`;
+const gloss=`<rect width="100" height="150" rx="8" fill="url(#gcGloss)" pointer-events="none"/>`;
+const edge=(c)=>`<rect x=".5" y=".5" width="99" height="149" rx="7.6" fill="none" stroke="${c||'rgba(0,0,0,.45)'}" stroke-width="1"/><rect x="1.4" y="1.4" width="97.2" height="147.2" rx="7" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width=".8"/>`;
+const SMALL_LABEL=id=>{ const c=C.card(id); if(c.bonus)return c.pv===3?'보너스 3피':'보너스 쌍피'; if(c.k==='gwang')return c.bi?'비광':'광'; if(c.k==='yeol')return c.kukjin?'열끗/쌍피':c.godori?'고도리':'열끗'; if(c.k==='tti')return ({hong:'홍단',cheong:'청단',cho:'초단',bi:'띠'})[c.tt]; return c.pv===2?'쌍피':'피'; };
+const KCOL=cd=>cd.bonus?'#c8161e':cd.k==='gwang'?'#c8161e':cd.k==='tti'?(cd.tt==='cheong'?'#1f4fa8':cd.tt==='bi'?'#555':'#c8161e'):cd.k==='yeol'?'#8a5a00':cd.pv>=2?'#6a2a9a':'#3a3a3a';
+function artSrc(cd,id){ return cd.bonus?IMG('b'+cd.pv):IMG(id); }
+function dummyArt(x,y,w,h){ return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2.5" fill="#f3ede1"/><rect x="${x+4}" y="${y+4}" width="${w-8}" height="${h-8}" rx="2" fill="none" stroke="#b9a98f" stroke-width="1" stroke-dasharray="3 2"/>`+T(50,70,'💣',26,'#000')+T(50,100,'폭탄피',16,'#6b5a4a')+T(50,118,'그냥 뒤집기',10,'#8b7a6a'); }
+function bigBadge(cd,id){
+  const lab=SMALL_LABEL(id), col=KCOL(cd), m=cd.bonus?'':cd.m+'월';
+  const fs=lab.length>4?11.5:lab.length>2?14:17;
+  let o=`<g><rect x="6" y="117" width="88" height="27" rx="7" fill="#fffdf7" fill-opacity=".95" stroke="${col}" stroke-width="1.6"/>`;
+  if(m){ o+=`<rect x="8.5" y="119.5" width="31" height="22" rx="5" fill="${col}"/>`+T(24,136,m,cd.m>9?12.5:14,'#fff')+T(66.5,136.5,lab,fs,col); }
+  else o+=T(50,136.5,lab,fs,col);
+  o+=`</g>`;
+  if(!cd.bonus) o+=`<circle cx="85" cy="15" r="10.5" fill="#fffdf7" fill-opacity=".95" stroke="${col}" stroke-width="1.6"/>`+T(85,20.2,cd.m,cd.m>9?11.5:14,'#222');
   return o;
 }
-const ART={
- 1(i,p){ let o=r(0,110,100,40,p.dgreen,'opacity=".18"')+pine(28,120,22,p)+pine(72,118,26,p)+pine(50,135,18,p);
-   if(i===0){ o=c(68,40,24,p.sun)+o+P('M28 78 Q40 50 62 66 Q72 72 80 64 L74 76 Q62 88 46 86 Z','#fff','stroke="'+p.ink+'" stroke-width="2"')+S('M62 66 Q70 46 76 36',p.ink,3)+c(77,34,3.6,p.red)+S('M40 84 L36 104 M50 86 L50 106',p.ink,2.4)+gwangMark(p); }
-   if(i===1)o+=ribbon(p,'hong'); return o; },
- 2(i,p){ let o=S('M8 140 Q40 100 34 60 Q30 36 60 20',p.brown,5)+S('M34 80 Q60 76 86 52',p.brown,3.5);
-   for(const [x,y] of [[60,20],[26,46],[86,52],[44,96],[70,70],[18,118]]) o+=blossom(x,y,9,p.red,'#ffe8a0');
-   if(i===0) o+=e(62,98,20,12,p.yellow,'stroke="'+p.ink+'" stroke-width="1.5"')+c(78,92,7,p.yellow,'stroke="'+p.ink+'" stroke-width="1.5"')+P('M84 92 L92 94 L84 96Z','#f08a00')+c(79,91,1.5,p.ink)+P('M44 98 L30 92 L32 104Z',p.green);
-   if(i===1)o+=ribbon(p,'hong'); return o; },
- 3(i,p){ let o=''; for(const [x,y,s] of [[22,24,11],[48,16,10],[76,28,12],[30,50,9],[64,52,10],[84,74,8],[16,82,8]]) o+=blossom(x,y,s,p.pink,'#fff2f6');
-   o+=S('M0 70 Q50 60 100 70',p.brown,3,'opacity=".6"');
-   if(i===0){ o+=P('M6 92 Q50 84 94 92 L94 142 L6 142Z',p.red)+S('M6 104 Q50 96 94 104 M6 118 Q50 110 94 118 M6 132 Q50 124 94 132',p.yellow,3)+r(8,88,84,6,p.ink)+gwangMark(p); }
-   if(i===1)o+=ribbon(p,'hong'); if(i>=2)o+=r(0,118,100,32,p.pink,'opacity=".35"'); return o; },
- 4(i,p){ let o=''; for(let k=0;k<5;k++){const x=14+k*18; o+=S(`M${x} 0 Q${x+6} 40 ${x-2} ${80+k*8}`,p.ink,2); for(let j=0;j<6;j++)o+=e(x+(j%2?3:-3),12+j*12+k*3,4.5,3,p.ink);}
-   if(i===0) o+=c(76,30,12,p.yellow,'opacity=".7"')+P('M30 110 Q48 92 66 104 Q56 108 52 118 Z',p.ink)+P('M44 104 L22 96 L30 108Z',p.ink)+c(62,102,3,p.red);
-   if(i===1)o+=ribbon(p,'cho'); return o; },
- 5(i,p){ let o=''; for(let k=0;k<6;k++){const x=10+k*16; o+=S(`M${x} 150 Q${x-4} 110 ${x+8} 70`,p.dgreen,3);} for(const [x,y] of [[22,64],[58,60],[86,72],[40,90]]) o+=P(`M${x} ${y} q-8 -14 0 -22 q8 8 0 22 q12 -8 16 2 q-10 6 -16 -2 q-12 -8 -16 2 q10 6 16 -2`,p.purple);
-   if(i===0) o+=P('M4 120 Q50 96 96 120 L96 128 Q50 104 4 128Z',p.brown)+[14,28,42,56,70,84].map(x=>S(`M${x} ${118-(x>50?100-x:x)*0.25} L${x} 140`,p.brown,3)).join('');
-   if(i===1)o+=ribbon(p,'cho'); return o; },
- 6(i,p){ let o=''; for(const [x,y,s] of [[30,60,20],[72,96,22],[66,34,14]]){ for(let k=0;k<8;k++){const a=k*45*Math.PI/180; o+=e(x+Math.cos(a)*s*.5,y+Math.sin(a)*s*.5,s*.42,s*.3,p.red,`transform="rotate(${k*45} ${x+Math.cos(a)*s*.5} ${y+Math.sin(a)*s*.5})"`);} o+=c(x,y,s*.35,'#ff9aa8')+c(x,y,s*.14,p.yellow);} o+=P('M10 140 Q20 110 40 120 Q30 130 10 140Z',p.green)+P('M90 146 Q84 124 64 128 Q76 136 90 146Z',p.green);
-   if(i===0){ const bf=(x,y,s,rot)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">${P('M0 0 Q-16 -18 -20 -4 Q-18 6 0 0Z',p.yellow,'stroke="'+p.ink+'" stroke-width="1.4"')+P('M0 0 Q16 -18 20 -4 Q18 6 0 0Z',p.yellow,'stroke="'+p.ink+'" stroke-width="1.4"')+P('M0 0 Q-12 4 -12 14 Q-4 12 0 0Z',p.purple)+P('M0 0 Q12 4 12 14 Q4 12 0 0Z',p.purple)+S('M0 -4 L0 8',p.ink,2)+S('M0 -4 Q-4 -12 -8 -14 M0 -4 Q4 -12 8 -14',p.ink,1)}</g>`; o+=bf(26,118,1.15,-15)+bf(84,18,1,20); }
-   if(i===1)o+=ribbon(p,'cheong'); return o; },
- 7(i,p){ let o=''; for(let k=0;k<4;k++){const x=16+k*24; o+=S(`M${x} 150 Q${x+10} 80 ${x-6} 10`,p.brown,2.4); for(let j=0;j<7;j++) o+=e(x+(j%2?6:-4)+(j*1.2),20+j*16,4,6,p.red);}
-   if(i===0) o+=e(54,112,30,16,p.brown,'stroke="'+p.ink+'" stroke-width="2"')+e(82,106,10,9,p.brown,'stroke="'+p.ink+'" stroke-width="2"')+c(86,104,1.8,p.ink)+S('M34 124 L30 138 M46 126 L46 140 M64 126 L66 140 M74 122 L80 136',p.ink,3)+S('M24 108 q-6 -6 -2 -12',p.ink,2);
-   if(i===1)o+=ribbon(p,'cho'); return o; },
- 8(i,p){ let o=P('M0 150 L0 98 Q30 70 52 96 Q74 66 100 92 L100 150Z',p.ink)+S('M8 100 L8 92 M18 90 L18 82 M80 82 L80 74 M90 86 L90 78',p.ink,2);
-   if(i===0) o=c(52,48,30,p.sun==='#e3241b'?'#ffffff':'#fffbe0','stroke="'+p.ink+'" stroke-width="2"')+r(0,0,100,150,p.red,'opacity=".9" style="mix-blend-mode:multiply"').replace('opacity=".9"','opacity=".0"')+P('M0 0 L100 0 L100 92 Q74 66 52 96 Q30 70 0 98Z',p.red,'opacity=".85"')+c(52,48,30,'#fffbe0','stroke="'+p.ink+'" stroke-width="2"')+o+gwangMark(p);
-   if(i===1) o=P('M0 0 L100 0 L100 92 Q74 66 52 96 Q30 70 0 98Z',p.red,'opacity=".75"')+o+[[28,30],[52,18],[74,34]].map(([x,y])=>P(`M${x-12} ${y} Q${x-4} ${y-10} ${x} ${y} Q${x+4} ${y-10} ${x+12} ${y}`,'none','stroke="'+p.ink+'" stroke-width="3.5"')).join('');
-   if(i>=2) o=P('M0 0 L100 0 L100 92 Q74 66 52 96 Q30 70 0 98Z',p.red,'opacity=".75"')+o;
-   return o; },
- 9(i,p){ let o=''; for(const [x,y,s] of [[26,40,14],[72,60,16],[40,110,13]]){ for(let k=0;k<12;k++){const a=k*30*Math.PI/180; o+=S(`M${x} ${y} L${x+Math.cos(a)*s} ${y+Math.sin(a)*s}`,p.yellow,4.5);} o+=c(x,y,s*.3,'#f08a00');} o+=S('M8 150 Q30 120 26 54 M72 150 Q70 110 72 76',p.green,2.5);
-   if(i===0) o+=P('M30 92 L70 92 L64 112 Q50 120 36 112Z',p.red,'stroke="'+p.ink+'" stroke-width="2"')+T(50,108,'壽',13,p.yellow)+r(44,112,12,6,p.red);
-   if(i===1)o+=ribbon(p,'cheong'); return o; },
- 10(i,p){ let o=''; const leaf=(x,y,s,rot)=>P(`M0 -10 L3 -3 L10 -5 L5 1 L8 9 L0 5 L-8 9 L-5 1 L-10 -5 L-3 -3Z`,p.red,`transform="translate(${x} ${y}) scale(${s}) rotate(${rot})"`); for(const [x,y,s,rr] of [[20,22,1.6,0],[50,14,1.3,20],[80,26,1.7,-15],[34,48,1.2,10],[66,52,1.4,-30],[86,70,1.1,0]]) o+=leaf(x,y,s,rr); o+=S('M0 40 Q50 30 100 44',p.brown,2.5);
-   if(i===0) o+=e(52,112,24,13,p.brown,'stroke="'+p.ink+'" stroke-width="2"')+S('M70 104 Q76 88 80 80',p.brown,7)+e(82,78,7,6,p.brown,'stroke="'+p.ink+'" stroke-width="2"')+S('M80 72 l-4 -10 M80 72 l4 -10 M76 64 l-4 -3 M84 64 l4 -3',p.ink,1.8)+S('M36 122 L32 142 M46 124 L46 144 M60 124 L62 144 M70 120 L74 140',p.ink,3)+c(40,108,1.6,'#fff')+c(54,104,1.6,'#fff')+c(62,112,1.6,'#fff');
-   if(i===1)o+=ribbon(p,'cheong'); if(i>=2)o+=leaf(30,120,1.8,15)+leaf(70,124,1.6,-20); return o; },
- 11(i,p){ const leafC=i===1?p.yellow:p.ink; let o=''; for(const [x,y,s] of [[30,108,1],[70,104,1.1],[50,132,.9]]) o+=P('M0 -26 Q22 -18 20 2 Q18 22 0 26 Q-18 22 -20 2 Q-22 -18 0 -26Z',leafC,`transform="translate(${x} ${y}) scale(${s})" stroke="${p.dgreen}" stroke-width="1"`)+S(`M${x} ${y-24*s} L${x} ${y+24*s}`,i===1?p.ink:'#fff',1.4,'opacity=".6"');
-   o+=S('M10 80 Q50 60 90 78',p.purple,2)+[[18,70],[36,64],[60,62],[82,70]].map(([x,y])=>e(x,y,4,7,p.purple)).join('');
-   if(i===0) o=P('M50 26 Q30 30 22 56 Q40 46 46 58 Q30 64 24 84 Q48 72 56 60 Q70 64 84 56 Q70 46 64 40 Q76 34 80 24 Q64 26 58 32 Q56 22 50 26Z',p.red,'stroke="'+p.ink+'" stroke-width="2"')+c(56,30,2,p.ink)+S('M30 58 Q20 70 14 60 M40 62 Q36 80 26 80',p.green,3)+S('M60 42 Q72 50 86 46',p.blue,3)+o+gwangMark(p);
-   if(i===1) o+=T(80,30,'2',22,p.red,'stroke="#fff" stroke-width="1"');
-   return o; },
- 12(i,p){ let o=''; const rain=S('M10 0 L4 40 M30 0 L24 40 M50 0 L44 40 M70 0 L64 40 M90 0 L84 40',p.ink,1.4,'opacity=".35"');
-   if(i===0){ o=r(0,0,100,150,p.ink,'opacity=".12"')+rain+P('M30 40 Q50 20 76 34 L50 40Z',p.yellow,'stroke="'+p.ink+'" stroke-width="2"')+S('M52 38 L50 76',p.ink,2.4)+c(48,52,8,'#ffe0bd','stroke="'+p.ink+'" stroke-width="1.5"')+P('M36 62 L60 62 L66 112 L32 112Z',p.red,'stroke="'+p.ink+'" stroke-width="2"')+S('M40 112 L38 128 M58 112 L60 128',p.ink,3)+P('M14 132 Q50 118 86 132 L86 150 L14 150Z',p.blue,'opacity=".6"')+e(78,124,8,5,p.green)+c(76,120,1.5,p.ink)+gwangMark(p); }
-   else if(i===1){ o=rain+P('M20 70 Q50 50 80 64 L60 70 L86 96 L54 78 Q40 86 20 70Z',p.ink)+c(62,62,4,p.red)+P('M30 120 L70 120 L60 150 L40 150Z',p.green,'opacity=".5"'); }
-   else if(i===2){ o=rain+r(0,110,100,40,p.ink,'opacity=".6"')+ribbon(p,'bi'); }
-   else { o=r(0,0,100,150,p.ink,'opacity=".85"')+c(50,60,22,p.red,'stroke="'+p.yellow+'" stroke-width="4"')+S('M50 38 L50 82 M28 60 L72 60',p.yellow,2)+P('M70 98 L56 118 L66 118 L52 142 L80 112 L68 112 L78 98Z',p.yellow)+T(22,30,'2',20,p.yellow); }
-   if(i>=2&&i!==3&&false)o+=''; return o; },
-};
-const SMALL_LABEL=id=>{ const c=C.card(id); if(c.bonus)return c.pv===3?'보너스 3피':'보너스 쌍피'; if(c.k==='gwang')return c.bi?'비광':'광'; if(c.k==='yeol')return c.kukjin?'열끗/쌍피':c.godori?'고도리':'열끗'; if(c.k==='tti')return ({hong:'홍단',cheong:'청단',cho:'초단',bi:'띠'})[c.tt]; return c.pv===2?'쌍피':'피'; };
 function front(id,style){
-  style=style||'trad'; const p=PAL[style]||PAL.trad; const cd=C.card(id);
-  let body;
-  if(cd.dummy){ body=r(0,0,100,150,'#e9e4dc')+T(50,70,'💣',30,'#000')+T(50,104,'폭탄피',17,'#6b5a4a')+T(50,124,'그냥 뒤집기',11,'#8b7a6a'); return wrap(body,p,true); }
-  if(cd.bonus){ body=r(0,0,100,150,style==='flower'?'#fff1c9':'#fff3d0')+P('M50 22 L60 52 L92 52 L66 70 L76 100 L50 82 L24 100 L34 70 L8 52 L40 52Z',p.yellow,'stroke="'+p.red+'" stroke-width="3"')+T(50,72,cd.pv,30,p.red)+T(50,128,cd.pv===3?'쓰리피':'쌍피',18,p.red)+T(50,144,'보너스',11,p.ink); return wrap(body,p); }
-  body=r(0,0,100,150,p.bg)+ART[cd.m](cd.i,p);
-  if(style==='big'){
-    const lab=SMALL_LABEL(id); const col=cd.k==='gwang'?p.red:cd.k==='tti'?(cd.tt==='cheong'?p.blue:p.red):cd.k==='yeol'?'#7a4a00':'#333';
-    body+=r(0,112,100,38,'#fff','opacity=".94"')+r(0,112,100,2,col)+T(50,129,cd.m+'월',15,'#222')+T(50,146,lab,lab.length>3?13:16,col);
-    body+=c(15,138,0,'none');
-  } else {
-    body+=c(88,12,10,'#fff','stroke="'+p.border+'" stroke-width="1.5" opacity=".95"')+T(88,17,cd.m,cd.m>9?11:13,'#222');
-    if(cd.pv===2&&cd.k==='pi'&&cd.m!==12&&cd.m!==11) body+=T(84,140,'2',16,p.red);
+  style=style||'trad'; const cd=C.card(id); let o='';
+  if(style==='flower'){ // 고급 금테: 옻칠 검정 바탕 + 금박 테두리
+    o+=`<rect width="100" height="150" rx="8" fill="url(#gcBlack)"/><rect width="100" height="150" rx="8" fill="url(#gcDiaK)"/>`;
+    o+=`<rect x="2.6" y="2.6" width="94.8" height="144.8" rx="6.2" fill="none" stroke="url(#gcGold)" stroke-width="1.6"/>`;
+    o+=cd.dummy?dummyArt(6.5,6.5,87,137):img(artSrc(cd,id),6.5,6.5,87,137,'gcClipLux');
+    o+=`<rect x="6" y="6" width="88" height="138" rx="2.8" fill="none" stroke="url(#gcGold)" stroke-width="1.2"/>`;
+    for(const [x,y] of [[6,6],[94,6],[6,144],[94,144]]) o+=`<path d="M${x} ${y-3} L${x+3} ${y} L${x} ${y+3} L${x-3} ${y}Z" fill="url(#gcGold)"/>`;
+    if(!cd.bonus&&!cd.dummy) o+=`<circle cx="88.5" cy="138.5" r="7" fill="url(#gcGold)" stroke="#5a3d00" stroke-width=".6"/>`+T(88.5,142.3,cd.m,cd.m>9?8:9.5,'#2a1a00');
+    return SVG(o+gloss+edge('rgba(0,0,0,.7)'));
   }
-  if(style==='flower'){ body=`<defs><linearGradient id="fg${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff7fb"/><stop offset="1" stop-color="#ffe3ee"/></linearGradient></defs>`+body.replace(r(0,0,100,150,p.bg),r(0,0,100,150,`url(#fg${id})`))+`<rect x="5" y="5" width="90" height="140" rx="7" fill="none" stroke="#fff" stroke-width="3" opacity=".9"/>`+blossom(12,140,5,'#ffb3c9','#fff'); }
-  return wrap(body,p);
+  // 전통 & 큰 글씨: 빨간 테두리 화투
+  o+=`<rect width="100" height="150" rx="8" fill="url(#gcRed)"/><rect width="100" height="150" rx="8" fill="url(#gcDiaR)"/>`;
+  o+=cd.dummy?dummyArt(4,4,92,142):img(artSrc(cd,id),4,4,92,142,'gcClipArt');
+  if(style==='big'&&!cd.dummy&&!cd.bonus) o+=bigBadge(cd,id);
+  return SVG(o+gloss+edge());
 }
-function wrap(body,p,dummy){
-  return `<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg" class="cardsvg"><defs><clipPath id="cc"><rect width="100" height="150" rx="9"/></clipPath><filter id="soft"><feGaussianBlur stdDeviation=".25"/></filter></defs><g clip-path="url(#cc)">${body}</g><rect x="1" y="1" width="98" height="148" rx="9" fill="none" stroke="${p.border}" stroke-width="2.5"/></svg>`;
-}
+/* 뒷면 */
+function backFrame(fill,pat,line,extra){ return `<rect width="100" height="150" rx="8" fill="${fill}"/>${pat?`<rect width="100" height="150" rx="8" fill="url(#${pat})"/>`:''}<rect x="6" y="6" width="88" height="138" rx="5" fill="none" stroke="${line}" stroke-width="1.4" stroke-opacity=".75"/><rect x="8.5" y="8.5" width="83" height="133" rx="4" fill="none" stroke="${line}" stroke-width=".6" stroke-opacity=".5"/>${extra||''}`; }
+const seal=(col,txt,tc)=>`<circle cx="50" cy="75" r="15" fill="none" stroke="${col}" stroke-width="1.3" stroke-opacity=".7"/><circle cx="50" cy="75" r="11.5" fill="${col}" fill-opacity=".18"/>`+T(50,81.5,txt,16,tc||col,'fill-opacity=".85" font-family="serif"');
 const BACKS={
- red:{name:'전통 빨강',svg:()=>`<rect width="100" height="150" rx="9" fill="#c62020"/><rect x="7" y="7" width="86" height="136" rx="6" fill="none" stroke="#8e0f0f" stroke-width="4"/>${pat('#a01515')}`},
- navy:{name:'남색 비단',svg:()=>`<rect width="100" height="150" rx="9" fill="#1f3a6e"/><rect x="7" y="7" width="86" height="136" rx="6" fill="none" stroke="#d8b55a" stroke-width="3"/>${pat('#2c4f8f')}`},
- gold:{name:'황금 뒷면',svg:()=>`<defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe9a0"/><stop offset=".5" stop-color="#d9a520"/><stop offset="1" stop-color="#fff1b8"/></linearGradient></defs><rect width="100" height="150" rx="9" fill="url(#gg)"/><rect x="7" y="7" width="86" height="136" rx="6" fill="none" stroke="#9a6a00" stroke-width="3"/>${pat('#c08a10')}<text x="50" y="86" font-size="30" text-anchor="middle">福</text>`},
- pink:{name:'꽃분홍',svg:()=>`<rect width="100" height="150" rx="9" fill="#ff8fb1"/><rect x="7" y="7" width="86" height="136" rx="6" fill="none" stroke="#fff" stroke-width="3"/>${[[30,40],[70,40],[50,75],[30,110],[70,110]].map(([x,y])=>blossom(x,y,10,'#fff','#ffd24d')).join('')}`},
- kids:{name:'손주 응원',svg:()=>`<rect width="100" height="150" rx="9" fill="#fff0f6"/><rect x="7" y="7" width="86" height="136" rx="6" fill="none" stroke="#ff7aa8" stroke-width="3"/><text x="50" y="58" font-size="32" text-anchor="middle">👸</text><text x="50" y="100" font-size="32" text-anchor="middle">🤴</text><text x="50" y="132" font-size="12" font-weight="900" fill="#e0457b" text-anchor="middle">할머니 화이팅</text>`},
- champ:{name:'챔피언 금관',svg:()=>`<rect width="100" height="150" rx="9" fill="#3b1f5e"/><rect x="7" y="7" width="86" height="136" rx="6" fill="none" stroke="#ffd24d" stroke-width="3"/><text x="50" y="88" font-size="40" text-anchor="middle">👑</text>`},
+ red:{name:'전통 빨강',svg:()=>backFrame('url(#gcRed)','gcDiaR','#ffd27a',seal('#ffd27a','花'))},
+ black:{name:'흑단 검정',svg:()=>backFrame('url(#gcBlack)','gcDiaK','#d8b55a',seal('#d8b55a','花'))},
+ navy:{name:'남색 비단',svg:()=>backFrame('url(#gcNavy)','gcDiaG','#e6c46a',seal('#e6c46a','福'))},
+ gold:{name:'황금 뒷면',svg:()=>backFrame('url(#gcGoldBack)','gcDiaR','#7a5200',seal('#7a5200','福'))},
+ pink:{name:'꽃분홍',svg:()=>backFrame('url(#gcPink)','gcDiaK','#fff',T(50,84,'🌸',24,'#fff'))},
+ kids:{name:'손주 응원',svg:()=>backFrame('#fff0f6',null,'#ff7aa8',T(50,62,'👸',26,'#000')+T(50,98,'🤴',26,'#000')+T(50,128,'할머니 화이팅',10.5,'#e0457b'))},
+ champ:{name:'챔피언 금관',svg:()=>backFrame('url(#gcPurple)','gcDiaG','#ffd24d',T(50,88,'👑',34,'#000'))},
 };
-function pat(col){ let o=''; for(let y=18;y<140;y+=22)for(let x=18;x<90;x+=22)o+=`<path d="M${x} ${y-7} L${x+7} ${y} L${x} ${y+7} L${x-7} ${y}Z" fill="${col}"/>`; return o; }
-function back(name){ const b=BACKS[name]||BACKS.red; return `<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg" class="cardsvg">${b.svg()}</svg>`; }
+function back(name){ const b=BACKS[name]||BACKS.red; return SVG(b.svg()+gloss+edge()); }
 const cache={};
 function cardSVG(id,style){ const k=style+':'+(id>=C.DUMMY0?'d':id); return cache[k]||(cache[k]=front(id,style)); }
-G.GoCards={cardSVG,back,BACKS,SMALL_LABEL};
+let preloaded=false;
+function preload(){ if(preloaded||typeof Image==='undefined')return; preloaded=true; const L=[]; for(let i=0;i<48;i++)L.push(IMG(i)); L.push(IMG('b2'),IMG('b3')); L.forEach(s=>{const im=new Image(); im.decoding='async'; im.src=s;}); }
+if(typeof document!=='undefined'){ const go=()=>{injectDefs();preload();}; if(document.body)go(); else document.addEventListener('DOMContentLoaded',go); }
+const CREDITS='화투 그림: Wikimedia Commons 「Hwatu (Japanese-style artwork)」 48장 — Mliu92 작, CC BY-SA 4.0. 테두리·비율 정리와 홍단 띠 한글 표기로 변형했어요. 변형한 그림도 CC BY-SA 4.0을 따릅니다. 보너스패·뒷면은 직접 그렸어요.';
+G.GoCards={cardSVG,back,BACKS,SMALL_LABEL,injectDefs,preload,CREDITS,CREDIT_URL:'https://commons.wikimedia.org/wiki/Category:SVG_Hwatu_(with_Japanese-style_artwork)'};
 })(typeof window!=='undefined'?window:globalThis);
 </script>
 <script>/* 컴퓨터 상대 아바타 — SVG + 2관절 팔 IK + 기분/동작 연출 */
@@ -1138,12 +1113,13 @@ const SPEED={slow:1.55,normal:1,fast:.62};
 /* ---------- 저장 ---------- */
 const KEY='momGostopData';
 const DEF={v:1,money:100000,attend:{last:'',streak:0},rec:{games:0,wins:0,losses:0,nagari:0,day:'',dayGames:0,dayProfit:0,total:0,bigWin:0,byChar:{},online:{w:0,l:0}},
- stamps:{},owned:{backs:['red'],tables:['green','wood','flower']},equip:{back:'red',table:'green'},
+ stamps:{},owned:{backs:['red','black'],tables:['green','wood','flower']},equip:{back:'red',table:'green'},
  set:{vol:.9,voice:1,sfx:.8,speed:'normal',style:'trad',font:'normal',bonus:true,chongtong:true,undo:true,confirm2:true},
  gifts:[],giftGot:0,nick:'',lastSel:{matgo:['S'],gostop:['S','L']},carry:1};
 let D;
 function load(){ try{D=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){D=null;} if(!D)D=JSON.parse(JSON.stringify(DEF));
   for(const k in DEF){ if(D[k]==null)D[k]=JSON.parse(JSON.stringify(DEF[k])); else if(typeof DEF[k]==='object'&&!Array.isArray(DEF[k])) for(const j in DEF[k]) if(D[k][j]==null)D[k][j]=JSON.parse(JSON.stringify(DEF[k][j])); }
+  if(!D.owned.backs.includes('black'))D.owned.backs.push('black');
   if(D.rec.day!==today()){D.rec.day=today();D.rec.dayGames=0;D.rec.dayProfit=0;} }
 function save(){ try{localStorage.setItem(KEY,JSON.stringify(D));}catch(e){} }
 load();
@@ -1442,7 +1418,7 @@ function recordGame(view,r,delta,opt){
 }
 /* ---------- 업적·가게 ---------- */
 const TABLES={green:{name:'초록 담요',price:0},wood:{name:'나무 평상',price:0},flower:{name:'꽃무늬',price:0},hanok:{name:'한옥 마루',price:40000},night:{name:'밤하늘',price:80000},goldt:{name:'잔칫날 비단',price:-1}};
-const BACKP={red:0,navy:20000,pink:30000,gold:100000,kids:-1,champ:-1};
+const BACKP={red:0,black:0,navy:20000,pink:30000,gold:100000,kids:-1,champ:-1};
 const STAMPS=[['first_win','🥇','첫 승리',{money:10000}],['first_sseul','🧹','첫 쓸',{back:'navy'}],['first_ttadak','👏','첫 따닥',{money:10000}],['first_bomb','💣','첫 폭탄',{money:20000}],['first_go3','🔥','첫 3고',{back:'gold'}],
  ['godori','🐦','고도리',{money:10000}],['gwang5','🌕','5광',{table:'night'}],['pibak','😆','피박 씌우기',{money:10000}],['day10','📅','하루 10판',{table:'hanok'}],['big100k','💰','한 판 10만원',{back:'pink'}],
  ['rich1m','🏦','100만원 모으기',{money:50000}],['gift5','🎁','손주 선물 5번',{back:'kids'}],['online1','🌐','온라인 첫 승',{money:20000}],['champion','👑','경로당 챔피언',{back:'champ',table:'goldt'}]];
@@ -1552,11 +1528,12 @@ function renderSettings(inGame){ const S=D.set; const seg=(key,opts)=>`<div clas
  <div class="setrow"><label>🥁 효과음</label><input type="range" min="0" max="1" step=".05" value="${S.sfx}" data-r="sfx"><button id="sTest">▶ 들어보기</button></div>
  <div class="setrow"><label>🐢 속도</label>${seg('speed',[['slow','느긋하게'],['normal','보통'],['fast','빠르게']])}</div>
  <div class="setrow"><label>🔠 글씨</label>${seg('font',[['normal','보통'],['big','더 크게']])}</div>
- <div class="setrow"><label>🎴 화투 모양</label>${seg('style',[['trad','🎴 전통 화투'],['big','🔍 큰 글씨 화투'],['flower','🌸 꽃 일러스트']])}<div style="display:flex;gap:6px;width:100%;justify-content:center;margin-top:6px">${[0,5,28,45].map(id=>cardHTML(id,56)).join('')}</div></div>
+ <div class="setrow"><label>🎴 화투 모양</label>${seg('style',[['trad','🎴 전통 화투'],['big','🔍 큰 글씨 화투'],['flower','✨ 고급 금테']])}<div style="display:flex;gap:6px;width:100%;justify-content:center;margin-top:6px">${[0,5,32,44].map(id=>cardHTML(id,56)).join('')}</div></div>
  <div class="setrow"><label>🟫 화투판</label><div class="seg" data-seg2="table">${D.owned.tables.map(k=>`<button data-v="${k}" class="${D.equip.table===k?'on':''}">${TABLES[k].name}</button>`).join('')}</div></div>
  <div class="setrow"><label>🂠 뒷면</label><div class="seg" data-seg2="back">${D.owned.backs.map(k=>`<button data-v="${k}" class="${D.equip.back===k?'on':''}">${GCard.BACKS[k].name}</button>`).join('')}</div></div>
  ${tog('confirm2','👆 두 번 눌러 내기')}${tog('undo','↩ 실수 되돌리기 (한 판 한 번)')}${tog('bonus','⭐ 보너스 쌍피패')}${tog('chongtong','🀄 총통 (같은 달 4장 승리)')}
- <p class="note">보너스패·총통은 다음 판부터 적용돼요.</p>`;
+ <p class="note">보너스패·총통은 다음 판부터 적용돼요.</p>
+ <p class="note" style="font-size:.8em;opacity:.85">🎨 그림 출처: ${GCard.CREDITS} <a href="${GCard.CREDIT_URL}" target="_blank" rel="noopener" style="color:inherit">자세히</a></p>`;
  const b=$('setBody'); b.innerHTML=o;
  b.querySelectorAll('[data-r]').forEach(r=>r.oninput=()=>{ S[r.dataset.r]=+r.value; save(); AU.vol(); });
  $('sTest').onclick=()=>{ AU.unlock(); AU.sfx('tak'); setTimeout(()=>AU.voice('N03'),300); };
